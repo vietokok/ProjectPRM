@@ -40,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
         btnAdd = findViewById(R.id.buttonAdd);
         btnShow = findViewById(R.id.btnShow);
         db = FirebaseFirestore.getInstance();
+        System.out.println("Tuan test");
+        System.out.println("Test2");
+   
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
