@@ -6,57 +6,32 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/etName"
-        android:layout_width="wrap_content"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="83dp"
-        android:ems="10"
-        android:hint="Name"
-        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    <EditText
-        android:id="@+id/etPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="63dp"
-        android:ems="10"
-        android:hint="Price"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="@+id/etName"
-        app:layout_constraintTop_toBottomOf="@+id/etName" />
-
-    <EditText
-        android:id="@+id/etColor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="67dp"
-        android:layout_marginEnd="1dp"
-        android:ems="10"
-        android:hint="Color"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/etPrice"
-        app:layout_constraintTop_toBottomOf="@+id/etPrice" />
-
-    <Button
-        android:id="@+id/buttonAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="97dp"
-        android:text="add"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_page"
+        android:layout_width="416dp"
+        android:layout_height="626dp"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        app:layout_constraintBottom_toTopOf="@+id/tab_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etColor" />
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"></androidx.viewpager.widget.ViewPager>
 
-    <Button
-        android:id="@+id/btnShow"
-        android:layout_width="wrap_content"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="show"
-        tools:layout_editor_absoluteX="165dp"
-        tools:layout_editor_absoluteY="555dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:tabMode="fixed"></com.google.android.material.tabs.TabLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
