@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         System.out.println("Bo Tuan");
+        System.out.println("Ngo Ha");
         viewPager=findViewById(R.id.view_page);
         tabLayout=findViewById(R.id.tab_layout);
 
