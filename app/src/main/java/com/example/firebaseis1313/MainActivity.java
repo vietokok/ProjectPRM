@@ -58,8 +58,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        System.out.println("asdasd");
-        System.out.println("Anh Tuan");
         viewPager=findViewById(R.id.view_page);
         tabLayout=findViewById(R.id.tab_layout);
 
