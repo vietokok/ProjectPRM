@@ -68,17 +68,13 @@ public class MainActivity extends AppCompatActivity {
         accountActivity=new AccountActivity();
         savedActivity=new SavedActivity();
         //---------------------
-
         tabLayout.setupWithViewPager(viewPager);
-
         ViewPageAdapter viewPageApdater =new ViewPageAdapter(getSupportFragmentManager(),0);
-
-
         // add to apdater
-        viewPageApdater.addFragment(homeActivity,"Home");
-        viewPageApdater.addFragment(searchActivity,"Search");
-        viewPageApdater.addFragment(accountActivity,"Account");
-        viewPageApdater.addFragment(savedActivity,"Save");
+        viewPageApdater.addFragment(homeActivity,getString(R.string.home));
+        viewPageApdater.addFragment(searchActivity,getString(R.string.search));
+        viewPageApdater.addFragment(accountActivity,getString(R.string.account));
+        viewPageApdater.addFragment(savedActivity,getString(R.string.saved));
         // add to tab_layout
         // Đối vs
         viewPager.setAdapter(viewPageApdater);
@@ -96,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 //        db = FirebaseFirestore.getInstance();
-
+//
 //
 //        btnAdd.setOnClickListener(new View.OnClickListener() {
 //            @Override
