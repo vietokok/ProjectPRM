@@ -1,12 +1,17 @@
 package com.example.firebaseis1313;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Spinner;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,8 +29,13 @@ public class SearchActivity extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private Button btnPrice;
+    private Button btnArea;
+    private Button btnDistance;
+
     public SearchActivity() {
         // Required empty public constructor
+
     }
 
     /**
@@ -60,5 +70,38 @@ public class SearchActivity extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_search_activity, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        btnPrice = view.findViewById(R.id.btnPrice);
+        btnArea = view.findViewById(R.id.btnArea);
+        btnDistance = view.findViewById(R.id.btnDistance);
+
+        btnPrice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(view.getRootView().getContext(), FindActivity.class);
+                intent.putExtra("type", "1");
+                startActivity(intent);
+            }
+        });
+        btnArea.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(view.getRootView().getContext(), FindActivity.class);
+                intent.putExtra("type", "2");
+                startActivity(intent);
+            }
+        });
+        btnDistance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(view.getRootView().getContext(), FindActivity.class);
+                intent.putExtra("type", "3");
+                startActivity(intent);
+            }
+        });
     }
 }
