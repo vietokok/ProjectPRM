@@ -1,41 +1,16 @@
 package com.example.firebaseis1313;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 //Load Image from an url
@@ -54,12 +29,12 @@ public class MainActivity extends AppCompatActivity {
     private SearchActivity searchActivity;
     private AccountActivity accountActivity;
     private SavedActivity savedActivity;
+    //
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        System.out.println("Bo Tuan");
-        System.out.println("Ngo Ha");
 //        sdasdasdasdasdasd
         viewPager=findViewById(R.id.view_page);
         tabLayout=findViewById(R.id.tab_layout);
@@ -79,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         viewPageApdater.addFragment(savedActivity,getString(R.string.saved));
         // add to tab_layout
         // Đối vs
+
         viewPager.setAdapter(viewPageApdater);
         tabLayout.getTabAt(0).setIcon(R.drawable.home);
         tabLayout.getTabAt(1).setIcon(R.drawable.search);
@@ -109,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 //        });
 //
 //        btnShow.setOnClickListener(new View.OnClickListener() {
-//            @Override
+//           @Override
 //            public void onClick(View v) {
 //                db.collection("products")
 //                        .get()
@@ -127,5 +103,8 @@ public class MainActivity extends AppCompatActivity {
 //                        });
 //            }
 //        });
+    }
+    public void sendData(String room_id){
+//        SavedActivity save =(SavedActivity)getSupportFragmentManager().fi
     }
 }
