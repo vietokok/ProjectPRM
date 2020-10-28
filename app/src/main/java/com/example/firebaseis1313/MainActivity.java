@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private SearchActivity searchActivity;
     private AccountActivity accountActivity;
     private SavedActivity savedActivity;
-
+    private HomeFragment homeFragment;
 
     SharedPreferences onBoardingScreen;
     private  Handler handler = new Handler();
@@ -56,11 +56,13 @@ public class MainActivity extends AppCompatActivity {
         searchActivity=new SearchActivity();
         accountActivity=new AccountActivity();
         savedActivity=new SavedActivity();
+        homeFragment=new HomeFragment();
         //---------------------
         tabLayout.setupWithViewPager(viewPager);
         ViewPageAdapter viewPageApdater =new ViewPageAdapter(getSupportFragmentManager(),0);
         // add to apdater
-        viewPageApdater.addFragment(homeActivity,getString(R.string.home));
+        viewPageApdater.addFragment(homeFragment,"Home");
+//        viewPageApdater.addFragment(homeActivity,getString(R.string.home));
         viewPageApdater.addFragment(searchActivity,getString(R.string.search));
         viewPageApdater.addFragment(accountActivity,getString(R.string.account));
         viewPageApdater.addFragment(savedActivity,getString(R.string.saved));
