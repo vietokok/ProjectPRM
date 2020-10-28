@@ -5,11 +5,11 @@
     <string name="home">Home</string>
     <string name="search">Search</string>
     <string name="account">Account</string>
-    <string name="saved">Account</string>
+    <string name="saved">Saved</string>
     <string name="register">Register</string>
     <string name="login">Login</string>
-    <string name="title_activity_maps">Map</string>
-    <string name="price">Price</string>
+    <string name="price">Price: </string>
+  <string name="title_activity_maps">Map</string>
     <string name="first_slide_title">Tìm Phòng Trọ</string>
     <string name="second_slide_title">Maps</string>
     <string name="third_slide_title">Bộ Lọc</string>
@@ -25,6 +25,7 @@
     <string name="next_btn">Next</string>
     <string name="getStarts_btn">Get Starts</string>
     <string name="new_post">Bài mới đăng</string>
+    <string name="address">"Địa chỉ: "</string>
 
 
 </resources>

@@ -2,22 +2,39 @@ package com.example.firebaseis1313.entity;
 
 public class Room {
     String id;
-    Float price;
+    String price;
     Boolean status;
     String imageUrl;
     Float acreage;
     String description;
+    String address;
+    String house_id;
 
     public Room() {
     }
 
-    public Room(String id, Float price, Boolean status, String imageUrl, Float acreage, String description) {
-        this.id = id;
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getHouse_id() {
+        return house_id;
+    }
+
+    public void setHouse_id(String house_id) {
+        this.house_id = house_id;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
         this.price = price;
-        this.status = status;
-        this.imageUrl = imageUrl;
-        this.acreage = acreage;
-        this.description = description;
     }
 
     public String getId() {
@@ -28,13 +45,6 @@ public class Room {
         this.id = id;
     }
 
-    public Float getPrice() {
-        return price;
-    }
-
-    public void setPrice(Float price) {
-        this.price = price;
-    }
 
     public Boolean getStatus() {
         return status;

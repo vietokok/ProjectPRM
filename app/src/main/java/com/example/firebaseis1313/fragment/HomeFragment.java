@@ -14,6 +14,7 @@ import com.example.firebaseis1313.R;
 import com.example.firebaseis1313.entity.Room;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -80,19 +81,32 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
+                            int z=0;
+                            for (final QueryDocumentSnapshot document : task.getResult()) {
+                                z=z+1;
                                 Map<String,Object> list=document.getData();
-                                Room e =new Room();
+                                final Room e =new Room();
                                 e.setId(document.getId());
                                 ArrayList a = (ArrayList) list.get("image_id");
                                 e.setImageUrl(a.get(0).toString());
                                 e.setAcreage(Float.parseFloat(list.get("acreage").toString()));
                                 e.setDescription(list.get("description").toString());
-                                e.setPrice(Float.parseFloat(list.get("price").toString()));
-                                list_room_order_by_date.add(e);
+                                e.setPrice(list.get("price").toString());
+                                e.setHouse_id(list.get("house_id").toString());
+                                db.collection("House").document(e.getHouse_id())
+                                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task1) {
+                                        if(task1.isSuccessful()){
+                                            e.setAddress(task1.getResult().getData().get("address").toString());
+                                            list_room_order_by_date.add(e);
+                                            ListRoomFragment listRoomFragment =(ListRoomFragment)getChildFragmentManager().findFragmentById(R.id.list_room_frag);
+                                            listRoomFragment.receiveData(e);
+                                        }else{
+                                        }
+                                    }
+                                });
                             }
-                            ListRoomFragment listRoomFragment =(ListRoomFragment)getChildFragmentManager().findFragmentById(R.id.list_room_frag);
-                            listRoomFragment.receiveData(list_room_order_by_date);
                         } else {
 
                         }

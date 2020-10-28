@@ -36,6 +36,7 @@ public class ListRoomFragment extends Fragment {
 
     private RoomViewAdapter room_view_apdapter;
     private ListView list_view_room;
+    private ArrayList<Room> list_room;
     public ListRoomFragment() {
         // Required empty public constructor
     }
@@ -71,13 +72,18 @@ public class ListRoomFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home_activity, container, false);
+        return inflater.inflate(R.layout.fragment_list_room, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        list_room=new ArrayList<>();
+
         list_view_room = view.findViewById(R.id.list_room);
+
+        room_view_apdapter=new RoomViewAdapter(getActivity(),list_room);
+        list_view_room.setAdapter(room_view_apdapter);
         list_view_room.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -88,8 +94,13 @@ public class ListRoomFragment extends Fragment {
 
     }
 
-    public void receiveData(ArrayList<Room> rooms){
-        room_view_apdapter=new RoomViewAdapter(getActivity(),rooms);
-        list_view_room.setAdapter(room_view_apdapter);
+    public void receiveData(Room room){
+//        System.out.println(rooms);
+//        rooms.remove(rooms.size()-1);
+//        System.out.println(rooms);
+        list_room.add(room);
+        room_view_apdapter.notifyDataSetChanged();
+
+
     }
 }

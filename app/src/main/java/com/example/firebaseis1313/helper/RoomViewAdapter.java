@@ -48,6 +48,7 @@ public class RoomViewAdapter extends BaseAdapter {
         ImageView imageView;
         TextView descresption;
         TextView price;
+        TextView addrress;
         ConstraintLayout constraintLayout;
         if(convertView == null){
             convertView = activity.getLayoutInflater().inflate(R.layout.room_view, null);
@@ -65,9 +66,25 @@ public class RoomViewAdapter extends BaseAdapter {
         }
         descresption=constraintLayout.findViewById(R.id.tvDes);
         price=constraintLayout.findViewById(R.id.tvPrice);
+        addrress=constraintLayout.findViewById(R.id.tvAddress);
         Room room =listRoom.get(position);
-        descresption.setText(room.getDescription());
-        price.setText(room.getPrice().toString());
+        descresption.setText("\t*"+room.getDescription());
+        String validatePrice="";
+        String db_price=room.getPrice();
+        int index=-1;
+        for(int i=room.getPrice().length()-1;i>=0;i--){
+            index++;
+            validatePrice+=db_price.charAt(i);
+            if(index==2 && i!=0){
+                validatePrice+=".";
+                index=-1;
+            }
+
+        }
+        String reverse = new StringBuffer(validatePrice).reverse().toString();
+        reverse=reverse+"VND/tháng";
+        price.setText(reverse);
+        addrress.setText(room.getAddress());
         Picasso.get().load(room.getImageUrl()).into(imageView);
 
         return convertView;
