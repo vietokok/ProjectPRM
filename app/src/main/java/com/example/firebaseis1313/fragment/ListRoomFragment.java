@@ -37,6 +37,9 @@ public class ListRoomFragment extends Fragment {
     private RoomViewAdapter room_view_apdapter;
     private ListView list_view_room;
     private ArrayList<Room> list_room;
+
+    int Querytype=-1;
+    // quy dinh 0 : home 1 search 2 dien tich 3 khoang cach 4 saved
     public ListRoomFragment() {
         // Required empty public constructor
     }
@@ -79,9 +82,7 @@ public class ListRoomFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         list_room=new ArrayList<>();
-
         list_view_room = view.findViewById(R.id.list_room);
-
         room_view_apdapter=new RoomViewAdapter(getActivity(),list_room);
         list_view_room.setAdapter(room_view_apdapter);
         list_view_room.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -94,13 +95,15 @@ public class ListRoomFragment extends Fragment {
 
     }
 
+    public void clearData(){
+        list_room.clear();
+        room_view_apdapter.notifyDataSetChanged();
+    }
     public void receiveData(Room room){
 //        System.out.println(rooms);
 //        rooms.remove(rooms.size()-1);
 //        System.out.println(rooms);
         list_room.add(room);
         room_view_apdapter.notifyDataSetChanged();
-
-
     }
 }

@@ -1,19 +1,34 @@
 package com.example.firebaseis1313.fragment;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.firebaseis1313.R;
 import com.example.firebaseis1313.activity.FindActivity;
+import com.example.firebaseis1313.entity.Room;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +49,14 @@ public class SearchFragment extends Fragment {
     private Button btnPrice;
     private Button btnArea;
     private Button btnDistance;
+    private Handler handler = new Handler();
+    public static int REQUEST_CODE = 100;
+    public static int RESULT_CODE = 200;
+    private ProgressBar progressBar;
+    public ListRoomFragment listRoomFragment;
+
+    FirebaseFirestore db;
+    private ArrayList<Room> list_room;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -77,16 +100,23 @@ public class SearchFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        // add depen
+        db = FirebaseFirestore.getInstance();
+        listRoomFragment =(ListRoomFragment)getChildFragmentManager().findFragmentById(R.id.list_room_frag_k);
+
         btnPrice = view.findViewById(R.id.btnPrice);
         btnArea = view.findViewById(R.id.btnArea);
         btnDistance = view.findViewById(R.id.btnDistance);
+        progressBar = view.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.INVISIBLE);
 
         btnPrice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(view.getRootView().getContext(), FindActivity.class);
                 intent.putExtra("type", "1");
-                startActivity(intent);
+
+                startActivityForResult(intent, REQUEST_CODE);
             }
         });
         btnArea.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +124,7 @@ public class SearchFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(view.getRootView().getContext(), FindActivity.class);
                 intent.putExtra("type", "2");
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE);
             }
         });
         btnDistance.setOnClickListener(new View.OnClickListener() {
@@ -102,8 +132,102 @@ public class SearchFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(view.getRootView().getContext(), FindActivity.class);
                 intent.putExtra("type", "3");
-                startActivity(intent);
+
+                startActivityForResult(intent, REQUEST_CODE);
             }
         });
     }
+
+
+    public void setList_room(final int type , int value){
+        String field = null;
+        if(type == 1) {
+           field = "price";
+        }
+        if(type == 2){
+            field = "acreage";
+        }
+//        if(type == 3){
+//            field = "distan";
+//        }
+        final ArrayList<Room> rooms = new ArrayList<>();
+        db.collection("Room")
+                .whereLessThanOrEqualTo(field, value)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull final Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (final QueryDocumentSnapshot document : task.getResult()) {
+                                Map<String,Object> list=document.getData();
+                                final Room e =new Room();
+                                e.setId(document.getId());
+                                ArrayList a = (ArrayList) list.get("image_id");
+                                e.setImageUrl(a.get(0).toString());
+                                e.setAcreage(Float.parseFloat(list.get("acreage").toString()));
+                                e.setDescription(list.get("description").toString());
+                                e.setPrice(list.get("price").toString());
+                                e.setHouse_id(list.get("house_id").toString());
+                                db.collection("House").document(e.getHouse_id())
+                                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task1) {
+                                        if(task1.isSuccessful()){
+                                            e.setAddress(task1.getResult().getData().get("address").toString());
+                                            listRoomFragment.receiveData(e);
+                                        }else{
+                                        }
+                                    }
+                                });
+                            }
+                        } else {
+
+                        }
+                    }
+                });
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_CODE && resultCode == RESULT_CODE){
+
+            final int value = data.getIntExtra("value", 0);
+            final String type = data.getStringExtra("type");
+
+            listRoomFragment.clearData();
+
+            this.progressBar.setIndeterminate(true);
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    handler.post(new Runnable() {
+                        public void run() {
+                            progressBar.setVisibility(View.VISIBLE);
+                        }
+                    });
+                    // Do something ...
+
+                  //  setList_room(1, value);
+
+                    SystemClock.sleep(3000);
+                    progressBar.setIndeterminate(false);
+                    progressBar.setMax(1);
+                    progressBar.setProgress(1);
+
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar.setVisibility(View.INVISIBLE);
+                            setList_room(Integer.parseInt(type), value);
+                            Toast.makeText(getActivity(), "Done !!",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            });
+            thread.start();
+        }
+    }
+
+
 }
