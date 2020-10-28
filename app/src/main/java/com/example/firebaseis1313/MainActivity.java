@@ -3,7 +3,15 @@ package com.example.firebaseis1313;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,6 +21,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
+
+
 //Load Image from an url
     private View createTabItemView(String imgUri) {
         ImageView imageView = new ImageView(this);
@@ -29,8 +39,10 @@ public class MainActivity extends AppCompatActivity {
     private SearchActivity searchActivity;
     private AccountActivity accountActivity;
     private SavedActivity savedActivity;
-    //
 
+
+    SharedPreferences onBoardingScreen;
+    private  Handler handler = new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -60,6 +72,10 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(1).setIcon(R.drawable.search);
         tabLayout.getTabAt(2).setIcon(R.drawable.user);
         tabLayout.getTabAt(3).setIcon(R.drawable.apartment);
+
+
+
+
 
 
         // Đối với chức năng save khi thêm vào thì sẽ hiển thị số lượng save lên dùng code này --------------------//

@@ -9,4 +9,20 @@
     <string name="register">Register</string>
     <string name="login">Login</string>
     <string name="price">Price</string>
+    <string name="first_slide_title">Tìm Phòng Trọ</string>
+    <string name="second_slide_title">Maps</string>
+    <string name="third_slide_title">Bộ Lọc</string>
+    <string name="fourth_slide_title">Liên Hệ Trực Tiếp</string>
+
+
+    <string name="first_slide_desc">Bạn Có Thee</string>
+    <string name="second_slide_desc">You can search any place nearby</string>
+    <string name="third_slide_desc">You can search any place nearby</string>
+    <string name="fourth_slide_desc">You can search any place nearby</string>
+
+    <string name="skip_btn">Skip</string>
+    <string name="next_btn">Next</string>
+    <string name="getStarts_btn">Get Starts</string>
+
+
 </resources>

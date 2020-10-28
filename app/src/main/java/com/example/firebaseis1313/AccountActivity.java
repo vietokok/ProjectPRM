@@ -1,13 +1,14 @@
 package com.example.firebaseis1313;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,11 +18,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.squareup.picasso.Picasso;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,8 +30,7 @@ public class AccountActivity extends Fragment {
     private EditText etUserName;
     private EditText etPassword;
     private Button btnLogin;
-    private Button btnRegister;
-    private ImageView avatar;
+    private TextView tvRegister;
     private FirebaseFirestore db;
     private DatabaseReference mDatabase;
 
@@ -88,13 +85,14 @@ public class AccountActivity extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
-        avatar=view.findViewById(R.id.imageAvatar);
-        Picasso.get().load("https://www.gstatic.com/webp/gallery/4.sm.jpg").into(avatar);
+//        avatar=view.findViewById(R.id.imageAvatar);
+//        Picasso.get().load("https://www.gstatic.com/webp/gallery/4.sm.jpg").into(avatar);
 
         //-----get pt----//
-        btnLogin=view.findViewById(R.id.btn_login);
-        etUserName=view.findViewById(R.id.etUserName);
-        etPassword=view.findViewById(R.id.etPassword);
+        btnLogin=view.findViewById(R.id.btnRegister);
+        etUserName=view.findViewById(R.id.etAccountR);
+        etPassword=view.findViewById(R.id.etPasswordR);
+        tvRegister = view.findViewById(R.id.tvRegister);
         db = FirebaseFirestore.getInstance();
 
 
@@ -114,16 +112,24 @@ public class AccountActivity extends Fragment {
                                         TabLayout.Tab tab = tabLayout.getTabAt(0);
                                         tab.select();
                                     } else {
-
+                                        Toast.makeText(getActivity(), "Username or Password is incorrect", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
-
                 }
+            }
+        });
 
+        tvRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(view.getRootView().getContext(), RegisterActivity.class);
+                startActivity(intent);
             }
         });
 
         super.onViewCreated(view, savedInstanceState);
     }
+
+
 }
