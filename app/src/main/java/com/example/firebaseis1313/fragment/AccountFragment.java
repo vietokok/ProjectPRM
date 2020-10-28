@@ -94,22 +94,20 @@ public class AccountFragment extends Fragment {
         etPassword=view.findViewById(R.id.etPasswordR);
         tvRegister = view.findViewById(R.id.tvRegister);
         db = FirebaseFirestore.getInstance();
-
-
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-        tvRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(view.getRootView().getContext(), RegisterActivity.class);
-                startActivity(intent);
+                tvRegister.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(view.getRootView().getContext(), RegisterActivity.class);
+                        startActivity(intent);
+                    }
+                });
             }
         });
-
         super.onViewCreated(view, savedInstanceState);
-    }
 
-
+}
 }

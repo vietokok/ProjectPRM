@@ -2,6 +2,8 @@ package com.example.firebaseis1313.fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -9,6 +11,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.firebaseis1313.R;
+import com.example.firebaseis1313.entity.Room;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,10 +38,51 @@ public class SavedFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private FirebaseFirestore db;
+
     public SavedFragment() {
         // Required empty public constructor
     }
 
+
+    public void setListRoom(final View view){
+        db.collection("Room")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            int z=0;
+                            for (final QueryDocumentSnapshot document : task.getResult()) {
+                                z=z+1;
+                                Map<String,Object> list=document.getData();
+                                final Room e =new Room();
+                                e.setId(document.getId());
+                                ArrayList a = (ArrayList) list.get("image_id");
+                                e.setImageUrl(a.get(0).toString());
+                                e.setAcreage(Float.parseFloat(list.get("acreage").toString()));
+                                e.setDescription(list.get("description").toString());
+                                e.setPrice(list.get("price").toString());
+                                e.setHouse_id(list.get("house_id").toString());
+                                db.collection("House").document(e.getHouse_id())
+                                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task1) {
+                                        if(task1.isSuccessful()){
+                                            e.setAddress(task1.getResult().getData().get("address").toString());
+                                            ListRoomFragment listRoomFragment =(ListRoomFragment)getChildFragmentManager().findFragmentById(R.id.list_room_saved);
+                                            listRoomFragment.receiveData(e);
+                                        }else{
+                                        }
+                                    }
+                                });
+                            }
+                        } else {
+
+                        }
+                    }
+                });
+    }
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -61,6 +114,13 @@ public class SavedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        db=FirebaseFirestore.getInstance();
         return inflater.inflate(R.layout.fragment_saved_activity, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setListRoom(view);
     }
 }

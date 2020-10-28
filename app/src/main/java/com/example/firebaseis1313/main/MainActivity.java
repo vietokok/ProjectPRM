@@ -1,5 +1,6 @@
 package com.example.firebaseis1313.main;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
@@ -11,14 +12,25 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.firebaseis1313.R;
+import com.example.firebaseis1313.entity.Room;
 import com.example.firebaseis1313.fragment.AccountFragment;
 import com.example.firebaseis1313.fragment.HomeFragment;
 import com.example.firebaseis1313.fragment.ListRoomFragment;
 import com.example.firebaseis1313.fragment.SavedFragment;
 import com.example.firebaseis1313.fragment.SearchFragment;
 import com.example.firebaseis1313.helper.ViewPageAdapter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,12 +53,17 @@ public class MainActivity extends AppCompatActivity {
     private SavedFragment savedFragment;
     private HomeFragment homeFragment;
 
+    private int numberOfSaved;
+
+    //dv
+    private FirebaseFirestore db;
     SharedPreferences onBoardingScreen;
     private  Handler handler = new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        db=FirebaseFirestore.getInstance();
 //        sdasdasdasdasdasd
         viewPager=findViewById(R.id.view_page);
         tabLayout=findViewById(R.id.tab_layout);
@@ -74,55 +91,30 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(1).setIcon(R.drawable.search);
         tabLayout.getTabAt(2).setIcon(R.drawable.user);
         tabLayout.getTabAt(3).setIcon(R.drawable.apartment);
-
-
-
-
-
-
         // Đối với chức năng save khi thêm vào thì sẽ hiển thị số lượng save lên dùng code này --------------------//
 //        BadgeDrawable badgeDrawable = tabLayout.getTabAt(3).getOrCreateBadge();
 //        badgeDrawable.setVisible(true);
 //        badgeDrawable.setNumber(12);
         //--------------------------------------//
-
-
-//        db = FirebaseFirestore.getInstance();
-//
-//
-//        btnAdd.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Map<String , Object> product = new HashMap<>();
-//                product.put("name", etName.getText().toString());
-//                product.put("price", etPrice.getText().toString());
-//                product.put("color", etColor.getText().toString());
-//                db.collection("products")
-//                        .add(product);
-//            }
-//        });
-//
-//        btnShow.setOnClickListener(new View.OnClickListener() {
-//           @Override
-//            public void onClick(View v) {
-//                db.collection("products")
-//                        .get()
-//                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                                if (task.isSuccessful()) {
-//                                    for (QueryDocumentSnapshot document : task.getResult()) {
-//                                        Log.i("IS1313", document.getData().toString());
-//                                    }
-//                                } else {
-//
-//                                }
-//                            }
-//                        });
-//            }
-//        });
+        System.out.println("123");
+        setSavedNumber();
     }
-    public void sendData(String room_id){
-//        SavedFragment save =(SavedFragment)getSupportFragmentManager().fi
+
+    public void setSavedNumber(){
+        db.collection("Room")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            BadgeDrawable badgeDrawable = tabLayout.getTabAt(3).getOrCreateBadge();
+                            badgeDrawable.setVisible(true);
+                            badgeDrawable.setNumber(task.getResult().size());
+                        } else {
+
+                        }
+                    }
+                });
     }
+
 }

@@ -6,10 +6,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".main.MainActivity">
-
+    tools:context=".main.MainActivity"
+    android:theme="@style/Theme.MaterialComponents.Light"
+    >
 
     <androidx.viewpager.widget.ViewPager
+
         android:id="@+id/view_page"
         android:layout_width="match_parent"
         android:layout_height="658dp"
@@ -17,10 +19,15 @@
         app:layout_constraintBottom_toTopOf="@+id/tab_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"></androidx.viewpager.widget.ViewPager>
+        app:layout_constraintStart_toStartOf="parent"
+
+
+
+        ></androidx.viewpager.widget.ViewPager>
 
 
     <com.google.android.material.tabs.TabLayout
+
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

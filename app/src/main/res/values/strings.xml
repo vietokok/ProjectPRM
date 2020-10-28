@@ -26,6 +26,7 @@
     <string name="getStarts_btn">Get Starts</string>
     <string name="new_post">Bài mới đăng</string>
     <string name="address">"Địa chỉ: "</string>
+    <string name="save_post">Bài đã lưu</string>
 
 
 </resources>

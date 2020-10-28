@@ -99,7 +99,6 @@ public class HomeFragment extends Fragment {
                                     public void onComplete(@NonNull Task<DocumentSnapshot> task1) {
                                         if(task1.isSuccessful()){
                                             e.setAddress(task1.getResult().getData().get("address").toString());
-                                            list_room_order_by_date.add(e);
                                             ListRoomFragment listRoomFragment =(ListRoomFragment)getChildFragmentManager().findFragmentById(R.id.list_room_frag);
                                             listRoomFragment.receiveData(e);
                                         }else{
@@ -118,8 +117,6 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         db=FirebaseFirestore.getInstance();
-        list_room_order_by_date=new ArrayList<>();
-
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
