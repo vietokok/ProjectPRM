@@ -9,24 +9,19 @@
     <string name="register">Register</string>
     <string name="login">Login</string>
     <string name="price">Price: </string>
-  <string name="title_activity_maps">Map</string>
-    <string name="first_slide_title">Tìm Phòng Trọ</string>
-    <string name="second_slide_title">Maps</string>
-    <string name="third_slide_title">Bộ Lọc</string>
-    <string name="fourth_slide_title">Liên Hệ Trực Tiếp</string>
-
-
-    <string name="first_slide_desc">Bạn Có Thee</string>
-    <string name="second_slide_desc">You can search any place nearby</string>
-    <string name="third_slide_desc">You can search any place nearby</string>
-    <string name="fourth_slide_desc">You can search any place nearby</string>
-
+    <string name="title_activity_maps">Map</string>
+    <string name="first_slide_title">Tìm Kiếm Đơn Giản</string>
+    <string name="second_slide_title">Lọc Tin Dễ Dàng </string>
+    <string name="third_slide_title">Tích Hợp Chỉ Đường</string>
+    <string name="fourth_slide_title">Thông Tin Chi Tiết</string>
+    <string name="first_slide_desc">Tìm kiếm phòng trọ quanh khu vực với mức giá phù hợp</string>
+    <string name="second_slide_desc">Hỗ trợ lọc tin theo loại phòng, giá phòng, diện tích</string>
+    <string name="third_slide_desc">Tích hợp googles map chỉ đường giúp thuận tiện đi lại</string>
+    <string name="fourth_slide_desc">Hiển thị đầy đủ thông tin hình ảnh và điện thoại liên hệ trực tiếp</string>
     <string name="skip_btn">Skip</string>
     <string name="next_btn">Next</string>
     <string name="getStarts_btn">Get Starts</string>
     <string name="new_post">Bài mới đăng</string>
     <string name="address">"Địa chỉ: "</string>
     <string name="save_post">Bài đã lưu</string>
-
-
 </resources>

@@ -51,7 +51,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/etDisplayName"
+        android:id="@+id/etAccountR"
         android:layout_width="340dp"
         android:layout_height="50dp"
         android:layout_marginTop="40dp"
@@ -65,10 +65,10 @@
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etAccountR" />
+        app:layout_constraintTop_toBottomOf="@+id/etDisplayNameR" />
 
     <EditText
-        android:id="@+id/etAccountR"
+        android:id="@+id/etDisplayNameR"
         android:layout_width="340dp"
         android:layout_height="50dp"
         android:background="@drawable/round_border"
@@ -98,7 +98,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.549"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etDisplayName" />
+        app:layout_constraintTop_toBottomOf="@+id/etAccountR" />
 
     <EditText
         android:id="@+id/etPhoneR"
@@ -118,7 +118,7 @@
         app:layout_constraintTop_toBottomOf="@+id/etPasswordR" />
 
     <Button
-        android:id="@+id/btnRegister"
+        android:id="@+id/btnLogin"
         android:layout_width="347dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"

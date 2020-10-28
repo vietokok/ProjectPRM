@@ -5,12 +5,14 @@ public class User {
     String name;
     String password;
     String phone;
+    String urlImage;
 
-    public User(String id, String name, String password, String phone) {
+    public User(String id, String name, String password, String phone, String urlImage) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.phone = phone;
+        this.urlImage = urlImage;
     }
 
     public String getId() {
@@ -43,5 +45,13 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getUrlImage() {
+        return urlImage;
+    }
+
+    public void setUrlImage(String urlImage) {
+        this.urlImage = urlImage;
     }
 }

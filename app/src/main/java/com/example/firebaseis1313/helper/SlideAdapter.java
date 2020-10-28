@@ -24,9 +24,9 @@ public class SlideAdapter extends PagerAdapter {
 
     int images[] = {
             R.drawable.seo,
-            R.drawable.map,
             R.drawable.filter,
-            R.drawable.phone_call,
+            R.drawable.map,
+            R.drawable.information,
     };
 
     int headings[]={

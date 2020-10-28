@@ -73,19 +73,19 @@ public class HomeFragment extends Fragment {
         }
     }
 
-        public void setListRoom(final View view){
+    public void setListRoom(final View view) {
         final ArrayList<Room> room = new ArrayList<>();
-                db.collection("Room")
+        db.collection("Room")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            int z=0;
+                            int z = 0;
                             for (final QueryDocumentSnapshot document : task.getResult()) {
-                                z=z+1;
-                                Map<String,Object> list=document.getData();
-                                final Room e =new Room();
+                                z = z + 1;
+                                Map<String, Object> list = document.getData();
+                                final Room e = new Room();
                                 e.setId(document.getId());
                                 ArrayList a = (ArrayList) list.get("image_id");
                                 e.setImageUrl(a.get(0).toString());
@@ -97,11 +97,11 @@ public class HomeFragment extends Fragment {
                                         .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<DocumentSnapshot> task1) {
-                                        if(task1.isSuccessful()){
+                                        if (task1.isSuccessful()) {
                                             e.setAddress(task1.getResult().getData().get("address").toString());
-                                            ListRoomFragment listRoomFragment =(ListRoomFragment)getChildFragmentManager().findFragmentById(R.id.list_room_frag);
+                                            ListRoomFragment listRoomFragment = (ListRoomFragment) getChildFragmentManager().findFragmentById(R.id.list_room_frag);
                                             listRoomFragment.receiveData(e);
-                                        }else{
+                                        } else {
                                         }
                                     }
                                 });
@@ -112,11 +112,12 @@ public class HomeFragment extends Fragment {
                     }
                 });
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        db=FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 

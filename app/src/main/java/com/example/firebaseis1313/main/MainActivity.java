@@ -16,6 +16,7 @@ import com.example.firebaseis1313.entity.Room;
 import com.example.firebaseis1313.fragment.AccountFragment;
 import com.example.firebaseis1313.fragment.HomeFragment;
 import com.example.firebaseis1313.fragment.ListRoomFragment;
+import com.example.firebaseis1313.fragment.Profilefragment;
 import com.example.firebaseis1313.fragment.SavedFragment;
 import com.example.firebaseis1313.fragment.SearchFragment;
 import com.example.firebaseis1313.helper.ViewPageAdapter;
@@ -46,12 +47,13 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
     private TabLayout tabLayout;
-    //Activity
+    //Fragement
     private ListRoomFragment listRoomFragment;
     private SearchFragment searchFragment;
     private AccountFragment accountFragment;
     private SavedFragment savedFragment;
     private HomeFragment homeFragment;
+    private Profilefragment profilefragment;
 
     private int numberOfSaved;
 
@@ -74,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
         accountFragment =new AccountFragment();
         savedFragment =new SavedFragment();
         homeFragment=new HomeFragment();
+        profilefragment=new Profilefragment();
+
         //---------------------
         tabLayout.setupWithViewPager(viewPager);
         ViewPageAdapter viewPageApdater =new ViewPageAdapter(getSupportFragmentManager(),0);
@@ -81,8 +85,13 @@ public class MainActivity extends AppCompatActivity {
         viewPageApdater.addFragment(homeFragment,"Home");
 //        viewPageApdater.addFragment(listRoomFragment,getString(R.string.home));
         viewPageApdater.addFragment(searchFragment,getString(R.string.search));
-        viewPageApdater.addFragment(accountFragment,getString(R.string.account));
+        if(isOpenFirst()){
+            viewPageApdater.addFragment(profilefragment, getString(R.string.account));
+        }else {
+            viewPageApdater.addFragment(accountFragment, getString(R.string.account));
+        }
         viewPageApdater.addFragment(savedFragment,getString(R.string.saved));
+
         // add to tab_layout
         // Đối vs
 
@@ -117,4 +126,10 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    private boolean isOpenFirst() {
+        SharedPreferences sharedPreferences = getSharedPreferences("isLogin", MODE_PRIVATE);
+        boolean result = sharedPreferences.getBoolean("isLogin", false);
+        return result;
+
+    }
 }

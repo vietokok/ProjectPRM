@@ -1,6 +1,8 @@
 package com.example.firebaseis1313.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +18,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.firebaseis1313.R;
 import com.example.firebaseis1313.activity.RegisterActivity;
+import com.example.firebaseis1313.main.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -74,7 +76,6 @@ public class AccountFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
     }
 
     @Override
@@ -87,27 +88,50 @@ public class AccountFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
-
-        //-----get pt----//
-        btnLogin=view.findViewById(R.id.btnRegister);
-        etUserName=view.findViewById(R.id.etAccountR);
-        etPassword=view.findViewById(R.id.etPasswordR);
+        btnLogin = view.findViewById(R.id.btnLogin);
+        etUserName = view.findViewById(R.id.etAccount);
+        etPassword = view.findViewById(R.id.etPassword);
         tvRegister = view.findViewById(R.id.tvRegister);
         db = FirebaseFirestore.getInstance();
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                tvRegister.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(view.getRootView().getContext(), RegisterActivity.class);
-                        startActivity(intent);
-                    }
-                });
+                String userName = etUserName.getText().toString();
+                String password = etPassword.getText().toString();
+                if (userName.trim().length() != 0 && password.trim().length() != 0) {
+                    db.collection("User").whereEqualTo("username", userName).whereEqualTo("password", password).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                if (task.getResult().size() == 1) {
+                                    etUserName.setText("");
+                                    etPassword.setText("");
+                                    SharedPreferences.Editor editor = view.getRootView().getContext().getSharedPreferences("isLogin", Context.MODE_PRIVATE).edit();
+                                    editor.putBoolean("isLogin", true);
+                                    editor.commit();
+                                    Intent intent = new Intent(view.getRootView().getContext(), MainActivity.class);
+                                    startActivity(intent);
+                                } else {
+                                    Toast.makeText(getActivity(), "Username or Password is incorrect", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(getActivity(), "Wrong Input", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                } else {
+                    Toast.makeText(getActivity(), "Username and Password is required!!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        tvRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(view.getRootView().getContext(), RegisterActivity.class);
+                startActivity(intent);
             }
         });
         super.onViewCreated(view, savedInstanceState);
 
-}
+    }
 }
