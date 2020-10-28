@@ -1,4 +1,4 @@
-package com.example.firebaseis1313;
+package com.example.firebaseis1313.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.firebaseis1313.R;
+import com.example.firebaseis1313.activity.RegisterActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
@@ -23,10 +25,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link AccountActivity#newInstance} factory method to
+ * Use the {@link AccountFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AccountActivity extends Fragment {
+public class AccountFragment extends Fragment {
     private EditText etUserName;
     private EditText etPassword;
     private Button btnLogin;
@@ -43,7 +45,7 @@ public class AccountActivity extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public AccountActivity() {
+    public AccountFragment() {
         // Required empty public constructor
     }
 
@@ -53,11 +55,11 @@ public class AccountActivity extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment AccountActivity.
+     * @return A new instance of fragment AccountFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AccountActivity newInstance(String param1, String param2) {
-        AccountActivity fragment = new AccountActivity();
+    public static AccountFragment newInstance(String param1, String param2) {
+        AccountFragment fragment = new AccountFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

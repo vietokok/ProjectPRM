@@ -23,6 +23,7 @@
     <string name="skip_btn">Skip</string>
     <string name="next_btn">Next</string>
     <string name="getStarts_btn">Get Starts</string>
+    <string name="new_post">Bài mới đăng</string>
 
 
 </resources>

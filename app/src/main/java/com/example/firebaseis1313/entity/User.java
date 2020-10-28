@@ -1,4 +1,4 @@
-package com.example.firebaseis1313;
+package com.example.firebaseis1313.entity;
 
 public class User {
     String id;

@@ -1,23 +1,23 @@
-package com.example.firebaseis1313;
+package com.example.firebaseis1313.main;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.firebaseis1313.R;
+import com.example.firebaseis1313.fragment.AccountFragment;
+import com.example.firebaseis1313.fragment.HomeFragment;
+import com.example.firebaseis1313.fragment.ListRoomFragment;
+import com.example.firebaseis1313.fragment.SavedFragment;
+import com.example.firebaseis1313.fragment.SearchFragment;
+import com.example.firebaseis1313.helper.ViewPageAdapter;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,10 +35,10 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private TabLayout tabLayout;
     //Activity
-    private HomeActivity homeActivity;
-    private SearchActivity searchActivity;
-    private AccountActivity accountActivity;
-    private SavedActivity savedActivity;
+    private ListRoomFragment listRoomFragment;
+    private SearchFragment searchFragment;
+    private AccountFragment accountFragment;
+    private SavedFragment savedFragment;
     private HomeFragment homeFragment;
 
     SharedPreferences onBoardingScreen;
@@ -52,20 +52,20 @@ public class MainActivity extends AppCompatActivity {
         tabLayout=findViewById(R.id.tab_layout);
 
         // Khai báo Activity --------------
-        homeActivity=new HomeActivity();
-        searchActivity=new SearchActivity();
-        accountActivity=new AccountActivity();
-        savedActivity=new SavedActivity();
+        listRoomFragment =new ListRoomFragment();
+        searchFragment =new SearchFragment();
+        accountFragment =new AccountFragment();
+        savedFragment =new SavedFragment();
         homeFragment=new HomeFragment();
         //---------------------
         tabLayout.setupWithViewPager(viewPager);
         ViewPageAdapter viewPageApdater =new ViewPageAdapter(getSupportFragmentManager(),0);
         // add to apdater
         viewPageApdater.addFragment(homeFragment,"Home");
-//        viewPageApdater.addFragment(homeActivity,getString(R.string.home));
-        viewPageApdater.addFragment(searchActivity,getString(R.string.search));
-        viewPageApdater.addFragment(accountActivity,getString(R.string.account));
-        viewPageApdater.addFragment(savedActivity,getString(R.string.saved));
+//        viewPageApdater.addFragment(listRoomFragment,getString(R.string.home));
+        viewPageApdater.addFragment(searchFragment,getString(R.string.search));
+        viewPageApdater.addFragment(accountFragment,getString(R.string.account));
+        viewPageApdater.addFragment(savedFragment,getString(R.string.saved));
         // add to tab_layout
         // Đối vs
 
@@ -123,6 +123,6 @@ public class MainActivity extends AppCompatActivity {
 //        });
     }
     public void sendData(String room_id){
-//        SavedActivity save =(SavedActivity)getSupportFragmentManager().fi
+//        SavedFragment save =(SavedFragment)getSupportFragmentManager().fi
     }
 }

@@ -1,4 +1,4 @@
-package com.example.firebaseis1313;
+package com.example.firebaseis1313.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import com.example.firebaseis1313.R;
 
 import java.text.NumberFormat;
 import java.util.Locale;

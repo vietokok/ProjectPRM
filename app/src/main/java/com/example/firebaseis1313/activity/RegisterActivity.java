@@ -1,4 +1,4 @@
-package com.example.firebaseis1313;
+package com.example.firebaseis1313.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.firebaseis1313.R;
 
 public class RegisterActivity extends AppCompatActivity {
 

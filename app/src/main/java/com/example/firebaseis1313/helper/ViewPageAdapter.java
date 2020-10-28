@@ -1,4 +1,4 @@
-package com.example.firebaseis1313;
+package com.example.firebaseis1313.helper;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,8 +21,6 @@ public class ViewPageAdapter extends FragmentPagerAdapter {
         fragmentList.add(fragment);
         fragmentTitle.add(title);
     }
-
-
     @NonNull
     @Override
     public Fragment getItem(int position) {

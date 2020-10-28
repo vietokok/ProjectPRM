@@ -1,4 +1,4 @@
-package com.example.firebaseis1313;
+package com.example.firebaseis1313.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -12,6 +12,10 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.firebaseis1313.main.MainActivity;
+import com.example.firebaseis1313.R;
+import com.example.firebaseis1313.helper.SlideAdapter;
 
 public class OnBoradingActivity extends AppCompatActivity {
 

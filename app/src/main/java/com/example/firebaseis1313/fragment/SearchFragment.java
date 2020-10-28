@@ -1,4 +1,4 @@
-package com.example.firebaseis1313;
+package com.example.firebaseis1313.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,14 +11,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Spinner;
+
+import com.example.firebaseis1313.R;
+import com.example.firebaseis1313.activity.FindActivity;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link SearchActivity#newInstance} factory method to
+ * Use the {@link SearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SearchActivity extends Fragment {
+public class SearchFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,7 +35,7 @@ public class SearchActivity extends Fragment {
     private Button btnArea;
     private Button btnDistance;
 
-    public SearchActivity() {
+    public SearchFragment() {
         // Required empty public constructor
 
     }
@@ -44,11 +46,11 @@ public class SearchActivity extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SearchActivity.
+     * @return A new instance of fragment SearchFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SearchActivity newInstance(String param1, String param2) {
-        SearchActivity fragment = new SearchActivity();
+    public static SearchFragment newInstance(String param1, String param2) {
+        SearchFragment fragment = new SearchFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

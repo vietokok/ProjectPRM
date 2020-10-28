@@ -1,4 +1,4 @@
-package com.example.firebaseis1313;
+package com.example.firebaseis1313.helper;
 
 
 import android.app.Activity;
@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.example.firebaseis1313.R;
+import com.example.firebaseis1313.entity.Room;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
