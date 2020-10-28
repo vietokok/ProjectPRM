@@ -87,8 +87,6 @@ public class AccountFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
-//        avatar=view.findViewById(R.id.imageAvatar);
-//        Picasso.get().load("https://www.gstatic.com/webp/gallery/4.sm.jpg").into(avatar);
 
         //-----get pt----//
         btnLogin=view.findViewById(R.id.btnRegister);
@@ -101,26 +99,6 @@ public class AccountFragment extends Fragment {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String userName=etUserName.getText().toString();
-                String password=etPassword.getText().toString();
-
-                if(userName.trim() !=null && password.trim() !=null || userName.trim().length()!=0 && password.trim().length()!=0){
-                    db.collection("user").whereEqualTo("user name", userName).whereEqualTo("password",password).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        View myView=view.getRootView();
-                                        TabLayout tabLayout = (TabLayout) myView.findViewById(R.id.tab_layout);
-                                        TabLayout.Tab tab = tabLayout.getTabAt(0);
-                                        tab.select();
-                                    } else {
-                                        Toast.makeText(getActivity(), "Username or Password is incorrect", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-                }
-            }
-        });
 
         tvRegister.setOnClickListener(new View.OnClickListener() {
             @Override
