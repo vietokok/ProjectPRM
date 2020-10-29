@@ -77,14 +77,13 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            System.out.println(task.getResult().getDocuments().size());
                             for (final QueryDocumentSnapshot document : task.getResult()) {
                                 final Map<String, Object> list = document.getData();
                                 final Room e = new Room();
                                 e.setId(document.getId());
                                 db.collection("Image").document(list.get("image_id").toString()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
-                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    public void onComplete(@NonNull final Task<DocumentSnapshot> task) {
                                         if(task.isSuccessful()){
                                             ArrayList<String> listImageUrl=(ArrayList<String>)task.getResult().get("url");
                                             e.setImageUrl(listImageUrl.get(0));

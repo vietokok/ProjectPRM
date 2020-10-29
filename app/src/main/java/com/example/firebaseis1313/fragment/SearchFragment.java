@@ -135,6 +135,7 @@ public class SearchFragment extends Fragment {
                 startActivityForResult(intent, REQUEST_CODE);
             }
         });
+        System.out.println("!23");
     }
 
 
