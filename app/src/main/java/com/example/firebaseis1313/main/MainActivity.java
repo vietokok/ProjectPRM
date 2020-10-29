@@ -12,8 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.firebaseis1313.R;
-import com.example.firebaseis1313.entity.Room;
-import com.example.firebaseis1313.fragment.AccountFragment;
+import com.example.firebaseis1313.fragment.LoginFragment;
 import com.example.firebaseis1313.fragment.HomeFragment;
 import com.example.firebaseis1313.fragment.ListRoomFragment;
 import com.example.firebaseis1313.fragment.Profilefragment;
@@ -24,14 +23,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     //Fragement
     private ListRoomFragment listRoomFragment;
     private SearchFragment searchFragment;
-    private AccountFragment accountFragment;
+    private LoginFragment loginFragment;
     private SavedFragment savedFragment;
     private HomeFragment homeFragment;
     private Profilefragment profilefragment;
@@ -73,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         // Khai báo Activity --------------
         listRoomFragment =new ListRoomFragment();
         searchFragment =new SearchFragment();
-        accountFragment =new AccountFragment();
+        loginFragment =new LoginFragment();
         savedFragment =new SavedFragment();
         homeFragment=new HomeFragment();
         profilefragment=new Profilefragment();
@@ -88,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         if(isLogin()){
             viewPageApdater.addFragment(profilefragment, getString(R.string.account));
         }else {
-            viewPageApdater.addFragment(accountFragment, getString(R.string.account));
+            viewPageApdater.addFragment(loginFragment, getString(R.string.account));
         }
         viewPageApdater.addFragment(savedFragment,getString(R.string.saved));
 
