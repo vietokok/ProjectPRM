@@ -111,6 +111,7 @@ public class AccountFragment extends Fragment {
                                     etPassword.setText("");
                                     SharedPreferences.Editor editor = view.getRootView().getContext().getSharedPreferences("isLogin", Context.MODE_PRIVATE).edit();
                                     editor.putBoolean("isLogin", true);
+                                    editor.putString("userId",task.getResult().getDocuments().get(0).getId());
                                     editor.commit();
                                     Intent intent = new Intent(view.getRootView().getContext(), MainActivity.class);
                                     startActivity(intent);

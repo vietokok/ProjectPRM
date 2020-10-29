@@ -82,6 +82,7 @@ public class Profilefragment extends Fragment {
             public void onClick(View v) {
                 SharedPreferences.Editor editor = view.getRootView().getContext().getSharedPreferences("isLogin", Context.MODE_PRIVATE).edit();
                 editor.putBoolean("isLogin", false);
+                editor.putString("userId", "");
                 editor.commit();
                 Intent intent = new Intent(view.getRootView().getContext(), MainActivity.class);
                 startActivity(intent);
