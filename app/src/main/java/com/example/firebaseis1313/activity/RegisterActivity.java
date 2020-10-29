@@ -15,7 +15,7 @@ import java.util.Map;
 
 import com.example.firebaseis1313.R;
 
-public class RegisterActivity extends AppCompatActivity {
+public class  RegisterActivity extends AppCompatActivity {
 
     private Button btnRegister;
     private EditText etAccountR;
@@ -38,33 +38,9 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Map<String, Object> user = new HashMap<>();
-                String displayName = etDisplayName.getText().toString();
-                String username = etAccountR.getText().toString();
-                String password = etPasswordR.getText().toString();
-                String phone = etPhoneR.getText().toString();
-                if (displayName.isEmpty()) {
-                    etDisplayName.setError("Display name is required!");
-                    etDisplayName.requestFocus();
-                    return;
-                }
-                if (username.isEmpty()) {
-                    etAccountR.setError("username is required!");
-                    etAccountR.requestFocus();
-                    return;
-                }
-                if (password.isEmpty()) {
-                    etPasswordR.setError("password is required!");
-                    etPasswordR.requestFocus();
-                    return;
-                }
-                if (phone.isEmpty()) {
-                    etPhoneR.setError("phone is required!");
-                    etPhoneR.requestFocus();
-                    return;
-                }
-                if (displayName.length() > 0 && username.length() > 0 && password.length() > 0 && phone.length() > 0) {
+                if (validateDisplayName(etDisplayName) && validateUsername(etAccountR) && validatePassword(etPasswordR) && validatePhone(etPhoneR)) {
                     user.put("displayName", etDisplayName.getText().toString());
-                    user.put("username", etAccountR.getText().toString());
+                    user.put("username",  etAccountR.getText().toString());
                     user.put("password", etPasswordR.getText().toString());
                     user.put("phone", etPhoneR.getText().toString());
                     user.put("photoUrl", "https://firebasestorage.googleapis.com/v0/b/is1313mk.appspot.com/o/user%20image%2Fmale.jpg?alt=media&token=a20ef42d-6747-433f-a819-fcd31e2da093");
@@ -76,6 +52,63 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private boolean validateDisplayName(EditText dpName){
+        if(dpName.getText().toString().isEmpty()){
+            dpName.setError("Field can't empty");
+            return false;
+        }else {
+            dpName.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validateUsername(EditText username){
+        String regex ="\\A\\w{4,20}\\z";
+
+        if(username.getText().toString().isEmpty()){
+            username.setError("Field can't empty!");
+            return false;
+        }else if(username.getText().toString().length() >= 14){
+            username.setError("Username too long!");
+            return false;
+        }else if(!username.getText().toString().matches(regex)){
+            username.setError("White Spaces are not allowed");
+            return false;
+        }
+        else {
+            username.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validatePassword(EditText password){
+        if(password.getText().toString().isEmpty()){
+            password.setError("Field can't empty");
+            return false;
+        }else if(password.getText().toString().length() > 10){
+            password.setError("Phone too long!");
+            return false;
+        }
+        else {
+            password.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validatePhone(EditText phone){
+        if(phone.getText().toString().isEmpty()){
+            phone.setError("Field can't empty");
+            return false;
+        }else if(phone.getText().toString().length() > 10){
+            phone.setError("Phone too long!");
+            return false;
+        }
+        else {
+            phone.setError(null);
+            return true;
+        }
     }
 
     public void back(View view) {
