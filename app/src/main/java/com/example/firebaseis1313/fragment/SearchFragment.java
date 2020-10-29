@@ -105,13 +105,11 @@ public class SearchFragment extends Fragment {
         // add depen
         db = FirebaseFirestore.getInstance();
         listRoomFragment =(ListRoomFragment)getChildFragmentManager().findFragmentById(R.id.list_room_frag_k);
-
         btnPrice = view.findViewById(R.id.btnPrice);
         btnArea = view.findViewById(R.id.btnArea);
         btnDistance = view.findViewById(R.id.btnDistance);
         progressBar = view.findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
-
         btnPrice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

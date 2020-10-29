@@ -66,7 +66,6 @@ public class  RegisterActivity extends AppCompatActivity {
 
     private boolean validateUsername(EditText username){
         String regex ="\\A\\w{4,20}\\z";
-
         if(username.getText().toString().isEmpty()){
             username.setError("Field can't empty!");
             return false;

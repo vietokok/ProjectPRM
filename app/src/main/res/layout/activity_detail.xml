@@ -24,73 +24,48 @@
                 tools:layout_editor_absoluteX="0dp" />
 
             <TextView
+                android:textColor="#333"
                 android:id="@+id/txtArea"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Diện tích 21m2"
+                android:layout_width="366dp"
+                android:layout_height="35dp"
+                android:drawableStart="@drawable/ic_baseline_apartment_24"
+                android:paddingStart="5dp"
+                android:text="  Diện tích 21m2"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@+id/spaceArea"
                 app:layout_constraintEnd_toEndOf="@+id/spaceArea"
-                app:layout_constraintHorizontal_bias="0.034"
-                app:layout_constraintStart_toEndOf="@+id/iconArea"
+                app:layout_constraintStart_toStartOf="@+id/spaceArea"
                 app:layout_constraintTop_toTopOf="@+id/spaceArea" />
 
-            <ImageView
-                android:id="@+id/iconArea"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                app:layout_constraintBottom_toBottomOf="@+id/spaceArea"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.06"
-                app:layout_constraintStart_toStartOf="@+id/spaceArea"
-                app:layout_constraintTop_toTopOf="@+id/spaceArea"
-                app:srcCompat="@drawable/anh" />
-
             <TextView
+                android:textColor="#333"
                 android:id="@+id/txtContact"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="+84 98 577 94 94 - Cao Trọng Vĩnh"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@+id/spaceContact"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.06"
-                app:layout_constraintStart_toEndOf="@+id/iconContact"
-                app:layout_constraintTop_toTopOf="@+id/spaceContact" />
-
-            <ImageView
-                android:id="@+id/iconContact"
-                android:layout_width="35dp"
+                android:layout_width="366dp"
                 android:layout_height="35dp"
+                android:text="  +84 98 577 94 94 - Cao Trọng Vĩnh"
+                android:textSize="14sp"
+                android:paddingStart="5dp"
+                android:drawableStart="@drawable/ic_baseline_contact_phone_24"
                 app:layout_constraintBottom_toBottomOf="@+id/spaceContact"
                 app:layout_constraintEnd_toEndOf="@+id/spaceContact"
-                app:layout_constraintHorizontal_bias="0.06"
+                app:layout_constraintHorizontal_bias="0.444"
                 app:layout_constraintStart_toStartOf="@+id/spaceContact"
                 app:layout_constraintTop_toTopOf="@+id/spaceContact"
-                app:srcCompat="@drawable/anh" />
+                app:layout_constraintVertical_bias="1.0" />
 
             <TextView
+                android:textColor="#333"
                 android:id="@+id/txtAddress"
-                android:layout_width="335dp"
+                android:layout_width="366dp"
                 android:layout_height="35dp"
-                android:text="Hẻm 496/9 Dương Quảng Hàm, phường 6, Gò Vấp, Thành phố Hà Nội, Việt Nam"
+                android:drawableStart="@drawable/ic_baseline_house_24"
+                android:paddingStart="5dp"
+                android:text="  Hẻm 496/9 Dương Quảng Hàm, phường 6, Gò Vấp, Thành phố Hà Nội, Việt Nam"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toTopOf="@+id/spaceContact"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.38"
-                app:layout_constraintStart_toEndOf="@+id/iconAddress"
-                app:layout_constraintTop_toTopOf="@+id/spaceAddress"
-                app:layout_constraintVertical_bias="0.0" />
-
-            <ImageView
-                android:id="@+id/iconAddress"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                app:layout_constraintBottom_toBottomOf="@+id/spaceAddress"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.06"
+                app:layout_constraintEnd_toEndOf="@+id/spaceAddress"
+                app:layout_constraintHorizontal_bias="0.444"
                 app:layout_constraintStart_toStartOf="@+id/spaceAddress"
-                app:layout_constraintTop_toTopOf="@+id/spaceAddress"
-                app:srcCompat="@drawable/anh" />
+                app:layout_constraintTop_toTopOf="@+id/spaceAddress" />
 
             <ImageView
                 android:id="@+id/imageAll"
@@ -129,12 +104,16 @@
 
             <Button
                 android:id="@+id/btnBack"
-                android:layout_width="82dp"
-                android:layout_height="38dp"
-                android:text="Back"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="59dp"
+                android:layout_height="37dp"
+                android:layout_marginStart="5dp"
+                android:backgroundTint="#00000000"
+                android:drawableStart="@drawable/ic_baseline_arrow_back_ios_24"
+                android:text=""
                 app:layout_constraintBottom_toBottomOf="@+id/spaceHeader"
                 app:layout_constraintEnd_toStartOf="@+id/txtPrice"
-                app:layout_constraintHorizontal_bias="0.25"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/spaceHeader"
                 app:layout_constraintTop_toTopOf="@+id/spaceHeader" />
 
@@ -173,6 +152,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/txtAddress"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -180,19 +160,20 @@
 
             <Space
                 android:id="@+id/spaceContact"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_width="411dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spaceAddress" />
+                app:layout_constraintTop_toBottomOf="@+id/txtAddress" />
 
             <Space
                 android:id="@+id/spaceArea"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_marginTop="6dp"
+                android:textAlignment="textStart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"

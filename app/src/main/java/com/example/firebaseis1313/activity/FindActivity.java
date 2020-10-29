@@ -30,8 +30,8 @@ public class FindActivity extends AppCompatActivity {
     String textValue="";
     Locale localeVN = new Locale("vi", "VN");
     NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
-    @Override
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find);
@@ -45,7 +45,6 @@ public class FindActivity extends AppCompatActivity {
         btnCancel = findViewById(R.id.btnCancel);
         Intent intent = getIntent();
         final String type = intent.getStringExtra("type");
-
         //set on click for button "Hủy"
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +52,6 @@ public class FindActivity extends AppCompatActivity {
                 finish();
             }
         });
-
         //Display type of search
         switch (type){
             case "2":
@@ -109,7 +107,6 @@ public class FindActivity extends AppCompatActivity {
                 });
                 break;
         }
-
         btnApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,7 +119,5 @@ public class FindActivity extends AppCompatActivity {
                 finish();
             }
         });
-
     }
-
 }

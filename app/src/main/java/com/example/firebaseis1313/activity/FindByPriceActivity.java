@@ -8,12 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
 import com.example.firebaseis1313.R;
 import com.example.firebaseis1313.fragment.SearchFragment;
-
 import org.florescu.android.rangeseekbar.RangeSeekBar;
-
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -48,7 +45,6 @@ public class FindByPriceActivity extends AppCompatActivity {
         btnCancel = findViewById(R.id.btnCancel);
         Intent intent = getIntent();
         final String type = intent.getStringExtra("type");
-
         //set on click for button "Hủy"
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,7 +52,6 @@ public class FindByPriceActivity extends AppCompatActivity {
                 finish();
             }
         });
-
         //Display type of search
         switch (type) {
             case "1":

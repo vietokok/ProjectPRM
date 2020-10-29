@@ -77,7 +77,6 @@ public class Profilefragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         btnLogout = view.findViewById(R.id.btnLogout);
-
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
