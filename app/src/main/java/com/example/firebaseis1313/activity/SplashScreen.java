@@ -23,17 +23,11 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash_screen);
-
         topAnima = AnimationUtils.loadAnimation(this, R.anim.top_anima);
-
-
         imageView = findViewById(R.id.imgSplash);
         tvLogo = findViewById(R.id.tvLogo);
-
         imageView.animate().translationY(-1400).setDuration(2500).setStartDelay(1000);
         tvLogo.animate().translationY(1400).setDuration(2000).setStartDelay(1000);
-
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

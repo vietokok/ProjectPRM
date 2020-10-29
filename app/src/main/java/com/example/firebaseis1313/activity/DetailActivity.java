@@ -17,7 +17,6 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
         imageView = findViewById(R.id.googleMapImg);
         String url = "https://maps.googleapis.com/maps/api/staticmap?center=21.01325,105.5248756&zoom=17&size=600x400&markers=color:red%7C21.01325,105.5248756&key=AIzaSyA3kg7YWugGl1lTXmAmaBGPNhDW9pEh5bo";
         Picasso.get()
@@ -41,5 +40,4 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
     }
-
 }

@@ -3,22 +3,19 @@ package com.example.firebaseis1313.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
 import com.example.firebaseis1313.R;
 import com.example.firebaseis1313.fragment.SearchFragment;
-
+import org.florescu.android.rangeseekbar.RangeSeekBar;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-public class FindActivity extends AppCompatActivity {
-
-    private SeekBar seekBar;
+public class FindByPriceActivity extends AppCompatActivity {
+    RangeSeekBar rangeSeekBar;
     private TextView txtOnclick;
     private TextView txtHeader;
     private TextView txtMin;
@@ -26,7 +23,10 @@ public class FindActivity extends AppCompatActivity {
     private TextView txtBottom;
     private Button btnApply;
     private Button btnCancel;
-    int value = 0;
+    int maxValue = 6000000;
+    int minValue = 0;
+    int min;
+    int max;
     String textValue="";
     Locale localeVN = new Locale("vi", "VN");
     NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
@@ -34,8 +34,8 @@ public class FindActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_find);
-        seekBar = findViewById(R.id.seekBar2);
+        setContentView(R.layout.activity_find_by_price);
+        rangeSeekBar = findViewById(R.id.rangeSeekBar);
         txtOnclick = findViewById(R.id.txtOnclick);
         txtHeader = findViewById(R.id.txtHeader);
         txtMin = findViewById(R.id.txtMin);
@@ -53,56 +53,25 @@ public class FindActivity extends AppCompatActivity {
             }
         });
         //Display type of search
-        switch (type){
-            case "2":
-                //search for area
-                int max = 50;
-                txtHeader.setText("Diện tích");
-                txtMin.setText("0 m2");
-                txtMax.setText(max + " m2");
-                seekBar.setMax(max);
-                txtBottom.setText("Diện tích nhỏ hơn:");
-                seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        switch (type) {
+            case "1":
+                //search for Price
+                rangeSeekBar.setRangeValues(minValue,maxValue);
+                txtHeader.setText("Chọn Khoảng Giá");
+                txtMin.setText(currencyVN.format(minValue));
+                txtMax.setText(currencyVN.format(maxValue));
+                txtBottom.setText("Khoảng:");
+                rangeSeekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
                     @Override
-                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                        value = seekBar.getProgress();
-                        textValue = String.valueOf(value)+ " m2";
+                    public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Object minValue, Object maxValue) {
+                        Number min_value = rangeSeekBar.getSelectedMinValue();
+                        Number max_value = rangeSeekBar.getSelectedMaxValue();
+                         min =(int) min_value;
+                         max =(int) max_value;
+                        String formatMoneyMin = currencyVN.format(min);
+                        String formatMoneyMax = currencyVN.format(max);
+                        textValue = formatMoneyMin+" - "+formatMoneyMax;
                         txtOnclick.setText(textValue);
-                    }
-                    @Override
-                    public void onStartTrackingTouch(SeekBar seekBar) {
-
-                    }
-
-                    @Override
-                    public void onStopTrackingTouch(SeekBar seekBar) {
-
-                    }
-                });
-                break;
-            case "3":
-                //search for Distance
-                int max1 = 30;
-                txtHeader.setText("Khoảng cách");
-                txtMin.setText("0 km");
-                txtMax.setText(max1 +" km");
-                seekBar.setMax(max1);
-                txtBottom.setText("Cách trường:");
-                seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                    @Override
-                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                        value = seekBar.getProgress();
-                        textValue = String.valueOf(value)+ " km";
-                        txtOnclick.setText(textValue);
-                    }
-                    @Override
-                    public void onStartTrackingTouch(SeekBar seekBar) {
-
-                    }
-
-                    @Override
-                    public void onStopTrackingTouch(SeekBar seekBar) {
-
                     }
                 });
                 break;
@@ -113,11 +82,13 @@ public class FindActivity extends AppCompatActivity {
                 Intent myIntent = new Intent();
                 SearchFragment searchFragment = new SearchFragment();
                 myIntent.putExtra("type", type);
-                myIntent.putExtra("value", value);
                 myIntent.putExtra("textValue", textValue);
+                myIntent.putExtra("minValue", min);
+                myIntent.putExtra("maxValue", max);
                 setResult(searchFragment.RESULT_CODE, myIntent);
                 finish();
             }
         });
     }
+
 }

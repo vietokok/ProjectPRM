@@ -73,19 +73,16 @@ public class OnBoradingActivity extends AppCompatActivity {
     private void addDots(int position) {
         dots = new TextView[4];
         dotsLayout.removeAllViews();
-
         for (int i = 0; i < dots.length; i++) {
             dots[i] = new TextView(this);
             dots[i].setText(Html.fromHtml("&#8226"));
             dots[i].setTextSize(35);
             dotsLayout.addView(dots[i]);
         }
-
         if (dots.length > 0) {
             dots[position].setTextColor(getResources().getColor(R.color.colorPrimary));
         }
     }
-
     ViewPager.OnPageChangeListener changeListener = new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

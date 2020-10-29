@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.firebaseis1313.R;
+import com.example.firebaseis1313.activity.DetailActivity;
 import com.example.firebaseis1313.activity.RegisterActivity;
 import com.example.firebaseis1313.main.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,6 +38,7 @@ public class AccountFragment extends Fragment {
     private TextView tvRegister;
     private FirebaseFirestore db;
     private DatabaseReference mDatabase;
+    private TextView tvForgot;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -92,6 +94,7 @@ public class AccountFragment extends Fragment {
         etUserName = view.findViewById(R.id.etAccount);
         etPassword = view.findViewById(R.id.etPassword);
         tvRegister = view.findViewById(R.id.tvRegister);
+        tvForgot = view.findViewById(R.id.tvForgot);
         db = FirebaseFirestore.getInstance();
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,6 +131,13 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(view.getRootView().getContext(), RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+        tvForgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(view.getRootView().getContext(), DetailActivity.class);
                 startActivity(intent);
             }
         });
