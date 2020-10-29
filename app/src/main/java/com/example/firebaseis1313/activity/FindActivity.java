@@ -27,9 +27,9 @@ public class FindActivity extends AppCompatActivity {
     private Button btnApply;
     private Button btnCancel;
     int value = 0;
+    String textValue="";
     Locale localeVN = new Locale("vi", "VN");
     NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
-
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +45,7 @@ public class FindActivity extends AppCompatActivity {
         btnCancel = findViewById(R.id.btnCancel);
         Intent intent = getIntent();
         final String type = intent.getStringExtra("type");
+
         //set on click for button "Hủy"
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,34 +53,9 @@ public class FindActivity extends AppCompatActivity {
                 finish();
             }
         });
+
         //Display type of search
-        switch (type) {
-            case "1":
-                //search for Price
-                txtHeader.setText("Chọn Khoảng Giá");
-                txtMin.setText(currencyVN.format(0));
-                txtMax.setText(currencyVN.format(6000000));
-                seekBar.setMax(6000000);
-                txtBottom.setText("Giá nhỏ hơn:");
-                seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                    @Override
-                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                        value = seekBar.getProgress();
-                        String formatMoney = currencyVN.format(value);
-                        txtOnclick.setText(String.valueOf(formatMoney));
-                    }
-
-                    @Override
-                    public void onStartTrackingTouch(SeekBar seekBar) {
-
-                    }
-
-                    @Override
-                    public void onStopTrackingTouch(SeekBar seekBar) {
-
-                    }
-                });
-                break;
+        switch (type){
             case "2":
                 //search for area
                 int max = 50;
@@ -92,9 +68,9 @@ public class FindActivity extends AppCompatActivity {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                         value = seekBar.getProgress();
-                        txtOnclick.setText(String.valueOf(value) + " m2");
+                        textValue = String.valueOf(value)+ " m2";
+                        txtOnclick.setText(textValue);
                     }
-
                     @Override
                     public void onStartTrackingTouch(SeekBar seekBar) {
 
@@ -111,16 +87,16 @@ public class FindActivity extends AppCompatActivity {
                 int max1 = 30;
                 txtHeader.setText("Khoảng cách");
                 txtMin.setText("0 km");
-                txtMax.setText(max1 + " km");
+                txtMax.setText(max1 +" km");
                 seekBar.setMax(max1);
                 txtBottom.setText("Cách trường:");
                 seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                         value = seekBar.getProgress();
-                        txtOnclick.setText(String.valueOf(value) + " km");
+                        textValue = String.valueOf(value)+ " km";
+                        txtOnclick.setText(textValue);
                     }
-
                     @Override
                     public void onStartTrackingTouch(SeekBar seekBar) {
 
@@ -141,6 +117,7 @@ public class FindActivity extends AppCompatActivity {
                 SearchFragment searchFragment = new SearchFragment();
                 myIntent.putExtra("type", type);
                 myIntent.putExtra("value", value);
+                myIntent.putExtra("textValue", textValue);
                 setResult(searchFragment.RESULT_CODE, myIntent);
                 finish();
             }

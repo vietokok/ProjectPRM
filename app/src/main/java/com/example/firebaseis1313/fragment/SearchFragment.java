@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.firebaseis1313.R;
 import com.example.firebaseis1313.activity.FindActivity;
+import com.example.firebaseis1313.activity.FindByPriceActivity;
 import com.example.firebaseis1313.entity.Room;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -54,7 +55,8 @@ public class SearchFragment extends Fragment {
     public static int RESULT_CODE = 200;
     private ProgressBar progressBar;
     public ListRoomFragment listRoomFragment;
-
+    int price;
+    int area;
     FirebaseFirestore db;
     private ArrayList<Room> list_room;
 
@@ -102,16 +104,18 @@ public class SearchFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         // add depen
         db = FirebaseFirestore.getInstance();
-        listRoomFragment = (ListRoomFragment) getChildFragmentManager().findFragmentById(R.id.list_room_frag_k);
+        listRoomFragment =(ListRoomFragment)getChildFragmentManager().findFragmentById(R.id.list_room_frag_k);
+
         btnPrice = view.findViewById(R.id.btnPrice);
         btnArea = view.findViewById(R.id.btnArea);
         btnDistance = view.findViewById(R.id.btnDistance);
         progressBar = view.findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
+
         btnPrice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(view.getRootView().getContext(), FindActivity.class);
+                Intent intent = new Intent(view.getRootView().getContext(), FindByPriceActivity.class);
                 intent.putExtra("type", "1");
                 startActivityForResult(intent, REQUEST_CODE);
             }
@@ -135,19 +139,20 @@ public class SearchFragment extends Fragment {
         });
     }
 
-    public void setList_room(final int type, int value) {
+
+    public void setList_room(int type, int value){
         String field = null;
-        if (type == 1) {
-            field = "price";
+        if(type == 1) {
+           field = "price";
         }
-        if (type == 2) {
+        if(type == 2){
             field = "acreage";
         }
-//        if(type == 3){
-//            field = "distan";
-//        }
+        if(type == 3){
+            field = "distan";
+        }
         final ArrayList<Room> rooms = new ArrayList<>();
-        db.collection("Room")
+        db.collection("Motel")
                 .whereLessThanOrEqualTo(field, value)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -155,12 +160,12 @@ public class SearchFragment extends Fragment {
                     public void onComplete(@NonNull final Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (final QueryDocumentSnapshot document : task.getResult()) {
-                                Map<String, Object> list = document.getData();
-                                final Room e = new Room();
+                                Map<String,Object> list=document.getData();
+                                final Room e =new Room();
                                 e.setId(document.getId());
                                 ArrayList a = (ArrayList) list.get("image_id");
                                 e.setImageUrl(a.get(0).toString());
-                                e.setAcreage(Float.parseFloat(list.get("acreage").toString()));
+                                e.setAcreage(Float.parseFloat(list.get("area").toString()));
                                 e.setDescription(list.get("description").toString());
                                 e.setPrice(list.get("price").toString());
                                 e.setHouse_id(list.get("house_id").toString());
@@ -168,10 +173,10 @@ public class SearchFragment extends Fragment {
                                         .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<DocumentSnapshot> task1) {
-                                        if (task1.isSuccessful()) {
+                                        if(task1.isSuccessful()){
                                             e.setAddress(task1.getResult().getData().get("address").toString());
                                             listRoomFragment.receiveData(e);
-                                        } else {
+                                        }else{
                                         }
                                     }
                                 });
@@ -182,14 +187,25 @@ public class SearchFragment extends Fragment {
                     }
                 });
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE && resultCode == RESULT_CODE) {
-            final int value = data.getIntExtra("value", 0);
-            final String type = data.getStringExtra("type");
+        if(requestCode == REQUEST_CODE && resultCode == RESULT_CODE){
             listRoomFragment.clearData();
+            //value is area or distance
+            final int value = data.getIntExtra("value",0);
+            final String type = data.getStringExtra("type");
+            final String textValue = data.getStringExtra("textValue");
+            // min max for price
+            final int min = data.getIntExtra("min",0);
+            final int max = data.getIntExtra("max",0);
+            //type = search for price
+            if(type.equals("1")){
+                btnPrice.setText(textValue);
+
+            }if(type.equals("2")){
+                btnArea.setText(textValue);
+            }
             this.progressBar.setIndeterminate(true);
             Thread thread = new Thread(new Runnable() {
                 @Override
@@ -199,19 +215,18 @@ public class SearchFragment extends Fragment {
                             progressBar.setVisibility(View.VISIBLE);
                         }
                     });
-                    // Do something ...
-                    //  setList_room(1, value);
+
                     SystemClock.sleep(3000);
                     progressBar.setIndeterminate(false);
                     progressBar.setMax(1);
                     progressBar.setProgress(1);
+
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
                             progressBar.setVisibility(View.INVISIBLE);
-                            setList_room(Integer.parseInt(type), value);
-                            Toast.makeText(getActivity(), "Done !!",
-                                    Toast.LENGTH_LONG).show();
+                            //setListByPrice(min, max);
+                            //setList_room(Integer.parseInt(type),max);
                         }
                     });
                 }
@@ -219,4 +234,6 @@ public class SearchFragment extends Fragment {
             thread.start();
         }
     }
+
+
 }
