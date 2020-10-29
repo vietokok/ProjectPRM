@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         viewPageApdater.addFragment(homeFragment,"Home");
 //        viewPageApdater.addFragment(listRoomFragment,getString(R.string.home));
         viewPageApdater.addFragment(searchFragment,getString(R.string.search));
-        if(isOpenFirst()){
+        if(isLogin()){
             viewPageApdater.addFragment(profilefragment, getString(R.string.account));
         }else {
             viewPageApdater.addFragment(accountFragment, getString(R.string.account));
@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    private boolean isOpenFirst() {
+    public boolean isLogin() {
         SharedPreferences sharedPreferences = getSharedPreferences("isLogin", MODE_PRIVATE);
         boolean result = sharedPreferences.getBoolean("isLogin", false);
         return result;
