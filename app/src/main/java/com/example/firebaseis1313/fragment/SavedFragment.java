@@ -173,23 +173,12 @@ public class SavedFragment extends Fragment  {
 //                mListtener.setSavedRoom();
 //            }
 //        });
-
-        if(onFragmentInteractionListener.isLogin()){
-           getChildFragmentManager().findFragmentById(R.id.login_fragment).getView().setVisibility(View.GONE);
-            SharedPreferences sharedPreferences = getContext().getSharedPreferences("isLogin", MODE_PRIVATE);
-            String result = sharedPreferences.getString("userId", null);
-            setListRoom(view,result);
-        }else{
-//            SavedFragment savedFragment = new SavedFragment();
-//            savedFragment.getView().setEnabled(false);
-//            LoginFragment login = new LoginFragment();
-//            FragmentManager manager = getFragmentManager();
-//            FragmentTransaction transaction = manager.beginTransaction();
-//            transaction.replace(R.id.saveFragment, login);
-//            transaction.addToBackStack(null);
-//            transaction.commit();
-        }
+        // Doan login dang suy nghi nen bo di
+            if(onFragmentInteractionListener.isLogin()){
+                SharedPreferences sharedPreferences = getContext().getSharedPreferences("isLogin", MODE_PRIVATE);
+                String result = sharedPreferences.getString("userId", null);
+                setListRoom(view,result);
+            }
 
     }
-
 }

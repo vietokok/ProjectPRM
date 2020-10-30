@@ -2,6 +2,8 @@ package com.example.firebaseis1313.main;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
@@ -17,6 +19,7 @@ import com.example.firebaseis1313.entity.Room;
 import com.example.firebaseis1313.fragment.LoginFragment;
 import com.example.firebaseis1313.fragment.HomeFragment;
 import com.example.firebaseis1313.fragment.ListRoomFragment;
+import com.example.firebaseis1313.fragment.MidmanFragment;
 import com.example.firebaseis1313.fragment.Profilefragment;
 import com.example.firebaseis1313.fragment.SavedFragment;
 import com.example.firebaseis1313.fragment.SearchFragment;
@@ -54,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     private SavedFragment savedFragment;
     private HomeFragment homeFragment;
     private Profilefragment profilefragment;
+    private MidmanFragment midmanFragment;
 
     private int numberOfSaved;
 
@@ -77,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         savedFragment =new SavedFragment();
         homeFragment=new HomeFragment();
         profilefragment=new Profilefragment();
+        midmanFragment=new MidmanFragment();
 
         //---------------------
         tabLayout.setupWithViewPager(viewPager);
@@ -96,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         }
 
 
-            viewPageApdater.addFragment(savedFragment, getString(R.string.saved));
+            viewPageApdater.addFragment(midmanFragment, getString(R.string.saved));
 
         // add to tab_layout
         // Đối vs
@@ -111,13 +116,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         if(id !=null && id.equals("current")){
             tabLayout.getTabAt(2).select();
         }
-
-
-
-
-
-
-
     }
 
 
@@ -142,6 +140,22 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         boolean result = sharedPreferences.getBoolean("isLogin", false);
         return result;
     }
+
+    @Override
+    public void changeToSave() {
+//
+//        ViewPageAdapter viewPageApdater =new ViewPageAdapter(getSupportFragmentManager(),0);
+//        viewPageApdater.addFragment(homeFragment,getString(R.string.saved));
+//        viewPageApdater.addFragment(searchFragment,getString(R.string.saved));
+//        viewPageApdater.addFragment(loginFragment,getString(R.string.saved));
+//        viewPageApdater.addFragment(loginFragment,getString(R.string.saved));
+//        viewPager.setAdapter(viewPageApdater);
+//        tabLayout.getTabAt(0).setIcon(R.drawable.home);
+//        tabLayout.getTabAt(1).setIcon(R.drawable.search);
+//        tabLayout.getTabAt(2).setIcon(R.drawable.user);
+//        tabLayout.getTabAt(3).setIcon(R.drawable.apartment);
+    }
+
 }
 
 
