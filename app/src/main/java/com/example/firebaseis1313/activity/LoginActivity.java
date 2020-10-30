@@ -57,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                                     editor.putString("userId",task.getResult().getDocuments().get(0).getId());
                                     editor.commit();
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    intent.putExtra("loginStatus","current");
                                     startActivity(intent);
                                 } else {
                                     Toast.makeText(LoginActivity.this, "Username or Password is incorrect", Toast.LENGTH_SHORT).show();

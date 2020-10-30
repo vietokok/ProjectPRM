@@ -48,6 +48,7 @@ public class SavedFragment extends Fragment  {
     private String mParam2;
     private Fragment login;
     private ArrayList<Room> saved_room;
+    private OnFragmentInteractionListener onFragmentInteractionListener;
 //    private OnFragmentInteractionListener mListtener;
 
     private FirebaseFirestore db;
@@ -150,12 +151,14 @@ public class SavedFragment extends Fragment  {
         // Inflate the layout for this fragment
         saved_room=new ArrayList<>();
         db = FirebaseFirestore.getInstance();
+
         return inflater.inflate(R.layout.fragment_saved_activity, container, false);
     }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+        onFragmentInteractionListener=(OnFragmentInteractionListener)getActivity();
 //        mListtener=(OnFragmentInteractionListener) getActivity();
 
     }
@@ -171,17 +174,19 @@ public class SavedFragment extends Fragment  {
 //            }
 //        });
 
-//        SharedPreferences sharedPreferences = getContext().getSharedPreferences("isLogin", MODE_PRIVATE);
-//        String result = sharedPreferences.getString("userId", null);
-//        if(result==null){
-//            LoginFragment listCourse = new LoginFragment();
-//            FragmentManager manager = getFragmentManager();
-//            FragmentTransaction transaction = manager.beginTransaction();
-//            transaction.replace(R.id.saveFragment, listCourse);
-//            transaction.addToBackStack(null);
-//            transaction.commit();
-//        }
-        setListRoom(view,"ILD4V1LOGg30STEE4Fja");
+        if(onFragmentInteractionListener.isLogin()){
+            SharedPreferences sharedPreferences = getContext().getSharedPreferences("isLogin", MODE_PRIVATE);
+            String result = sharedPreferences.getString("userId", null);
+            setListRoom(view,result);
+        }else{
+            LoginFragment login = new LoginFragment();
+            FragmentManager manager = getFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.replace(R.id.saveFragment, login);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
+
     }
 
 }

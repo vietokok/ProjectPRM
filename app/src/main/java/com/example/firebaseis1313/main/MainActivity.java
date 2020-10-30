@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -83,14 +84,18 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         // add to apdater
         viewPageApdater.addFragment(homeFragment,"Home");
         viewPageApdater.addFragment(searchFragment,getString(R.string.search));
-//        if(isLogin()){
-//            viewPageApdater.addFragment(profilefragment, getString(R.string.account));
-//        }else {
+        if(isLogin()){
+            SharedPreferences sharedPreferences = getSharedPreferences("isLogin", MODE_PRIVATE);
+            String result = sharedPreferences.getString("userId", null);
+            if(result !=null){
+                setSavedRoom(result);
+            }
+            viewPageApdater.addFragment(profilefragment, getString(R.string.account));
+        }else {
             viewPageApdater.addFragment(loginFragment, getString(R.string.account));
-//        }
+        }
 
         viewPageApdater.addFragment(savedFragment,getString(R.string.saved));
-
         // add to tab_layout
         // Đối vs
         viewPager.setAdapter(viewPageApdater);
@@ -99,17 +104,24 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         tabLayout.getTabAt(1).setIcon(R.drawable.search);
         tabLayout.getTabAt(2).setIcon(R.drawable.user);
         tabLayout.getTabAt(3).setIcon(R.drawable.apartment);
-        setSavedRoom();
-    }
-    public boolean isLogin() {
-        SharedPreferences sharedPreferences = getSharedPreferences("isLogin", MODE_PRIVATE);
-        boolean result = sharedPreferences.getBoolean("isLogin", false);
-        return result;
+        Intent intent = getIntent();
+        String id = intent.getStringExtra("loginStatus");
+        if(id !=null && id.equals("current")){
+            tabLayout.getTabAt(2).select();
+        }
+
+
+
+
+
+
+
     }
 
+
     @Override
-    public void setSavedRoom() {
-        db.collection("User").document("ILD4V1LOGg30STEE4Fja").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+    public void setSavedRoom(String userId) {
+        db.collection("User").document(userId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()){
@@ -120,6 +132,13 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                 }
             }
         });
+    }
+
+    @Override
+    public boolean isLogin() {
+        SharedPreferences sharedPreferences = getSharedPreferences("isLogin", MODE_PRIVATE);
+        boolean result = sharedPreferences.getBoolean("isLogin", false);
+        return result;
     }
 }
 

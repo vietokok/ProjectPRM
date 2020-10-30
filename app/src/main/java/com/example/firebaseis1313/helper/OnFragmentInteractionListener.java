@@ -1,5 +1,6 @@
 package com.example.firebaseis1313.helper;
 
 public interface OnFragmentInteractionListener {
-    void setSavedRoom();
+    void setSavedRoom(String userID);
+    boolean isLogin();
 }

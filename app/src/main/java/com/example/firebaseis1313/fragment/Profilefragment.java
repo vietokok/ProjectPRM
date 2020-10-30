@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.firebaseis1313.R;
 import com.example.firebaseis1313.main.MainActivity;
@@ -23,7 +25,9 @@ import com.example.firebaseis1313.main.MainActivity;
  * create an instance of this fragment.
  */
 public class Profilefragment extends Fragment {
-
+    private TextView displayName;
+    private TextView phone;
+    private TextView email;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -77,6 +81,9 @@ public class Profilefragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         btnLogout = view.findViewById(R.id.btnLogout);
+        displayName=view.findViewById(R.id.etDisplayName);
+        phone=view.findViewById(R.id.etPhone);
+
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
