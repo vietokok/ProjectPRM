@@ -95,7 +95,9 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
             viewPageApdater.addFragment(loginFragment, getString(R.string.account));
         }
 
-        viewPageApdater.addFragment(savedFragment,getString(R.string.saved));
+
+            viewPageApdater.addFragment(savedFragment, getString(R.string.saved));
+
         // add to tab_layout
         // Đối vs
         viewPager.setAdapter(viewPageApdater);
