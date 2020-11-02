@@ -116,6 +116,8 @@ public class Profilefragment extends Fragment {
         }
 
 
+
+
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
