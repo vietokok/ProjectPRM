@@ -139,53 +139,53 @@ public class SearchFragment extends Fragment {
     }
 
 
-    public void setList_room(int type, int value){
-        String field = null;
-        if(type == 1) {
-           field = "price";
-        }
-        if(type == 2){
-            field = "acreage";
-        }
-        if(type == 3){
-            field = "distan";
-        }
-        final ArrayList<Room> rooms = new ArrayList<>();
-        db.collection("Motel")
-                .whereLessThanOrEqualTo(field, value)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull final Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (final QueryDocumentSnapshot document : task.getResult()) {
-                                Map<String,Object> list=document.getData();
-                                final Room e =new Room();
-                                e.setId(document.getId());
-                                ArrayList a = (ArrayList) list.get("image_id");
-                                e.setImageUrl(a.get(0).toString());
-                                e.setAcreage(Float.parseFloat(list.get("area").toString()));
-                                e.setDescription(list.get("description").toString());
-                                e.setPrice(list.get("price").toString());
-                                e.setHouse_id(list.get("house_id").toString());
-                                db.collection("House").document(e.getHouse_id())
-                                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<DocumentSnapshot> task1) {
-                                        if(task1.isSuccessful()){
-                                            e.setAddress(task1.getResult().getData().get("address").toString());
-                                            listRoomFragment.receiveData(e);
-                                        }else{
-                                        }
-                                    }
-                                });
-                            }
-                        } else {
-
-                        }
-                    }
-                });
-    }
+//    public void setList_room(int type, int value){
+//        String field = null;
+//        if(type == 1) {
+//           field = "price";
+//        }
+//        if(type == 2){
+//            field = "acreage";
+//        }
+//        if(type == 3){
+//            field = "distan";
+//        }
+//        final ArrayList<Room> rooms = new ArrayList<>();
+//        db.collection("Motel")
+//                .whereLessThanOrEqualTo(field, value)
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull final Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (final QueryDocumentSnapshot document : task.getResult()) {
+//                                Map<String,Object> list=document.getData();
+//                                final Room e =new Room();
+//                                e.setId(document.getId());
+//                                ArrayList a = (ArrayList) list.get("image_id");
+//                                e.setImageUrl(a.get(0).toString());
+//                                e.setAcreage(Float.parseFloat(list.get("area").toString()));
+//                                e.setDescription(list.get("description").toString());
+//                                e.setPrice(list.get("price").toString());
+//                                e.setHouse_id(list.get("house_id").toString());
+//                                db.collection("House").document(e.getHouse_id())
+//                                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                                    @Override
+//                                    public void onComplete(@NonNull Task<DocumentSnapshot> task1) {
+//                                        if(task1.isSuccessful()){
+//                                            e.setAddress(task1.getResult().getData().get("address").toString());
+//                                            listRoomFragment.receiveData(e);
+//                                        }else{
+//                                        }
+//                                    }
+//                                });
+//                            }
+//                        } else {
+//
+//                        }
+//                    }
+//                });
+//    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

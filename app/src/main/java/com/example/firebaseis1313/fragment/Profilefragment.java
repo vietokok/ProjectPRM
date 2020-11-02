@@ -107,7 +107,7 @@ public class Profilefragment extends Fragment {
         displayName=view.findViewById(R.id.etDisplayName);
         phone=view.findViewById(R.id.etPhone);
         email=view.findViewById(R.id.etEmail);
-        avatar=view.findViewById(R.id.imgAvatar);
+        avatar=view.findViewById(R.id.imgHostAvatar);
 
         if(onFragmentInteractionListener.isLogin()){
             SharedPreferences sharedPreferences = getContext().getSharedPreferences("isLogin", MODE_PRIVATE);

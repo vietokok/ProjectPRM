@@ -3,9 +3,13 @@ package com.example.firebaseis1313.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.firebaseis1313.R;
@@ -26,12 +30,26 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ReviewActivity extends AppCompatActivity {
     private ListView listViewComment;
     private ArrayList<Review> listReview;
-    private RatingBar ratingBar;
+
     private FirebaseFirestore db;
-    private RatingBar ratingBar1;
+
+    private RatingBar ratingBar_user;
+    private TextView tvRoomTitle;
+    private CircleImageView hostAvatar;
+    private TextView userName;
+    private RatingBar ratingBar_room;
+    private EditText etComment;
+    private CircleImageView userAvatar;
+
+    private Button delete;
+    private Button add;
+
+
 
     //add adapter
     private ReviewAdapter reviewAdapter;
@@ -42,6 +60,18 @@ public class ReviewActivity extends AppCompatActivity {
 
         db=FirebaseFirestore.getInstance();
         listViewComment=findViewById(R.id.list_review);
+        ratingBar_room=findViewById(R.id.ratingBar_room);
+        tvRoomTitle=findViewById(R.id.tvRoomTitle);
+        hostAvatar=findViewById(R.id.imgHostAvatar);
+        userName=findViewById(R.id.tvUserName);
+        ratingBar_user=findViewById(R.id.ratingBar_user);
+        etComment=findViewById(R.id.etComment);
+        userAvatar=findViewById(R.id.userAvatar);
+
+        delete=findViewById(R.id.btn_delete);
+        add=findViewById(R.id.btn_comment);
+
+        
 
 
         listReview =new ArrayList<>();
@@ -63,21 +93,24 @@ public class ReviewActivity extends AppCompatActivity {
                                 final Review review=new Review();
                                 review.setContent(list.get("content").toString());
                                 review.setRate(Float.parseFloat(list.get("rate").toString()));
-
-                                db.collection("User").document(list.get("user_id").toString()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull final Task<DocumentSnapshot> task) {
-                                        if(task.isSuccessful()){
-                                            ArrayList<String> listImageUrl=(ArrayList<String>)task.getResult().get("url");
-                                            User user =new User();
-                                            user.setName(task.getResult().get("displayName").toString());
-                                            user.setUrlImage(listImageUrl.get(0));
-                                            review.setUser(user);
-                                            listReview.add(review);
-                                            reviewAdapter.notifyDataSetChanged();
+                                String user_id=list.get("user_id").toString();
+                                SharedPreferences sharedPreferences =getSharedPreferences("isLogin", MODE_PRIVATE);
+                                String result = sharedPreferences.getString("userId", null);
+                                if(user_id.equals(result)==false){
+                                    db.collection("User").document(list.get("user_id").toString()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull final Task<DocumentSnapshot> task) {
+                                            if(task.isSuccessful()){
+                                                User user =new User();
+                                                user.setDisplayName(task.getResult().get("displayName").toString());
+                                                user.setPhotoUrl(task.getResult().get("photoUrl").toString());
+                                                review.setUser(user);
+                                                listReview.add(review);
+                                                reviewAdapter.notifyDataSetChanged();
+                                            }
                                         }
-                                    }
-                                });
+                                    });
+                                }
                             }
                         } else {
 

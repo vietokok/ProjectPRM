@@ -6,24 +6,29 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <ImageView
+
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/userAvatar"
         android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:layout_height="150dp"
+        android:src="@drawable/img1"
+        app:civ_border_color="#FF000000"
+        app:civ_border_width="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/comment_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="100dp"
+        android:layout_height="150dp"
         android:layout_weight="1">
 
         <RatingBar
             android:id="@+id/other_rating"
             style="?android:attr/ratingBarStyleSmall"
-            android:layout_width="87dp"
-            android:layout_height="18dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:isIndicator="true"
             android:numStars="5"
             android:stepSize="0.1"
@@ -37,30 +42,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="TextView"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.07"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/etComment"
-            android:layout_width="206dp"
-            android:layout_height="73dp"
-            android:layout_marginBottom="4dp"
-            android:autofillHints="@string/hint_add_comment"
-            android:ems="10"
-            android:hint="@string/hint_add_comment"
-            android:inputType="textMultiLine"
-            android:lines="8"
+        <TextView
+            android:id="@+id/tvOtherComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.226"
+            app:layout_constraintHorizontal_bias="0.07"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/other_rating"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toBottomOf="@+id/other_rating" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

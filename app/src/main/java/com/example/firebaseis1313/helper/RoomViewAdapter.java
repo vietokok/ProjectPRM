@@ -14,7 +14,9 @@ import com.example.firebaseis1313.R;
 import com.example.firebaseis1313.entity.Room;
 import com.squareup.picasso.Picasso;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class RoomViewAdapter extends BaseAdapter {
     private Activity activity;
@@ -69,23 +71,14 @@ public class RoomViewAdapter extends BaseAdapter {
         addrress=constraintLayout.findViewById(R.id.tvAddress);
         Room room =listRoom.get(position);
         descresption.setText("\t*"+room.getDescription());
-        String validatePrice="";
-        String db_price=room.getPrice();
-        int index=-1;
-        for(int i=room.getPrice().length()-1;i>=0;i--){
-            index++;
-            validatePrice+=db_price.charAt(i);
-            if(index==2 && i!=0){
-                validatePrice+=".";
-                index=-1;
-            }
+        Locale localeVN = new Locale("vi", "VN");
+        NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
+        String formatMoneyMin = currencyVN.format(room.getPrice());
 
-        }
-        String reverse = new StringBuffer(validatePrice).reverse().toString();
-        reverse=reverse+"VND/tháng";
-        price.setText(reverse);
-        addrress.setText(room.getAddress());
-        Picasso.get().load(room.getImageUrl()).into(imageView);
+
+        price.setText(formatMoneyMin);
+        addrress.setText(room.getHome().getAddress());
+        Picasso.get().load(room.getImage().getListImageUrl().get(0)).into(imageView);
 
         return convertView;
     }

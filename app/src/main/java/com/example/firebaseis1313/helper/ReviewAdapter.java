@@ -19,6 +19,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ReviewAdapter extends BaseAdapter {
     private Activity activity;
     private ArrayList<Review> listReview;
@@ -46,11 +48,11 @@ public class ReviewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ImageView imageView;
+        CircleImageView imageView;
 
         ConstraintLayout constraintLayout;
         TextView userName;
-        EditText comment;
+        TextView comment;
 
         RatingBar other_rating;
         if(convertView == null){
@@ -62,19 +64,20 @@ public class ReviewAdapter extends BaseAdapter {
 
         }
         else{
-            imageView = (ImageView) convertView.getTag(R.id.userAvatar);
+            imageView = (CircleImageView) convertView.getTag(R.id.userAvatar);
             constraintLayout = (ConstraintLayout) convertView.getTag(R.id.comment_layout);
         }
         userName=constraintLayout.findViewById(R.id.tvUserNameComment);
-        comment=constraintLayout.findViewById(R.id.etComment);
+        comment=constraintLayout.findViewById(R.id.tvOtherComment);
         other_rating=constraintLayout.findViewById(R.id.other_rating);
 
 
+
         Review review=listReview.get(position);
-        userName.setText(review.getUser().getUserName());
+        userName.setText(review.getUser().getDisplayName());
         comment.setText(review.getContent());
         other_rating.setRating(review.getRate());
-        Picasso.get().load(review.getUser().getUrlImage()).into(imageView);
+        Picasso.get().load(review.getUser().getPhotoUrl()).into(imageView);
         return convertView;
     }
 }

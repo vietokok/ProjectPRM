@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.firebaseis1313.R;
+import com.example.firebaseis1313.entity.Home;
+import com.example.firebaseis1313.entity.Image;
 import com.example.firebaseis1313.entity.Room;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -86,17 +88,24 @@ public class HomeFragment extends Fragment {
                                     public void onComplete(@NonNull final Task<DocumentSnapshot> task) {
                                         if(task.isSuccessful()){
                                             ArrayList<String> listImageUrl=(ArrayList<String>)task.getResult().get("url");
-                                            e.setImageUrl(listImageUrl.get(0));
-                                            e.setAcreage(Float.parseFloat(list.get("area").toString()));
+                                            Image image =new Image();
+                                            image.setId(list.get("image_id").toString());
+                                            image.setListImageUrl(listImageUrl);
+                                            e.setImage(image);
+
+                                            e.setArea(Float.parseFloat(list.get("area").toString()));
                                             e.setDescription(list.get("description").toString());
-                                            e.setPrice(list.get("price").toString());
-                                            e.setHouse_id(list.get("home_id").toString());
-                                            db.collection("Home").document(e.getHouse_id())
+
+                                            e.setPrice(Float.parseFloat(list.get("price").toString()));
+                                            final Home home =new Home();
+                                            home.setId(list.get("home_id").toString());
+                                            db.collection("Home").document(list.get("home_id").toString())
                                                     .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<DocumentSnapshot> task1) {
                                                     if (task1.isSuccessful()) {
-                                                        e.setAddress(task1.getResult().getData().get("address").toString());
+                                                        home.setAddress(task1.getResult().getData().get("address").toString());
+                                                        e.setHome(home);
                                                         ListRoomFragment listRoomFragment = (ListRoomFragment) getChildFragmentManager().findFragmentById(R.id.list_room_frag);
                                                         listRoomFragment.receiveData(e);
                                                     } else {

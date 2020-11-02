@@ -5,7 +5,7 @@ public class Home {
     String address;
     int available_room;
     float distance;
-    String host_id;
+    Host host;
     String latitude;
     String longitude;
     int total_room;
@@ -45,12 +45,12 @@ public class Home {
         this.distance = distance;
     }
 
-    public String getHost_id() {
-        return host_id;
+    public Host getHost() {
+        return host;
     }
 
-    public void setHost_id(String host_id) {
-        this.host_id = host_id;
+    public void setHost(Host host) {
+        this.host = host;
     }
 
     public String getLatitude() {

@@ -9,8 +9,8 @@ public class Room {
     int available_room;
     String description;
     String createdTime;
-    String home_id;
-    String image_id;
+    Home home;
+    Image image;
     float price;
     String title;
     int total_room;
@@ -58,20 +58,20 @@ public class Room {
         this.createdTime = createdTime;
     }
 
-    public String getHome_id() {
-        return home_id;
+    public Home getHome() {
+        return home;
     }
 
-    public void setHome_id(String home_id) {
-        this.home_id = home_id;
+    public void setHome(Home home) {
+        this.home = home;
     }
 
-    public String getImage_id() {
-        return image_id;
+    public Image getImage() {
+        return image;
     }
 
-    public void setImage_id(String image_id) {
-        this.image_id = image_id;
+    public void setImage(Image image) {
+        this.image = image;
     }
 
     public float getPrice() {

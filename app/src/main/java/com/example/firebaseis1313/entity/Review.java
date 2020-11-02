@@ -5,8 +5,8 @@ public class Review {
     String content;
     String createdTime;
     float rate;
-    String room_id;
-    String user_id;
+    Room room;
+    User user;
 
     public Review() {
     }
@@ -43,19 +43,19 @@ public class Review {
         this.rate = rate;
     }
 
-    public String getRoom_id() {
-        return room_id;
+    public Room getRoom() {
+        return room;
     }
 
-    public void setRoom_id(String room_id) {
-        this.room_id = room_id;
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
-    public String getUser_id() {
-        return user_id;
+    public User getUser() {
+        return user;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

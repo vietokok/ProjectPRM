@@ -19,6 +19,8 @@ import android.widget.Button;
 import com.example.firebaseis1313.R;
 import com.example.firebaseis1313.activity.LoginActivity;
 import com.example.firebaseis1313.activity.ReviewActivity;
+import com.example.firebaseis1313.entity.Home;
+import com.example.firebaseis1313.entity.Image;
 import com.example.firebaseis1313.entity.Room;
 import com.example.firebaseis1313.helper.OnFragmentInteractionListener;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -80,28 +82,30 @@ public class SavedFragment extends Fragment  {
                                 if(task.isSuccessful()){
                                     final Map<String, Object> list = task.getResult().getData();
                                     final Room e = new Room();
-                                    e.setAcreage(Float.parseFloat(list.get("area").toString()));
+                                    e.setArea(Float.parseFloat(list.get("area").toString()));
                                     e.setDescription(list.get("description").toString());
-                                    e.setPrice(list.get("price").toString());
-                                    e.setHouse_id(list.get("home_id").toString());
+                                    e.setPrice(Float.parseFloat(list.get("price").toString()));
+                                    final Home home=new Home();
+                                    home.setId(list.get("home_id").toString());
+
                                     // from room_id get room and get image_id from room to get image_url From table Image
                                     db.collection("Image").document(list.get("image_id").toString()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                         @Override
                                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                             if(task.isSuccessful()){
                                                 ArrayList<String> listImageUrl=(ArrayList<String>)task.getResult().get("url");
-                                                e.setImageUrl(listImageUrl.get(0));
-                                                e.setAcreage(Float.parseFloat(list.get("area").toString()));
-                                                e.setDescription(list.get("description").toString());
-                                                e.setPrice(list.get("price").toString());
-                                                e.setHouse_id(list.get("home_id").toString());
+                                                Image image=new Image();
+                                                image.setListImageUrl(listImageUrl);
+                                                e.setImage(image);
+
                                                 //From home_id from room get address from Home Table
-                                                db.collection("Home").document(e.getHouse_id())
+                                                db.collection("Home").document(home.getId())
                                                         .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<DocumentSnapshot> task1) {
                                                         if (task1.isSuccessful()) {
-                                                            e.setAddress(task1.getResult().getData().get("address").toString());
+                                                            home.setAddress(task1.getResult().getData().get("address").toString());
+                                                            e.setHome(home);
                                                             ListRoomFragment listRoomFragment = (ListRoomFragment) getChildFragmentManager().findFragmentById(R.id.list_room_saved);
                                                             listRoomFragment.receiveData(e);
                                                         } else {
