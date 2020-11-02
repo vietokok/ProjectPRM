@@ -92,10 +92,8 @@ public class HomeFragment extends Fragment {
                                             image.setId(list.get("image_id").toString());
                                             image.setListImageUrl(listImageUrl);
                                             e.setImage(image);
-
                                             e.setArea(Float.parseFloat(list.get("area").toString()));
                                             e.setDescription(list.get("description").toString());
-
                                             e.setPrice(Float.parseFloat(list.get("price").toString()));
                                             final Home home =new Home();
                                             home.setId(list.get("home_id").toString());

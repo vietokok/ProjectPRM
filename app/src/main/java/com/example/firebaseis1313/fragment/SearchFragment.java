@@ -20,6 +20,8 @@ import android.widget.Toast;
 import com.example.firebaseis1313.R;
 import com.example.firebaseis1313.activity.FindActivity;
 import com.example.firebaseis1313.activity.FindByPriceActivity;
+import com.example.firebaseis1313.entity.Home;
+import com.example.firebaseis1313.entity.Image;
 import com.example.firebaseis1313.entity.Room;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -55,8 +57,16 @@ public class SearchFragment extends Fragment {
     public static int RESULT_CODE = 200;
     private ProgressBar progressBar;
     public ListRoomFragment listRoomFragment;
-    int price;
-    int area;
+    int minPrice = 0;
+    int maxPrice= 6000000;
+    int distance  = 30;
+    int area = 50;
+
+    boolean havePrice=false;
+    boolean haveDistance=false;
+    boolean haveArea=false;
+
+
     FirebaseFirestore db;
     private ArrayList<Room> list_room;
 
@@ -131,79 +141,43 @@ public class SearchFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(view.getRootView().getContext(), FindActivity.class);
                 intent.putExtra("type", "3");
-
                 startActivityForResult(intent, REQUEST_CODE);
             }
         });
-        System.out.println("!23");
+
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
 
-//    public void setList_room(int type, int value){
-//        String field = null;
-//        if(type == 1) {
-//           field = "price";
-//        }
-//        if(type == 2){
-//            field = "acreage";
-//        }
-//        if(type == 3){
-//            field = "distan";
-//        }
-//        final ArrayList<Room> rooms = new ArrayList<>();
-//        db.collection("Motel")
-//                .whereLessThanOrEqualTo(field, value)
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull final Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (final QueryDocumentSnapshot document : task.getResult()) {
-//                                Map<String,Object> list=document.getData();
-//                                final Room e =new Room();
-//                                e.setId(document.getId());
-//                                ArrayList a = (ArrayList) list.get("image_id");
-//                                e.setImageUrl(a.get(0).toString());
-//                                e.setAcreage(Float.parseFloat(list.get("area").toString()));
-//                                e.setDescription(list.get("description").toString());
-//                                e.setPrice(list.get("price").toString());
-//                                e.setHouse_id(list.get("house_id").toString());
-//                                db.collection("House").document(e.getHouse_id())
-//                                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                                    @Override
-//                                    public void onComplete(@NonNull Task<DocumentSnapshot> task1) {
-//                                        if(task1.isSuccessful()){
-//                                            e.setAddress(task1.getResult().getData().get("address").toString());
-//                                            listRoomFragment.receiveData(e);
-//                                        }else{
-//                                        }
-//                                    }
-//                                });
-//                            }
-//                        } else {
-//
-//                        }
-//                    }
-//                });
-//    }
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_CODE && resultCode == RESULT_CODE){
             listRoomFragment.clearData();
-            //value is area or distance
-            final int value = data.getIntExtra("value",0);
+
+            //type = search for price
             final String type = data.getStringExtra("type");
             final String textValue = data.getStringExtra("textValue");
-            // min max for price
-            final int min = data.getIntExtra("min",0);
-            final int max = data.getIntExtra("max",0);
-            //type = search for price
             if(type.equals("1")){
+                // min max for price
+                minPrice = data.getIntExtra("min",minPrice);
+                maxPrice = data.getIntExtra("max",maxPrice);
+                havePrice = true;
                 btnPrice.setText(textValue);
-
-            }if(type.equals("2")){
+            }
+            if(type.equals("2")){
+                haveArea = true;
+                area = data.getIntExtra("area",area);
                 btnArea.setText(textValue);
+            }
+            if(type.equals("3")){
+                haveDistance = true;
+                distance = data.getIntExtra("distance",distance);
+                btnDistance.setText(textValue);
             }
             this.progressBar.setIndeterminate(true);
             Thread thread = new Thread(new Runnable() {
@@ -214,7 +188,7 @@ public class SearchFragment extends Fragment {
                             progressBar.setVisibility(View.VISIBLE);
                         }
                     });
-
+                    setListRoom(minPrice,maxPrice,area,distance);
                     SystemClock.sleep(3000);
                     progressBar.setIndeterminate(false);
                     progressBar.setMax(1);
@@ -224,14 +198,91 @@ public class SearchFragment extends Fragment {
                         @Override
                         public void run() {
                             progressBar.setVisibility(View.INVISIBLE);
-                            //setListByPrice(min, max);
-                            //setList_room(Integer.parseInt(type),max);
+                           // setList_room(minPrice,maxPrice,area,distance);
                         }
                     });
                 }
             });
             thread.start();
         }
+    }
+
+
+    public void setListRoom(int min, int max , final float areaa, final float distancee){
+            db.collection("Motel")
+                    .whereGreaterThanOrEqualTo("price", min)
+                    .whereLessThanOrEqualTo("price", max).orderBy("price")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (final QueryDocumentSnapshot document : task.getResult()) {
+                                    final Map<String, Object> list = document.getData();
+                                    final Room e = new Room();
+                                    e.setId(document.getId());
+                                    db.collection("Image").document(list.get("image_id").toString()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull final Task<DocumentSnapshot> task) {
+                                            if(task.isSuccessful()){
+                                                ArrayList<String> listImageUrl=(ArrayList<String>)task.getResult().get("url");
+                                                Image image =new Image();
+                                                image.setId(list.get("image_id").toString());
+                                                image.setListImageUrl(listImageUrl);
+                                                e.setImage(image);
+                                                e.setArea(Float.parseFloat(list.get("area").toString()));
+                                                e.setDescription(list.get("description").toString());
+                                                e.setPrice(Float.parseFloat(list.get("price").toString()));
+                                                final Home home =new Home();
+                                                home.setId(list.get("home_id").toString());
+                                                db.collection("Home").document(list.get("home_id").toString())
+                                                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<DocumentSnapshot> task1) {
+                                                        if (task1.isSuccessful()) {
+                                                            home.setAddress(task1.getResult().getData().get("address").toString());
+                                                            home.setDistance(Float.parseFloat(task1.getResult().getData().get("distance").toString()));
+
+                                                            if(haveArea == true && haveDistance == false) {
+                                                                    if(e.getArea() <= areaa ){
+                                                                        e.setHome(home);
+                                                                        ListRoomFragment listRoomFragment = (ListRoomFragment) getChildFragmentManager().findFragmentById(R.id.list_room_frag_k);
+                                                                        listRoomFragment.receiveData(e);
+                                                                    }
+                                                                }
+                                                            if(haveArea == false && haveDistance == true){
+                                                                    if(home.getDistance() <= distancee){
+                                                                        e.setHome(home);
+                                                                        ListRoomFragment listRoomFragment = (ListRoomFragment) getChildFragmentManager().findFragmentById(R.id.list_room_frag_k);
+                                                                        listRoomFragment.receiveData(e);
+                                                                    }
+                                                                }
+                                                            if(haveArea == true && haveDistance == true) {
+                                                                if (home.getDistance() <= distancee && e.getArea() <= areaa) {
+                                                                    e.setHome(home);
+                                                                    ListRoomFragment listRoomFragment = (ListRoomFragment) getChildFragmentManager().findFragmentById(R.id.list_room_frag_k);
+                                                                    listRoomFragment.receiveData(e);
+                                                                }
+                                                            }
+                                                            if(haveArea != true && haveDistance != true) {
+                                                                e.setHome(home);
+                                                                ListRoomFragment listRoomFragment = (ListRoomFragment) getChildFragmentManager().findFragmentById(R.id.list_room_frag_k);
+                                                                listRoomFragment.receiveData(e);
+                                                            }
+                                                        } else {
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    });
+                                }
+                            } else {
+
+                            }
+                        }
+                    });
+
     }
 
 
