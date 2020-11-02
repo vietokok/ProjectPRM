@@ -6,13 +6,19 @@ public class User {
     String password;
     String phone;
     String urlImage;
+    String userName;
 
-    public User(String id, String name, String password, String phone, String urlImage) {
-        this.id = id;
-        this.name = name;
-        this.password = password;
-        this.phone = phone;
-        this.urlImage = urlImage;
+
+    public User() {
+
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getId() {

@@ -43,10 +43,10 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etAvatar"></TextView>
+            app:layout_constraintTop_toBottomOf="@+id/imgAvatar"></TextView>
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/etAvatar"
+            android:id="@+id/imgAvatar"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="16dp"

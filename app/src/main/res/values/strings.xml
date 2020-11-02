@@ -24,4 +24,9 @@
     <string name="new_post">Bài mới đăng</string>
     <string name="address">"Địa chỉ: "</string>
     <string name="save_post">Bài đã lưu</string>
+    <string name="name_home">Tên trọ</string>
+    <string name="comment_text">Đánh giá</string>
+    <string name="hint_add_comment">Add comment</string>
+    <string name="add_comment">Đánh giá</string>
+    <string name="btn_delete">Xóa</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.example.firebaseis1313.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -16,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.firebaseis1313.R;
+import com.example.firebaseis1313.activity.LoginActivity;
+import com.example.firebaseis1313.activity.ReviewActivity;
 import com.example.firebaseis1313.entity.Room;
 import com.example.firebaseis1313.helper.OnFragmentInteractionListener;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -50,6 +53,9 @@ public class SavedFragment extends Fragment  {
     private ArrayList<Room> saved_room;
     private OnFragmentInteractionListener onFragmentInteractionListener;
 //    private OnFragmentInteractionListener mListtener;
+
+    // test button
+    private Button testReview;
 
     private FirebaseFirestore db;
 
@@ -164,7 +170,7 @@ public class SavedFragment extends Fragment  {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 //        btn=view.findViewById(R.id.button);
 //        btn.setOnClickListener(new View.OnClickListener() {
@@ -174,6 +180,18 @@ public class SavedFragment extends Fragment  {
 //            }
 //        });
         // Doan login dang suy nghi nen bo di
+
+        // test--- review //
+        testReview =view.findViewById(R.id.button_test_save);
+        testReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(view.getContext(), ReviewActivity.class);
+                startActivity(intent);
+            }
+        });
+        //--///
+
             if(onFragmentInteractionListener.isLogin()){
                 SharedPreferences sharedPreferences = getContext().getSharedPreferences("isLogin", MODE_PRIVATE);
                 String result = sharedPreferences.getString("userId", null);
