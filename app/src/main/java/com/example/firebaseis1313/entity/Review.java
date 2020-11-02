@@ -1,32 +1,23 @@
 package com.example.firebaseis1313.entity;
 
 public class Review {
+    String id;
     String content;
-    String dateTime;
+    String createdTime;
     float rate;
     String room_id;
-    String reviewId;
-    User user;
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
+    String user_id;
 
     public Review() {
     }
 
-    public String getReviewId() {
-        return reviewId;
+    public String getId() {
+        return id;
     }
 
-    public void setReviewId(String reviewId) {
-        this.reviewId = reviewId;
+    public void setId(String id) {
+        this.id = id;
     }
-
 
     public String getContent() {
         return content;
@@ -36,12 +27,12 @@ public class Review {
         this.content = content;
     }
 
-    public String getDateTime() {
-        return dateTime;
+    public String getCreatedTime() {
+        return createdTime;
     }
 
-    public void setDateTime(String dateTime) {
-        this.dateTime = dateTime;
+    public void setCreatedTime(String createdTime) {
+        this.createdTime = createdTime;
     }
 
     public float getRate() {
@@ -58,5 +49,13 @@ public class Review {
 
     public void setRoom_id(String room_id) {
         this.room_id = room_id;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 }
