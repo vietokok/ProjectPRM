@@ -37,17 +37,6 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener {
-
-
-//Load Image from an url
-    private View createTabItemView(String imgUri) {
-        ImageView imageView = new ImageView(this);
-        TabLayout.LayoutParams params = new TabLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        imageView.setLayoutParams(params);
-        Picasso.get().load("https://www.gstatic.com/webp/gallery/4.sm.jpg").into(imageView);
-        return imageView;
-    }
-
     private ViewPager viewPager;
     private TabLayout tabLayout;
     //Fragement
@@ -70,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         db=FirebaseFirestore.getInstance();
-//        sdasdasdasdasdasd
+        System.out.println("Main runnnnnnnnnnnnnnnn");
         viewPager=findViewById(R.id.view_page);
         tabLayout=findViewById(R.id.tab_layout);
 
@@ -99,14 +88,11 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         }else {
             viewPageApdater.addFragment(loginFragment, getString(R.string.account));
         }
-
-
             viewPageApdater.addFragment(midmanFragment, getString(R.string.saved));
 
         // add to tab_layout
         // Đối vs
         viewPager.setAdapter(viewPageApdater);
-//        viewPager.setPagingEnabled(false);
         tabLayout.getTabAt(0).setIcon(R.drawable.home);
         tabLayout.getTabAt(1).setIcon(R.drawable.search);
         tabLayout.getTabAt(2).setIcon(R.drawable.user);
@@ -141,20 +127,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         return result;
     }
 
-    @Override
-    public void changeToSave() {
-//
-//        ViewPageAdapter viewPageApdater =new ViewPageAdapter(getSupportFragmentManager(),0);
-//        viewPageApdater.addFragment(homeFragment,getString(R.string.saved));
-//        viewPageApdater.addFragment(searchFragment,getString(R.string.saved));
-//        viewPageApdater.addFragment(loginFragment,getString(R.string.saved));
-//        viewPageApdater.addFragment(loginFragment,getString(R.string.saved));
-//        viewPager.setAdapter(viewPageApdater);
-//        tabLayout.getTabAt(0).setIcon(R.drawable.home);
-//        tabLayout.getTabAt(1).setIcon(R.drawable.search);
-//        tabLayout.getTabAt(2).setIcon(R.drawable.user);
-//        tabLayout.getTabAt(3).setIcon(R.drawable.apartment);
-    }
+
 
 }
 

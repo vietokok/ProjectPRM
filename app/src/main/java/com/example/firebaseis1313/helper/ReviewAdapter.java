@@ -78,6 +78,7 @@ public class ReviewAdapter extends BaseAdapter {
         comment.setText(review.getContent());
         other_rating.setRating(review.getRate());
         Picasso.get().load(review.getUser().getPhotoUrl()).into(imageView);
+
         return convertView;
     }
 }

@@ -80,6 +80,8 @@ public class RoomViewAdapter extends BaseAdapter {
         addrress.setText(room.getHome().getAddress());
         Picasso.get().load(room.getImage().getListImageUrl().get(0)).into(imageView);
 
+
+
         return convertView;
     }
 }

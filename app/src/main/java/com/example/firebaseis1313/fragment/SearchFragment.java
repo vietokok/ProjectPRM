@@ -144,12 +144,14 @@ public class SearchFragment extends Fragment {
                 startActivityForResult(intent, REQUEST_CODE);
             }
         });
+    
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
 
     }
 

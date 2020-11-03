@@ -131,6 +131,7 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        System.out.println("Home runnnnn");
         setListRoom(view);
         super.onViewCreated(view, savedInstanceState);
     }

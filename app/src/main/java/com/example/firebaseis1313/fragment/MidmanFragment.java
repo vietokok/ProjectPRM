@@ -72,12 +72,15 @@ public class MidmanFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_midman, container, false);
+
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        System.out.println("Midman runnnnn");
         LoginFragment loginFragment=new LoginFragment();
         SavedFragment savedFragment=new SavedFragment();
 

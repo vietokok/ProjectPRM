@@ -55,6 +55,10 @@ public class LoginActivity extends AppCompatActivity {
                                     SharedPreferences.Editor editor =getSharedPreferences("isLogin", Context.MODE_PRIVATE).edit();
                                     editor.putBoolean("isLogin", true);
                                     editor.putString("userId",task.getResult().getDocuments().get(0).getId());
+                                    editor.putString("userAvatar",task.getResult().getDocuments().get(0).get("photoUrl").toString());
+                                    editor.putString("userDisplayName",task.getResult().getDocuments().get(0).get("displayName").toString());
+                                    editor.putString("userName",task.getResult().getDocuments().get(0).get("username").toString());
+                                    editor.putString("userPassword",task.getResult().getDocuments().get(0).get("password").toString());
                                     editor.commit();
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     intent.putExtra("loginStatus","current");
@@ -77,6 +81,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 System.out.println("123");
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+
                 startActivity(intent);
             }
         });

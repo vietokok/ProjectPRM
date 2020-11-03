@@ -67,7 +67,7 @@ public class SavedFragment extends Fragment  {
     }
 
 
-    public void setListRoom(final View view,String userId) {
+    public void setListRoom(String userId) {
     // From user get ListSave
         db.collection("User").document(userId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -176,6 +176,7 @@ public class SavedFragment extends Fragment  {
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        System.out.println("Save runnnnnnnnnnnn");
 //        btn=view.findViewById(R.id.button);
 //        btn.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -199,7 +200,7 @@ public class SavedFragment extends Fragment  {
             if(onFragmentInteractionListener.isLogin()){
                 SharedPreferences sharedPreferences = getContext().getSharedPreferences("isLogin", MODE_PRIVATE);
                 String result = sharedPreferences.getString("userId", null);
-                setListRoom(view,result);
+                setListRoom(result);
             }
 
     }
