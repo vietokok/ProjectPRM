@@ -9,13 +9,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.firebaseis1313.R;
+import com.squareup.picasso.Picasso;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
+
+import java.util.ArrayList;
 
 public class ImageActivity extends AppCompatActivity {
     private Button btnExit;
     CarouselView carouselView;
-    int[] sampleImages;
+    ArrayList<String> images;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,11 +27,19 @@ public class ImageActivity extends AppCompatActivity {
 
         carouselView = findViewById(R.id.carouselView);
         btnExit = findViewById(R.id.btnExit);
+
         Intent intent = getIntent();
-        sampleImages = intent.getIntArrayExtra("images");
+        images = intent.getStringArrayListExtra("images");
         int index = intent.getIntExtra("imageIndex", 0);
-        carouselView.setPageCount(4);
+
+        ImageListener imageListener = new ImageListener() {
+            @Override
+            public void setImageForPosition(int position, ImageView imageView) {
+                Picasso.get().load(images.get(position)).into(imageView);
+            }
+        };
         carouselView.setImageListener(imageListener);
+        carouselView.setPageCount(images.size());
         carouselView.setCurrentItem(index);
 
         btnExit.setOnClickListener(new View.OnClickListener() {
@@ -40,10 +51,5 @@ public class ImageActivity extends AppCompatActivity {
             }
         });
     }
-    ImageListener imageListener = new ImageListener() {
-        @Override
-        public void setImageForPosition(int position, ImageView imageView) {
-            imageView.setImageResource(sampleImages[position]);
-        }
-    };
+
 }

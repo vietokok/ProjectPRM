@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.firebaseis1313.R;
+import com.example.firebaseis1313.activity.DetailActivity;
 import com.example.firebaseis1313.helper.OnFragmentInteractionListener;
 import com.example.firebaseis1313.main.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -55,6 +56,7 @@ public class Profilefragment extends Fragment {
     private String mParam2;
 
     private Button btnLogout;
+    private Button btnTest;
 
     public Profilefragment() {
         // Required empty public constructor
@@ -103,6 +105,14 @@ public class Profilefragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         btnLogout = view.findViewById(R.id.btnLogout);
+        btnTest = view.findViewById(R.id.test);
+        btnTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(view.getContext(), DetailActivity.class);
+                startActivity(intent);
+            }
+        });
         db=FirebaseFirestore.getInstance();
 
         displayName=view.findViewById(R.id.etDisplayName);
@@ -159,7 +169,9 @@ public class Profilefragment extends Fragment {
         });
     }
 
+    public void onTest(View view){
 
+    }
 
 
 }
