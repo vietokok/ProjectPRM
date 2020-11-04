@@ -74,7 +74,7 @@ public class SavedFragment extends Fragment  {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()){
                     ArrayList<String> list_room_id = (ArrayList<String>) task.getResult().get("listSaveRoom");
-                    for (String room_id: list_room_id) {
+                    for (final String room_id: list_room_id) {
                         // From List Saved Get room_id
                         db.collection("Motel").document(room_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
@@ -85,6 +85,7 @@ public class SavedFragment extends Fragment  {
                                     e.setArea(Float.parseFloat(list.get("area").toString()));
                                     e.setDescription(list.get("description").toString());
                                     e.setPrice(Float.parseFloat(list.get("price").toString()));
+                                    e.setId(room_id);
                                     final Home home=new Home();
                                     home.setId(list.get("home_id").toString());
 
@@ -184,19 +185,6 @@ public class SavedFragment extends Fragment  {
 //                mListtener.setSavedRoom();
 //            }
 //        });
-        // Doan login dang suy nghi nen bo di
-
-        // test--- review //
-        testReview =view.findViewById(R.id.button_test_save);
-        testReview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(view.getContext(), ReviewActivity.class);
-                intent.putExtra("room_id","GlunKVfS4kej6zXLjY2X");
-                startActivity(intent);
-            }
-        });
-        //--///
 
             if(onFragmentInteractionListener.isLogin()){
                 SharedPreferences sharedPreferences = getContext().getSharedPreferences("isLogin", MODE_PRIVATE);

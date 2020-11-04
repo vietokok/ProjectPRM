@@ -28,8 +28,10 @@ import com.example.firebaseis1313.entity.Review;
 import com.example.firebaseis1313.entity.Room;
 import com.example.firebaseis1313.entity.User;
 import com.example.firebaseis1313.fragment.ListRoomFragment;
+import com.example.firebaseis1313.helper.OnFragmentInteractionListener;
 import com.example.firebaseis1313.helper.ReviewAdapter;
 import com.example.firebaseis1313.helper.RoomViewAdapter;
+import com.example.firebaseis1313.main.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -66,76 +68,67 @@ public class ReviewActivity extends AppCompatActivity {
 
     private String room_id;
     private String userId;
-
     float starOfRoom;
 //    float totalStar=0;
     //add adapter
     private ReviewAdapter reviewAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
-        starOfRoom=0;
-        db=FirebaseFirestore.getInstance();
-        listViewComment=findViewById(R.id.list_review);
-        ratingBar_room=findViewById(R.id.ratingBar_room);
-        tvRoomTitle=findViewById(R.id.tvRoomTitle);
-        hostAvatar=findViewById(R.id.imgHostAvatar);
+        MainActivity m=new MainActivity();
 
-        ratingBar_user=findViewById(R.id.ratingBar_user);
-        etComment=findViewById(R.id.etComment);
-
-        userAvatar=findViewById(R.id.userAvatar);
-        userName=findViewById(R.id.tvUserName);
-
-        add=findViewById(R.id.btn_comment);
-
+            starOfRoom=0;
+            db=FirebaseFirestore.getInstance();
+            listViewComment=findViewById(R.id.list_review);
+            ratingBar_room=findViewById(R.id.ratingBar_room);
+            tvRoomTitle=findViewById(R.id.tvRoomTitle);
+            hostAvatar=findViewById(R.id.imgHostAvatar);
+            ratingBar_user=findViewById(R.id.ratingBar_user);
+            etComment=findViewById(R.id.etComment);
+            userAvatar=findViewById(R.id.userAvatar);
+            userName=findViewById(R.id.tvUserName);
+            add=findViewById(R.id.btn_comment);
 //        delete=findViewById(R.id.btn_delete);
-        add=findViewById(R.id.btn_comment);
-
-        //get user_id
-        SharedPreferences sharedPreferences =getSharedPreferences("isLogin", MODE_PRIVATE);
-        userId = sharedPreferences.getString("userId", null);
-
-
-
-
-        Intent intent=getIntent();
-        room_id=intent.getStringExtra("room_id");
-        setRoomTitle(room_id);
-
-
-        // add list to ListView and adapter
-        listReview =new ArrayList<>();
-        reviewAdapter=new ReviewAdapter(ReviewActivity.this,listReview);
+            add=findViewById(R.id.btn_comment);
+            //get user_id
+            SharedPreferences sharedPreferences =getSharedPreferences("isLogin", MODE_PRIVATE);
+            userId = sharedPreferences.getString("userId", null);
+            Intent intent=getIntent();
+            room_id=intent.getStringExtra("room_id");
+            setRoomTitle(room_id);
+            // add list to ListView and adapter
+            listReview =new ArrayList<>();
+            reviewAdapter=new ReviewAdapter(ReviewActivity.this,listReview);
 //        ReviewActivity.
-        listViewComment.setAdapter(reviewAdapter);
-        ReviewActivity.setListViewHeightBasedOnItems(listViewComment);
+            listViewComment.setAdapter(reviewAdapter);
+            ReviewActivity.setListViewHeightBasedOnItems(listViewComment);
 
-       // set onClick to delete item where user_id =user_id
-        listViewComment.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               Review review=(Review) listViewComment.getItemAtPosition(position);
+            // set onClick to delete item where user_id =user_id
+            listViewComment.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Review review=(Review) listViewComment.getItemAtPosition(position);
 
-                if(review.getUser().getId().equals(userId)){
-                 clickToDelete(review.getId());
+                    if(review.getUser().getId().equals(userId)){
+                        clickToDelete(review.getId());
+                    }
                 }
-            }
-        });
+            });
 
-        // set onclick for button comment to add comment
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addOnclick();
-                finish();
-                startActivity(getIntent());
-            }
-        });
+            // set onclick for button comment to add comment
+            add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addOnclick();
+                    finish();
+                    startActivity(getIntent());
+                }
+            });
 
-        setUserProfile();
-        setListReivew(room_id);
+            setUserProfile();
+            setListReivew(room_id);
 
     }
 
@@ -250,7 +243,6 @@ public class ReviewActivity extends AppCompatActivity {
     }
 
     void setListReivew(String room_id){
-
         db.collection("Review").whereEqualTo("room_id",room_id)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -288,13 +280,9 @@ public class ReviewActivity extends AppCompatActivity {
                             }
                             ratingBar_room.setRating(totalStar/totalReview);
                         } else {
-
                         }
                     }
                 });
-
-
-
     }
 
 }

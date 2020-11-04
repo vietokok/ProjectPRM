@@ -9,7 +9,6 @@
 
 
 <androidx.constraintlayout.widget.ConstraintLayout
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.ReviewActivity">
@@ -40,15 +39,15 @@
 
     <TextView
         android:id="@+id/tvRoomTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_width="272dp"
+        android:layout_height="30dp"
         android:layout_marginTop="44dp"
-        android:layout_marginEnd="260dp"
+
+        android:text="6455465465465465465465454564"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.789"
         app:layout_constraintStart_toEndOf="@+id/imgHostAvatar"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,15 +55,14 @@
         android:id="@+id/ratingBar_room"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginEnd="36dp"
         android:isIndicator="true"
         app:layout_constraintBottom_toTopOf="@+id/textView10"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/imgHostAvatar"
         app:layout_constraintTop_toBottomOf="@+id/tvRoomTitle"
-        app:layout_constraintVertical_bias="0.111" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textView10"

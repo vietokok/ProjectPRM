@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        db=FirebaseFirestore.getInstance();
+
         viewPager=findViewById(R.id.view_page);
         tabLayout=findViewById(R.id.tab_layout);
         // Khai báo Activity --------------
@@ -125,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
     @Override
     public void setSavedRoom(String userId) {
+        db=FirebaseFirestore.getInstance();
         System.out.println(userId);
         System.out.println("-------------------------");
         db.collection("User").document(userId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -144,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     public boolean isLogin() {
         SharedPreferences sharedPreferences = getSharedPreferences("isLogin", MODE_PRIVATE);
         boolean result = sharedPreferences.getBoolean("isLogin", false);
+        System.out.println("123");
         return result;
     }
 

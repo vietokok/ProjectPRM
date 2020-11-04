@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.firebaseis1313.R;
 import com.example.firebaseis1313.entity.More;
 import com.example.firebaseis1313.helper.MoreAdapter;
+import com.example.firebaseis1313.main.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -54,6 +55,13 @@ public class DetailActivity extends AppCompatActivity {
     private Drawable notSave;
     private ArrayList<String> listSaveRoom;
     private Button btnComment;
+    private Button btn_back;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.out.println("123123123123123");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +79,14 @@ public class DetailActivity extends AppCompatActivity {
         btnMore = findViewById(R.id.btnMore);
         btnSave = findViewById(R.id.btnSave);
         btnComment = findViewById(R.id.btnComment);
+        btn_back=findViewById(R.id.btnBack);
+
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+    onBackPressed();
+            }
+        });
 
         Intent rootIntent = getIntent();
         final String room_id = rootIntent.getStringExtra("room_id");
@@ -98,14 +114,14 @@ public class DetailActivity extends AppCompatActivity {
         notSave = btnSave.getContext().getResources().getDrawable(R.drawable.ic_outline_bookmark_border_24, null);
 
         SharedPreferences sharedPreferences = getSharedPreferences("isLogin", MODE_PRIVATE);
-        String user_id = sharedPreferences.getString("userId", "");
+        final String user_id = sharedPreferences.getString("userId", "");
         if (user_id != "") {
             db.collection("User").document(user_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     listSaveRoom = (ArrayList<String>) task.getResult().get("listSaveRoom");
                     for (String room : listSaveRoom) {
-                        if (room.equals("5x9wBS8LGwNc31BhOqwJ")) {
+                        if (room.equals(room_id)) {
                             btnSave.setCompoundDrawablesWithIntrinsicBounds(save, null, null, null);
                         } else {
                             btnSave.setCompoundDrawablesWithIntrinsicBounds(notSave, null, null, null);
@@ -126,7 +142,7 @@ public class DetailActivity extends AppCompatActivity {
                     if (btnSave.getCompoundDrawables()[0] == save) {
                         Toast.makeText(DetailActivity.this, "Phòng trọ này đã được lưu", Toast.LENGTH_SHORT).show();
                     } else {
-                        listSaveRoom.add("5x9wBS8LGwNc31BhOqwJ");
+                        listSaveRoom.add(room_id);
                         db.collection("User").document(user_id).update("listSaveRoom", listSaveRoom);
                         btnSave.setCompoundDrawablesWithIntrinsicBounds(save, null, null, null);
                         Toast.makeText(DetailActivity.this, "Lưu thành công", Toast.LENGTH_SHORT).show();
@@ -267,7 +283,10 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     //    back to referer page
-    public void onButtonBackClick(View view) {
+    @Override
+    public void onBackPressed() {
         finish();
+        startActivity(new Intent(this, MainActivity.class));
+
     }
 }
