@@ -66,7 +66,11 @@ public class SearchFragment extends Fragment {
     boolean haveDistance=false;
     boolean haveArea=false;
 
+    String text_price;
+    String text_area;
+    String text_distance;
 
+    boolean isResume=false;
     FirebaseFirestore db;
     private ArrayList<Room> list_room;
 
@@ -144,16 +148,25 @@ public class SearchFragment extends Fragment {
                 startActivityForResult(intent, REQUEST_CODE);
             }
         });
-
-    
+        System.out.println(btnArea.getText());
+        if(isResume) {
+            if(text_price != null) {
+                btnPrice.setText(text_price);
+            }
+            if(text_area != null){
+                btnArea.setText(text_area);
+            }
+            if(text_distance != null) {
+                btnDistance.setText(text_distance);
+            }
+            setListRoom(minPrice, maxPrice, area, distance);
+        }
 
     }
-
     @Override
     public void onResume() {
         super.onResume();
-
-
+        isResume = true;
     }
 
     @Override
@@ -161,53 +174,59 @@ public class SearchFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_CODE && resultCode == RESULT_CODE){
             listRoomFragment.clearData();
+            boolean isChoose = data.getBooleanExtra("check",false);
             //type = search for price
             final String type = data.getStringExtra("type");
             final String textValue = data.getStringExtra("textValue");
             //type 1 get min and max of price
-            if(type.equals("1")){
+            if(type.equals("1") && isChoose){
                 // min max for price
                 minPrice = data.getIntExtra("min",minPrice);
                 maxPrice = data.getIntExtra("max",maxPrice);
                 havePrice = true;
-                btnPrice.setText(textValue);
+                text_price = textValue;
+                btnPrice.setText(text_price);
             }
             //type 2 get value of area
-            if(type.equals("2")){
+            if(type.equals("2") && isChoose){
                 haveArea = true;
                 area = data.getIntExtra("area",area);
-                btnArea.setText(textValue);
+                text_area = textValue;
+                btnArea.setText(text_area);
             }
             //type 3 get value of distance
-            if(type.equals("3")){
+            if(type.equals("3") && isChoose){
                 haveDistance = true;
                 distance = data.getIntExtra("distance",distance);
-                btnDistance.setText(textValue);
+                text_distance = textValue;
+                btnDistance.setText(text_distance);
             }
-            this.progressBar.setIndeterminate(true);
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    handler.post(new Runnable() {
-                        public void run() {
-                            progressBar.setVisibility(View.VISIBLE);
-                        }
-                    });
-                    setListRoom(minPrice,maxPrice,area,distance);
-                    SystemClock.sleep(3000);
-                    progressBar.setIndeterminate(false);
-                    progressBar.setMax(1);
-                    progressBar.setProgress(1);
+            if(isChoose) {
+                this.progressBar.setIndeterminate(true);
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        handler.post(new Runnable() {
+                            public void run() {
+                                progressBar.setVisibility(View.VISIBLE);
+                            }
+                        });
+                        setListRoom(minPrice, maxPrice, area, distance);
+                        SystemClock.sleep(3000);
+                        progressBar.setIndeterminate(false);
+                        progressBar.setMax(1);
+                        progressBar.setProgress(1);
 
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            progressBar.setVisibility(View.INVISIBLE);
-                        }
-                    });
-                }
-            });
-            thread.start();
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                progressBar.setVisibility(View.INVISIBLE);
+                            }
+                        });
+                    }
+                });
+                thread.start();
+            }
         }
     }
 
@@ -276,8 +295,8 @@ public class SearchFragment extends Fragment {
                                                                     listRoomFragment.receiveData(e);
                                                                 }
                                                             }
-                                                            //end search by distance  + price + area
-                                                            //only search by price
+//                                                            //end search by distance  + price + area
+//                                                            //only search by price
                                                             if(haveArea != true && haveDistance != true) {
                                                                 e.setHome(home);
                                                                 ListRoomFragment listRoomFragment = (ListRoomFragment) getChildFragmentManager().findFragmentById(R.id.list_room_frag_k);

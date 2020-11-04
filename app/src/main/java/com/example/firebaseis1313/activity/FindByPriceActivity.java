@@ -31,6 +31,7 @@ public class FindByPriceActivity extends AppCompatActivity {
     Locale localeVN = new Locale("vi", "VN");
     NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
 
+    boolean check = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +73,7 @@ public class FindByPriceActivity extends AppCompatActivity {
                         String formatMoneyMax = currencyVN.format(max);
                         textValue = formatMoneyMin+" - "+formatMoneyMax;
                         txtOnclick.setText(textValue);
+                        check= true;
                     }
                 });
                 break;
@@ -81,6 +83,7 @@ public class FindByPriceActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent myIntent = new Intent();
                 SearchFragment searchFragment = new SearchFragment();
+                myIntent.putExtra("check", check);
                 myIntent.putExtra("type", type);
                 myIntent.putExtra("textValue", textValue);
                 myIntent.putExtra("min", min);

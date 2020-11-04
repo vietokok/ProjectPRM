@@ -29,7 +29,7 @@ public class FindActivity extends AppCompatActivity {
     String textValue="";
     int area ;
     int distance ;
-
+    boolean check = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +67,7 @@ public class FindActivity extends AppCompatActivity {
                         area = seekBar.getProgress();
                         textValue = String.valueOf(area)+ " m2";
                         txtOnclick.setText(textValue);
+                        check= true;
                     }
                     @Override
                     public void onStartTrackingTouch(SeekBar seekBar) {
@@ -93,6 +94,7 @@ public class FindActivity extends AppCompatActivity {
                         distance = seekBar.getProgress();
                         textValue = String.valueOf(distance)+ " km";
                         txtOnclick.setText(textValue);
+                        check= true;
                     }
                     @Override
                     public void onStartTrackingTouch(SeekBar seekBar) {
@@ -111,6 +113,7 @@ public class FindActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent myIntent = new Intent();
                 SearchFragment searchFragment = new SearchFragment();
+                myIntent.putExtra("check", check);
                 myIntent.putExtra("type", type);
                 myIntent.putExtra("area", area);
                 myIntent.putExtra("distance", distance);
