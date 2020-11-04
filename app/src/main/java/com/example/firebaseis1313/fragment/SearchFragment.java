@@ -144,6 +144,7 @@ public class SearchFragment extends Fragment {
                 startActivityForResult(intent, REQUEST_CODE);
             }
         });
+
     
 
     }
@@ -160,10 +161,10 @@ public class SearchFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_CODE && resultCode == RESULT_CODE){
             listRoomFragment.clearData();
-
             //type = search for price
             final String type = data.getStringExtra("type");
             final String textValue = data.getStringExtra("textValue");
+            //type 1 get min and max of price
             if(type.equals("1")){
                 // min max for price
                 minPrice = data.getIntExtra("min",minPrice);
@@ -171,11 +172,13 @@ public class SearchFragment extends Fragment {
                 havePrice = true;
                 btnPrice.setText(textValue);
             }
+            //type 2 get value of area
             if(type.equals("2")){
                 haveArea = true;
                 area = data.getIntExtra("area",area);
                 btnArea.setText(textValue);
             }
+            //type 3 get value of distance
             if(type.equals("3")){
                 haveDistance = true;
                 distance = data.getIntExtra("distance",distance);
@@ -200,7 +203,6 @@ public class SearchFragment extends Fragment {
                         @Override
                         public void run() {
                             progressBar.setVisibility(View.INVISIBLE);
-                           // setList_room(minPrice,maxPrice,area,distance);
                         }
                     });
                 }
@@ -209,8 +211,11 @@ public class SearchFragment extends Fragment {
         }
     }
 
-
+    /*
+    set list room by search for price , area, distance
+    * */
     public void setListRoom(int min, int max , final float areaa, final float distancee){
+        // start get min <= price <= max
             db.collection("Motel")
                     .whereGreaterThanOrEqualTo("price", min)
                     .whereLessThanOrEqualTo("price", max).orderBy("price")
@@ -244,7 +249,8 @@ public class SearchFragment extends Fragment {
                                                         if (task1.isSuccessful()) {
                                                             home.setAddress(task1.getResult().getData().get("address").toString());
                                                             home.setDistance(Float.parseFloat(task1.getResult().getData().get("distance").toString()));
-
+                                                            //end search by price
+                                                            //start search by area  + price
                                                             if(haveArea == true && haveDistance == false) {
                                                                     if(e.getArea() <= areaa ){
                                                                         e.setHome(home);
@@ -252,6 +258,8 @@ public class SearchFragment extends Fragment {
                                                                         listRoomFragment.receiveData(e);
                                                                     }
                                                                 }
+                                                            //end search by area  + price
+                                                            //start search by distance  + price
                                                             if(haveArea == false && haveDistance == true){
                                                                     if(home.getDistance() <= distancee){
                                                                         e.setHome(home);
@@ -259,6 +267,8 @@ public class SearchFragment extends Fragment {
                                                                         listRoomFragment.receiveData(e);
                                                                     }
                                                                 }
+                                                            //end search by distance  + price
+                                                            //start search by distance  + price + area
                                                             if(haveArea == true && haveDistance == true) {
                                                                 if (home.getDistance() <= distancee && e.getArea() <= areaa) {
                                                                     e.setHome(home);
@@ -266,6 +276,8 @@ public class SearchFragment extends Fragment {
                                                                     listRoomFragment.receiveData(e);
                                                                 }
                                                             }
+                                                            //end search by distance  + price + area
+                                                            //only search by price
                                                             if(haveArea != true && haveDistance != true) {
                                                                 e.setHome(home);
                                                                 ListRoomFragment listRoomFragment = (ListRoomFragment) getChildFragmentManager().findFragmentById(R.id.list_room_frag_k);

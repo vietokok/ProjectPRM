@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.firebaseis1313.R;
 import com.example.firebaseis1313.entity.Room;
@@ -89,7 +90,8 @@ public class ListRoomFragment extends Fragment {
         list_view_room.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String s = list_view_room.getItemAtPosition(i).toString();
+                String id = list_room.get(i).getId();
+                //set inten vao day
             }
         });
     }

@@ -83,7 +83,6 @@ public class FindByPriceActivity extends AppCompatActivity {
                 SearchFragment searchFragment = new SearchFragment();
                 myIntent.putExtra("type", type);
                 myIntent.putExtra("textValue", textValue);
-
                 myIntent.putExtra("min", min);
                 myIntent.putExtra("max", max);
                 setResult(searchFragment.RESULT_CODE, myIntent);
