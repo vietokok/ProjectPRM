@@ -74,14 +74,9 @@ public class RoomViewAdapter extends BaseAdapter {
         Locale localeVN = new Locale("vi", "VN");
         NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
         String formatMoneyMin = currencyVN.format(room.getPrice());
-
-
         price.setText(formatMoneyMin);
         addrress.setText(room.getHome().getAddress());
         Picasso.get().load(room.getImage().getListImageUrl().get(0)).into(imageView);
-
-
-
         return convertView;
     }
 }

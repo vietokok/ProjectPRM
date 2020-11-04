@@ -8,23 +8,22 @@
     android:layout_height="match_parent"
     tools:context=".main.MainActivity"
     android:theme="@style/Theme.MaterialComponents.Light"
+    android:fillViewport="true"
     >
+
 
     <androidx.viewpager.widget.ViewPager
 
         android:id="@+id/view_page"
-        android:layout_width="411dp"
-        android:layout_height="684dp"
+        android:layout_width="wrap_content"
+        android:layout_height="680dp"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        app:layout_constraintBottom_toTopOf="@+id/tab_layout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+
+
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-
-
-
-        ></androidx.viewpager.widget.ViewPager>
-
+        app:layout_constraintTop_toTopOf="parent"></androidx.viewpager.widget.ViewPager>
 
     <com.google.android.material.tabs.TabLayout
 
@@ -35,6 +34,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_page"
+        app:layout_constraintVertical_bias="0.0"
         app:tabMode="fixed"></com.google.android.material.tabs.TabLayout>
 
 

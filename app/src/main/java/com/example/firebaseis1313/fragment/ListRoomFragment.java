@@ -1,5 +1,6 @@
 package com.example.firebaseis1313.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,8 +15,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.firebaseis1313.R;
+import com.example.firebaseis1313.activity.DetailActivity;
+import com.example.firebaseis1313.activity.LoginActivity;
 import com.example.firebaseis1313.entity.Room;
 import com.example.firebaseis1313.helper.RoomViewAdapter;
+import com.example.firebaseis1313.main.MainActivity;
 
 import java.util.ArrayList;
 
@@ -90,8 +94,10 @@ public class ListRoomFragment extends Fragment {
         list_view_room.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String id = list_room.get(i).getId();
-                //set inten vao day
+                String room_id = list_room.get(i).getId();
+                Intent intent = new Intent(getContext(), DetailActivity.class);
+                intent.putExtra("room_id",room_id);
+                startActivity(intent);
             }
         });
     }

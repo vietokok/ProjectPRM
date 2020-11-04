@@ -10,9 +10,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.firebaseis1313.R;
 import com.example.firebaseis1313.entity.Room;
@@ -23,6 +25,7 @@ import com.example.firebaseis1313.fragment.MidmanFragment;
 import com.example.firebaseis1313.fragment.Profilefragment;
 import com.example.firebaseis1313.fragment.SavedFragment;
 import com.example.firebaseis1313.fragment.SearchFragment;
+import com.example.firebaseis1313.helper.AsynLogin;
 import com.example.firebaseis1313.helper.OnFragmentInteractionListener;
 import com.example.firebaseis1313.helper.ViewPageAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,6 +42,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener {
     private ViewPager viewPager;
     private TabLayout tabLayout;
+    private TextView textView;
     //Fragement
     private ListRoomFragment listRoomFragment;
     private SearchFragment searchFragment;
@@ -54,15 +58,24 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     private FirebaseFirestore db;
     SharedPreferences onBoardingScreen;
     private  Handler handler = new Handler();
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        SharedPreferences sharedPreferences = getSharedPreferences("isLogin", MODE_PRIVATE);
+//        String result = sharedPreferences.getString("destroy", null);
+//        if(result !=null){
+//            this.finish();
+//        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         db=FirebaseFirestore.getInstance();
-        System.out.println("Main runnnnnnnnnnnnnnnn");
         viewPager=findViewById(R.id.view_page);
         tabLayout=findViewById(R.id.tab_layout);
-
         // Khai báo Activity --------------
         listRoomFragment =new ListRoomFragment();
         searchFragment =new SearchFragment();
@@ -74,39 +87,46 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
         //---------------------
         tabLayout.setupWithViewPager(viewPager);
-        ViewPageAdapter viewPageApdater =new ViewPageAdapter(getSupportFragmentManager(),0);
-        // add to apdater
-        viewPageApdater.addFragment(homeFragment,"Home");
-        viewPageApdater.addFragment(searchFragment,getString(R.string.search));
-        if(isLogin()){
-            SharedPreferences sharedPreferences = getSharedPreferences("isLogin", MODE_PRIVATE);
-            String result = sharedPreferences.getString("userId", null);
-            if(result !=null){
-                setSavedRoom(result);
-            }
-            viewPageApdater.addFragment(profilefragment, getString(R.string.account));
-        }else {
-            viewPageApdater.addFragment(loginFragment, getString(R.string.account));
-        }
-            viewPageApdater.addFragment(midmanFragment, getString(R.string.saved));
+        SharedPreferences sharedPreferences = getSharedPreferences("isLogin", MODE_PRIVATE);
+        String result = sharedPreferences.getString("userId", null);
+        String userName=sharedPreferences.getString("userName",null);
+        String password=sharedPreferences.getString("userPassword",null);
+        new AsynLogin(textView,db,this,homeFragment,searchFragment,listRoomFragment,loginFragment,savedFragment,profilefragment,midmanFragment,viewPager,tabLayout).execute(userName,password,result);
 
-        // add to tab_layout
-        // Đối vs
-        viewPager.setAdapter(viewPageApdater);
-        tabLayout.getTabAt(0).setIcon(R.drawable.home);
-        tabLayout.getTabAt(1).setIcon(R.drawable.search);
-        tabLayout.getTabAt(2).setIcon(R.drawable.user);
-        tabLayout.getTabAt(3).setIcon(R.drawable.apartment);
-        Intent intent = getIntent();
-        String id = intent.getStringExtra("loginStatus");
-        if(id !=null && id.equals("current")){
-            tabLayout.getTabAt(2).select();
-        }
+
+//        ViewPageAdapter viewPageApdater =new ViewPageAdapter(getSupportFragmentManager(),0);
+//        // add to apdater
+//        viewPageApdater.addFragment(homeFragment,"Home");
+//        viewPageApdater.addFragment(searchFragment,getString(R.string.search));
+//        Intent intent = getIntent();
+//        String id = intent.getStringExtra("loginStatus");
+//        if(isLogin()){
+//            if(result !=null){
+//                setSavedRoom(result);
+//            }
+//            viewPageApdater.addFragment(profilefragment, getString(R.string.account));
+//        }else {
+//            viewPageApdater.addFragment(loginFragment, getString(R.string.account));
+//        }
+//            viewPageApdater.addFragment(midmanFragment, getString(R.string.saved));
+//
+//        // add to tab_layout
+//        // Đối vs
+//        viewPager.setAdapter(viewPageApdater);
+//        tabLayout.getTabAt(0).setIcon(R.drawable.home);
+//        tabLayout.getTabAt(1).setIcon(R.drawable.search);
+//        tabLayout.getTabAt(2).setIcon(R.drawable.user);
+//        tabLayout.getTabAt(3).setIcon(R.drawable.apartment);
+
+        // Khi nguoi dung vua login xong
+
     }
 
 
     @Override
     public void setSavedRoom(String userId) {
+        System.out.println(userId);
+        System.out.println("-------------------------");
         db.collection("User").document(userId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {

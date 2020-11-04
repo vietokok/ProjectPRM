@@ -192,6 +192,7 @@ public class SavedFragment extends Fragment  {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(view.getContext(), ReviewActivity.class);
+                intent.putExtra("room_id","GlunKVfS4kej6zXLjY2X");
                 startActivity(intent);
             }
         });

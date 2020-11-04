@@ -126,7 +126,13 @@ public class Profilefragment extends Fragment {
                 SharedPreferences.Editor editor = view.getRootView().getContext().getSharedPreferences("isLogin", Context.MODE_PRIVATE).edit();
                 editor.putBoolean("isLogin", false);
                 editor.putString("userId", "");
+                editor.putString("userAvatar","");
+                editor.putString("userDisplayName","");
+                editor.putString("userName","");
+                editor.putString("userPassword","");
+                editor.putString("destroy","123");
                 editor.commit();
+                getActivity().finish();
                 Intent intent = new Intent(view.getRootView().getContext(), MainActivity.class);
                 startActivity(intent);
             }

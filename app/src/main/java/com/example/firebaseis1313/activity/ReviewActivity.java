@@ -1,3 +1,4 @@
+
 package com.example.firebaseis1313.activity;
 
 import androidx.annotation.NonNull;
@@ -100,8 +101,7 @@ public class ReviewActivity extends AppCompatActivity {
 
 
         Intent intent=getIntent();
-//        room_id=intent.getStringExtra("room_id");
-        room_id="GlunKVfS4kej6zXLjY2X";
+        room_id=intent.getStringExtra("room_id");
         setRoomTitle(room_id);
 
 
