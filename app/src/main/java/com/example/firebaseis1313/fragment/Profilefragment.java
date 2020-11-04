@@ -40,6 +40,7 @@ public class Profilefragment extends Fragment {
     private TextView displayName;
     private TextView phone;
     private TextView email;
+    private TextView username;
     private CircleImageView avatar;
     private FirebaseFirestore db;
 
@@ -107,6 +108,7 @@ public class Profilefragment extends Fragment {
         displayName=view.findViewById(R.id.etDisplayName);
         phone=view.findViewById(R.id.etPhone);
         email=view.findViewById(R.id.etEmail);
+        username = view.findViewById(R.id.etUsername);
         avatar=view.findViewById(R.id.imgHostAvatar);
 
         if(onFragmentInteractionListener.isLogin()){
@@ -141,6 +143,7 @@ public class Profilefragment extends Fragment {
                     displayName.setText(list.get("displayName").toString());
                     phone.setText(list.get("phone").toString());
                     email.setText(list.get("email").toString());
+                    username.setText(list.get("username").toString());
                     Picasso.get().load(list.get("photoUrl").toString()).into(avatar);
                 }else{
                     Toast.makeText(getContext(), "Some Thing Wrong", Toast.LENGTH_SHORT).show();
