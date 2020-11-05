@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.firebaseis1313.R;
+import com.example.firebaseis1313.entity.Home;
+import com.example.firebaseis1313.entity.Image;
 import com.example.firebaseis1313.entity.Room;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -60,10 +62,8 @@ public class HomeFragment extends Fragment {
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
-
         return fragment;
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,36 +72,44 @@ public class HomeFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
     public void setListRoom(final View view) {
-        final ArrayList<Room> room = new ArrayList<>();
-        db.collection("Room")
+        db.collection("Motel")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            int z = 0;
                             for (final QueryDocumentSnapshot document : task.getResult()) {
-                                z = z + 1;
-                                Map<String, Object> list = document.getData();
+                                final Map<String, Object> list = document.getData();
                                 final Room e = new Room();
                                 e.setId(document.getId());
-                                ArrayList a = (ArrayList) list.get("image_id");
-                                e.setImageUrl(a.get(0).toString());
-                                e.setAcreage(Float.parseFloat(list.get("acreage").toString()));
-                                e.setDescription(list.get("description").toString());
-                                e.setPrice(list.get("price").toString());
-                                e.setHouse_id(list.get("house_id").toString());
-                                db.collection("House").document(e.getHouse_id())
-                                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                db.collection("Image").document(list.get("image_id").toString()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
-                                    public void onComplete(@NonNull Task<DocumentSnapshot> task1) {
-                                        if (task1.isSuccessful()) {
-                                            e.setAddress(task1.getResult().getData().get("address").toString());
-                                            ListRoomFragment listRoomFragment = (ListRoomFragment) getChildFragmentManager().findFragmentById(R.id.list_room_frag);
-                                            listRoomFragment.receiveData(e);
-                                        } else {
+                                    public void onComplete(@NonNull final Task<DocumentSnapshot> task) {
+                                        if(task.isSuccessful()){
+                                            ArrayList<String> listImageUrl=(ArrayList<String>)task.getResult().get("url");
+                                            Image image =new Image();
+                                            image.setId(list.get("image_id").toString());
+                                            image.setListImageUrl(listImageUrl);
+                                            e.setImage(image);
+                                            e.setArea(Float.parseFloat(list.get("area").toString()));
+                                            e.setDescription(list.get("description").toString());
+                                            e.setPrice(Float.parseFloat(list.get("price").toString()));
+                                            final Home home =new Home();
+                                            home.setId(list.get("home_id").toString());
+                                            db.collection("Home").document(list.get("home_id").toString())
+                                                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task1) {
+                                                    if (task1.isSuccessful()) {
+                                                        home.setAddress(task1.getResult().getData().get("address").toString());
+                                                        e.setHome(home);
+                                                        ListRoomFragment listRoomFragment = (ListRoomFragment) getChildFragmentManager().findFragmentById(R.id.list_room_frag);
+                                                        listRoomFragment.receiveData(e);
+                                                    } else {
+                                                    }
+                                                }
+                                            });
                                         }
                                     }
                                 });
@@ -123,6 +131,7 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        System.out.println("Home runnnnn");
         setListRoom(view);
         super.onViewCreated(view, savedInstanceState);
     }

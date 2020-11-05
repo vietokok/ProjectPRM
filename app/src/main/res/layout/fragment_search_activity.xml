@@ -32,7 +32,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.529"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/etPhone" />
 
     <Button
         android:id="@+id/btnPrice"
@@ -75,7 +75,7 @@
         android:background="@drawable/round_bg"/>
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/etPhone"
         android:layout_width="192dp"
         android:layout_height="30dp"
         android:layout_marginTop="72dp"
@@ -89,8 +89,8 @@
     <fragment
         android:id="@+id/list_room_frag_k"
         android:name="com.example.firebaseis1313.fragment.ListRoomFragment"
-        android:layout_width="410dp"
-        android:layout_height="369dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

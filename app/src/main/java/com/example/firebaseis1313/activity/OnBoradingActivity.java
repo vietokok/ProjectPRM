@@ -103,7 +103,6 @@ public class OnBoradingActivity extends AppCompatActivity {
                 getStarts.setVisibility(View.VISIBLE);
             }
         }
-
         @Override
         public void onPageScrollStateChanged(int state) {
 

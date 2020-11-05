@@ -26,11 +26,10 @@ public class FindActivity extends AppCompatActivity {
     private TextView txtBottom;
     private Button btnApply;
     private Button btnCancel;
-    int value = 0;
     String textValue="";
-    Locale localeVN = new Locale("vi", "VN");
-    NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
-
+    int area ;
+    int distance ;
+    boolean check = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,9 +64,10 @@ public class FindActivity extends AppCompatActivity {
                 seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                        value = seekBar.getProgress();
-                        textValue = String.valueOf(value)+ " m2";
+                        area = seekBar.getProgress();
+                        textValue = String.valueOf(area)+ " m2";
                         txtOnclick.setText(textValue);
+                        check= true;
                     }
                     @Override
                     public void onStartTrackingTouch(SeekBar seekBar) {
@@ -91,9 +91,10 @@ public class FindActivity extends AppCompatActivity {
                 seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                        value = seekBar.getProgress();
-                        textValue = String.valueOf(value)+ " km";
+                        distance = seekBar.getProgress();
+                        textValue = String.valueOf(distance)+ " km";
                         txtOnclick.setText(textValue);
+                        check= true;
                     }
                     @Override
                     public void onStartTrackingTouch(SeekBar seekBar) {
@@ -112,8 +113,10 @@ public class FindActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent myIntent = new Intent();
                 SearchFragment searchFragment = new SearchFragment();
+                myIntent.putExtra("check", check);
                 myIntent.putExtra("type", type);
-                myIntent.putExtra("value", value);
+                myIntent.putExtra("area", area);
+                myIntent.putExtra("distance", distance);
                 myIntent.putExtra("textValue", textValue);
                 setResult(searchFragment.RESULT_CODE, myIntent);
                 finish();

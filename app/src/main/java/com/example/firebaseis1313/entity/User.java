@@ -1,18 +1,19 @@
 package com.example.firebaseis1313.entity;
 
+import java.util.ArrayList;
+
 public class User {
     String id;
-    String name;
-    String password;
+    String username;
+    String email;
+    ArrayList<String> listSaveRoom;
     String phone;
-    String urlImage;
+    String photoUrl;
+    String displayName;
+    String password;
 
-    public User(String id, String name, String password, String phone, String urlImage) {
-        this.id = id;
-        this.name = name;
-        this.password = password;
-        this.phone = phone;
-        this.urlImage = urlImage;
+    public User() {
+
     }
 
     public String getId() {
@@ -23,20 +24,28 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getEmail() {
+        return email;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public ArrayList<String> getListSaveRoom() {
+        return listSaveRoom;
+    }
+
+    public void setListSaveRoom(ArrayList<String> listSaveRoom) {
+        this.listSaveRoom = listSaveRoom;
     }
 
     public String getPhone() {
@@ -47,11 +56,27 @@ public class User {
         this.phone = phone;
     }
 
-    public String getUrlImage() {
-        return urlImage;
+    public String getPhotoUrl() {
+        return photoUrl;
     }
 
-    public void setUrlImage(String urlImage) {
-        this.urlImage = urlImage;
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
