@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.firebaseis1313.R;
 import com.example.firebaseis1313.entity.More;
+import com.example.firebaseis1313.helper.AsynLogin;
 import com.example.firebaseis1313.helper.MoreAdapter;
 import com.example.firebaseis1313.main.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -57,6 +58,8 @@ public class DetailActivity extends AppCompatActivity {
     private Button btnComment;
     private Button btn_back;
 
+    private boolean isSaved;
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -88,6 +91,8 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
+        isSaved=false;
+
         Intent rootIntent = getIntent();
         final String room_id = rootIntent.getStringExtra("room_id");
 
@@ -114,20 +119,24 @@ public class DetailActivity extends AppCompatActivity {
         notSave = btnSave.getContext().getResources().getDrawable(R.drawable.ic_outline_bookmark_border_24, null);
 
         SharedPreferences sharedPreferences = getSharedPreferences("isLogin", MODE_PRIVATE);
-        final String user_id = sharedPreferences.getString("userId", "");
+        String user_id = sharedPreferences.getString("userId", "");
         if (user_id != "") {
             db.collection("User").document(user_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    listSaveRoom = (ArrayList<String>) task.getResult().get("listSaveRoom");
-                    for (String room : listSaveRoom) {
-                        if (room.equals(room_id)) {
-                            btnSave.setCompoundDrawablesWithIntrinsicBounds(save, null, null, null);
-                        } else {
-                            btnSave.setCompoundDrawablesWithIntrinsicBounds(notSave, null, null, null);
+                    if(task.isComplete()){
+                        listSaveRoom = (ArrayList<String>) task.getResult().get("listSaveRoom");
+                          btnSave.setCompoundDrawablesWithIntrinsicBounds(notSave, null, null, null);
+                          if(listSaveRoom.size()>=1){
+                              for (String room : listSaveRoom) {
+                                  if (room.equals(room_id)) {
+                                      btnSave.setCompoundDrawablesWithIntrinsicBounds(save, null, null, null);
+                                      break;
+                                  }
+                              }
+                          }
                         }
                     }
-                }
             });
         } else {
             btnSave.setCompoundDrawablesWithIntrinsicBounds(notSave, null, null, null);
@@ -168,7 +177,6 @@ public class DetailActivity extends AppCompatActivity {
                     txtArea.setText("   " + "Diện tích " + task.getResult().get("area").toString() + "m2");
                     txtTitle.setText(task.getResult().get("title").toString());
                     txtDetail.setText(String.valueOf(task.getResult().get("description")));
-
                     String home_id = (String) task.getResult().get("home_id");
                     db.collection("Home").document(home_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
@@ -178,7 +186,6 @@ public class DetailActivity extends AppCompatActivity {
 
                                 geo = (HashMap) task.getResult().get("location");
                                 txtAddress.setText("   " + task.getResult().get("address").toString());
-
                                 db.collection("Host").document(host_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull final Task<DocumentSnapshot> task) {
@@ -196,10 +203,8 @@ public class DetailActivity extends AppCompatActivity {
                                                     moreList.add(new More(1, "Gọi điện"));
                                                     moreList.add(new More(2, "Nhắn tin"));
                                                     moreList.add(new More(3, "Chỉ đường"));
-
                                                     moreAdapter = new MoreAdapter(DetailActivity.this, moreList);
                                                     AlertDialog.Builder builderSingle = new AlertDialog.Builder(DetailActivity.this);
-
                                                     builderSingle.setAdapter(moreAdapter, new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(DialogInterface dialog, int which) {
@@ -232,9 +237,7 @@ public class DetailActivity extends AppCompatActivity {
                                     }
                                 });
 
-
 //                                Picasso.get().load("").into(imageView);
-
 //                                open MapsActivity
                                 imageView.setOnClickListener(new View.OnClickListener() {
                                     @Override
@@ -249,7 +252,6 @@ public class DetailActivity extends AppCompatActivity {
                             }
                         }
                     });
-
 //                    load image to carousel
                     String image_id = (String) task.getResult().get("image_id");
                     db.collection("Image").document(image_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -282,11 +284,20 @@ public class DetailActivity extends AppCompatActivity {
         });
     }
 
-    //    back to referer page
+
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         finish();
-        startActivity(new Intent(this, MainActivity.class));
-
+        Intent getData=getIntent();
+        int currentTab=getData.getIntExtra("indexOfCurrentTab",0);
+        Intent intent = new Intent(DetailActivity.this, MainActivity.class);
+        intent.putExtra("selectedTab", currentTab);
+        // Dung tam
+        intent.putExtra("detailMess","DetailBack");
+        // Sau khi update detail
+        intent.putExtra("isSaved",isSaved);
+        // Cho Khac Viet de toi uu
+        startActivity(intent);
     }
 }

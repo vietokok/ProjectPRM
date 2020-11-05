@@ -56,6 +56,10 @@ public class AsynLogin extends AsyncTask<String, Void, String> {
     private ViewPager viewPager;
     private TabLayout tabLayout;
 
+
+    public AsynLogin() {
+    }
+
     public AsynLogin(TextView textView, FirebaseFirestore db, MainActivity mainActivity, HomeFragment homeFragment, SearchFragment searchFragment, ListRoomFragment listRoomFragment, LoginFragment loginFragment, SavedFragment savedFragment, Profilefragment profilefragment, MidmanFragment midmanFragment, ViewPager viewPager, TabLayout tabLayout) {
 
         this.textView = textView;
@@ -111,7 +115,7 @@ public class AsynLogin extends AsyncTask<String, Void, String> {
         });
         return null;
     }
-
+// 1 la da dang nhap 2 la chua
     void  setTabLayout(int type,String user_id){
         ViewPageAdapter viewPageApdater =new ViewPageAdapter(mainActivity.getSupportFragmentManager(),0);
         // add to apdater
@@ -149,4 +153,6 @@ public class AsynLogin extends AsyncTask<String, Void, String> {
         // Hiển thị IP lên TextView.
 //        textView.setText(aString);
     }
+
+
 }
