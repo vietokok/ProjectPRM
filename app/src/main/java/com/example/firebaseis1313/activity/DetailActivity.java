@@ -58,7 +58,10 @@ public class DetailActivity extends AppCompatActivity {
     private TextView txtComment;
     private Button btn_back;
 
-    private boolean isSaved;
+    private boolean isFirstTime;
+    private boolean isSecondTime;
+
+    private boolean isChange;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +88,7 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
-        isSaved = false;
+
 
         Intent rootIntent = getIntent();
         final String room_id = rootIntent.getStringExtra("room_id");
@@ -130,9 +133,13 @@ public class DetailActivity extends AppCompatActivity {
                     if (task.isComplete()) {
                         listSaveRoom = (ArrayList<String>) task.getResult().get("listSaveRoom");
                         btnSave.setCompoundDrawablesWithIntrinsicBounds(notSave, null, null, null);
+                        isFirstTime=false;
+                        isSecondTime=isFirstTime;
                         if (listSaveRoom.size() >= 1) {
                             for (String room : listSaveRoom) {
                                 if (room.equals(room_id)) {
+                                    isFirstTime=true;
+                                    isSecondTime=isFirstTime;
                                     btnSave.setCompoundDrawablesWithIntrinsicBounds(save, null, null, null);
                                     break;
                                 }
@@ -152,13 +159,13 @@ public class DetailActivity extends AppCompatActivity {
                 String user_id = sharedPreferences.getString("userId", "");
                 if (user_id != "") {
                     if (btnSave.getCompoundDrawables()[0] == save) {
-                        isSaved = false;
+                        isSecondTime = false;
                         listSaveRoom.remove(listSaveRoom.indexOf(room_id));
                         db.collection("User").document(user_id).update("listSaveRoom", listSaveRoom);
                         btnSave.setCompoundDrawablesWithIntrinsicBounds(notSave, null, null, null);
                         Toast.makeText(DetailActivity.this, "Bỏ lưu thành công", Toast.LENGTH_SHORT).show();
                     } else {
-                        isSaved = true;
+                        isSecondTime = true;
                         listSaveRoom.add(room_id);
                         db.collection("User").document(user_id).update("listSaveRoom", listSaveRoom);
                         btnSave.setCompoundDrawablesWithIntrinsicBounds(save, null, null, null);
@@ -311,7 +318,11 @@ public class DetailActivity extends AppCompatActivity {
         String user_id = sharedPreferences.getString("userId", "");
         Intent myIntent = new Intent();
         MainActivity m = new MainActivity();
-        myIntent.putExtra("isSaved", isSaved);
+        if(isFirstTime != isSecondTime){
+            myIntent.putExtra("isChange", true);
+        }else{
+            myIntent.putExtra("isChange", false);
+        }
         myIntent.putExtra("userId", user_id);
         setResult(m.RESULT_CODE, myIntent);
         finish();

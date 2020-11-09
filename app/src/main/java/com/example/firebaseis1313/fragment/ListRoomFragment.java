@@ -83,21 +83,16 @@ public class ListRoomFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        System.out.println(requestCode);
-        System.out.println(REQUEST_CODE);
-        System.out.println(resultCode);
-        System.out.println(RESULT_CODE);
-        //String userId=data.getStringExtra("userId");
-       // System.out.println(userId);
         if(requestCode == REQUEST_CODE && resultCode == RESULT_CODE){
-            System.out.println("Save run da");
-            boolean isSaved =data.getBooleanExtra("isSaved",false);
+            boolean isSaved =data.getBooleanExtra("isChange",false);
             String userId=data.getStringExtra("userId");
+            System.out.println(isSaved);
             if(isSaved==true){
                 db.collection("User").document(userId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.isSuccessful()){
+                            System.out.println("4");
                             ArrayList<String> list_room_Id=(ArrayList<String>)  task.getResult().get("listSaveRoom");
                             BadgeDrawable badgeDrawable = tabLayout.getTabAt(3).getOrCreateBadge();
                             badgeDrawable.setVisible(true);

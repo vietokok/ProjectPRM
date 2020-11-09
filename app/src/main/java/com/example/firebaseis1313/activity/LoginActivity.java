@@ -27,7 +27,6 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private TextView tvRegister;
     private FirebaseFirestore db;
-    private DatabaseReference mDatabase;
     private TextView tvForgot;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
