@@ -24,6 +24,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageClickListener;
@@ -54,15 +55,10 @@ public class DetailActivity extends AppCompatActivity {
     private Drawable save;
     private Drawable notSave;
     private ArrayList<String> listSaveRoom;
-    private Button btnComment;
+    private TextView txtComment;
     private Button btn_back;
 
     private boolean isSaved;
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,39 +75,48 @@ public class DetailActivity extends AppCompatActivity {
         txtDetail = findViewById(R.id.txtDetail);
         btnMore = findViewById(R.id.btnMore);
         btnSave = findViewById(R.id.btnSave);
-        btnComment = findViewById(R.id.btnComment);
-        btn_back=findViewById(R.id.btnBack);
+        txtComment = findViewById(R.id.txtComment);
+        btn_back = findViewById(R.id.btnBack);
 
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-    onBackPressed();
+                onBackPressed();
             }
         });
 
-        isSaved=false;
+        isSaved = false;
 
         Intent rootIntent = getIntent();
         final String room_id = rootIntent.getStringExtra("room_id");
 
-        btnComment.setOnClickListener(new View.OnClickListener() {
+        db = FirebaseFirestore.getInstance();
+
+        db.collection("Review").whereEqualTo("room_id", room_id).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onClick(View v) {
-                SharedPreferences sharedPreferences = getSharedPreferences("isLogin", MODE_PRIVATE);
-                String user_id = sharedPreferences.getString("userId", "");
-                if (user_id != "") {
-                    Intent intent = new Intent(DetailActivity.this, ReviewActivity.class);
-                    intent.putExtra("room_id", room_id);
-                    startActivity(intent);
-                } else {
-                    Intent intent = new Intent(DetailActivity.this, LoginActivity.class);
-                    startActivity(intent);
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    txtComment.setText("Xem đánh giá và nhận xét (" + task.getResult().size() + ")");
                 }
             }
         });
 
+        txtComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences sharedPreferences = getSharedPreferences("isLogin", MODE_PRIVATE);
+                String user_id = sharedPreferences.getString("userId", "");
+                Intent intent;
+                if (user_id != "") {
+                    intent = new Intent(DetailActivity.this, ReviewActivity.class);
+                    intent.putExtra("room_id", room_id);
+                } else {
+                    intent = new Intent(DetailActivity.this, LoginActivity.class);
+                }
+                startActivity(intent);
+            }
+        });
 
-        db = FirebaseFirestore.getInstance();
 
         save = btnSave.getContext().getResources().getDrawable(R.drawable.ic_baseline_bookmark_24, null);
         notSave = btnSave.getContext().getResources().getDrawable(R.drawable.ic_outline_bookmark_border_24, null);
@@ -122,19 +127,19 @@ public class DetailActivity extends AppCompatActivity {
             db.collection("User").document(user_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if(task.isComplete()){
+                    if (task.isComplete()) {
                         listSaveRoom = (ArrayList<String>) task.getResult().get("listSaveRoom");
-                          btnSave.setCompoundDrawablesWithIntrinsicBounds(notSave, null, null, null);
-                          if(listSaveRoom.size()>=1){
-                              for (String room : listSaveRoom) {
-                                  if (room.equals(room_id)) {
-                                      btnSave.setCompoundDrawablesWithIntrinsicBounds(save, null, null, null);
-                                      break;
-                                  }
-                              }
-                          }
+                        btnSave.setCompoundDrawablesWithIntrinsicBounds(notSave, null, null, null);
+                        if (listSaveRoom.size() >= 1) {
+                            for (String room : listSaveRoom) {
+                                if (room.equals(room_id)) {
+                                    btnSave.setCompoundDrawablesWithIntrinsicBounds(save, null, null, null);
+                                    break;
+                                }
+                            }
                         }
                     }
+                }
             });
         } else {
             btnSave.setCompoundDrawablesWithIntrinsicBounds(notSave, null, null, null);
@@ -147,9 +152,13 @@ public class DetailActivity extends AppCompatActivity {
                 String user_id = sharedPreferences.getString("userId", "");
                 if (user_id != "") {
                     if (btnSave.getCompoundDrawables()[0] == save) {
-                        Toast.makeText(DetailActivity.this, "Phòng trọ này đã được lưu", Toast.LENGTH_SHORT).show();
+                        isSaved = false;
+                        listSaveRoom.remove(listSaveRoom.indexOf(room_id));
+                        db.collection("User").document(user_id).update("listSaveRoom", listSaveRoom);
+                        btnSave.setCompoundDrawablesWithIntrinsicBounds(notSave, null, null, null);
+                        Toast.makeText(DetailActivity.this, "Bỏ lưu thành công", Toast.LENGTH_SHORT).show();
                     } else {
-                        isSaved=true;
+                        isSaved = true;
                         listSaveRoom.add(room_id);
                         db.collection("User").document(user_id).update("listSaveRoom", listSaveRoom);
                         btnSave.setCompoundDrawablesWithIntrinsicBounds(save, null, null, null);
@@ -175,7 +184,17 @@ public class DetailActivity extends AppCompatActivity {
                     txtPrice.setText(currencyVN.format(price) + " / " + "tháng");
                     txtArea.setText("   " + "Diện tích " + task.getResult().get("area").toString() + "m2");
                     txtTitle.setText(task.getResult().get("title").toString());
-                    txtDetail.setText(String.valueOf(task.getResult().get("description")));
+                    String detail = String.valueOf(task.getResult().get("description"));
+                    String[] split = detail.split("@");
+                    if (split.length < 2) {
+                        txtDetail.setText(detail);
+                    } else {
+                        String result = "";
+                        for (String string : split) {
+                            result += string + "\n";
+                        }
+                        txtDetail.setText(result);
+                    }
                     String home_id = (String) task.getResult().get("home_id");
                     db.collection("Home").document(home_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
@@ -236,8 +255,10 @@ public class DetailActivity extends AppCompatActivity {
                                     }
                                 });
 
-//                                Picasso.get().load("").into(imageView);
-//                                open MapsActivity
+                                Picasso.get().load("https://maps.googleapis.com/maps/api/staticmap?center=" +
+                                        geo.get("lat") + "," + geo.get("long") + "&zoom=17&size=600x400&markers=color%3Ared%7C" +
+                                        geo.get("lat") + "%2C" + geo.get("long") + "&key=AIzaSyA3kg7YWugGl1lTXmAmaBGPNhDW9pEh5bo").into(imageView);
+//
                                 imageView.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -289,9 +310,9 @@ public class DetailActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("isLogin", MODE_PRIVATE);
         String user_id = sharedPreferences.getString("userId", "");
         Intent myIntent = new Intent();
-        MainActivity m=new MainActivity();
-        myIntent.putExtra("isSaved",isSaved);
-        myIntent.putExtra("userId",user_id);
+        MainActivity m = new MainActivity();
+        myIntent.putExtra("isSaved", isSaved);
+        myIntent.putExtra("userId", user_id);
         setResult(m.RESULT_CODE, myIntent);
         finish();
         super.onBackPressed();
