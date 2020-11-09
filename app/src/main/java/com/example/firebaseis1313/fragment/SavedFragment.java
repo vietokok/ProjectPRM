@@ -162,7 +162,6 @@ public class SavedFragment extends Fragment  {
         // Inflate the layout for this fragment
         saved_room=new ArrayList<>();
         db = FirebaseFirestore.getInstance();
-
         return inflater.inflate(R.layout.fragment_saved_activity, container, false);
     }
 
@@ -177,16 +176,8 @@ public class SavedFragment extends Fragment  {
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        System.out.println("Save runnnnnnnnnnnn");
-//        btn=view.findViewById(R.id.button);
-//        btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mListtener.setSavedRoom();
-//            }
-//        });
-
             if(onFragmentInteractionListener.isLogin()){
+                System.out.println("Running");
                 SharedPreferences sharedPreferences = getContext().getSharedPreferences("isLogin", MODE_PRIVATE);
                 String result = sharedPreferences.getString("userId", null);
                 setListRoom(result);

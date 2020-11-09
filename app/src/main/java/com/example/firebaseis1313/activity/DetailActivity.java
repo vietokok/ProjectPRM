@@ -61,6 +61,8 @@ public class DetailActivity extends AppCompatActivity {
     private boolean isFirstTime;
     private boolean isSecondTime;
 
+    private int room_index;
+
     private boolean isChange;
 
     @Override

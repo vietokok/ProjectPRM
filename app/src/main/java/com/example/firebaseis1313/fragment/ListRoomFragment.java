@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,6 +55,8 @@ public class ListRoomFragment extends Fragment {
 
     private FirebaseFirestore db;
 
+    private int room_index;
+
     int Querytype = -1;
 
     // quy dinh 0 : home 1 search 2 dien tich 3 khoang cach 4 saved
@@ -82,17 +85,15 @@ public class ListRoomFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        System.out.println(list_view_room.getSelectedItem());
         if(requestCode == REQUEST_CODE && resultCode == RESULT_CODE){
             boolean isSaved =data.getBooleanExtra("isChange",false);
             String userId=data.getStringExtra("userId");
-            System.out.println(isSaved);
             if(isSaved==true){
                 db.collection("User").document(userId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.isSuccessful()){
-                            System.out.println("4");
                             ArrayList<String> list_room_Id=(ArrayList<String>)  task.getResult().get("listSaveRoom");
                             BadgeDrawable badgeDrawable = tabLayout.getTabAt(3).getOrCreateBadge();
                             badgeDrawable.setVisible(true);
@@ -100,7 +101,23 @@ public class ListRoomFragment extends Fragment {
                         }
                     }
                 });
+                Fragment frg = null;
+                frg = getParentFragment();
+
+                if(frg.getView().getRootView().findViewById(R.id.saveFragment) != null){
+//                    list_room.clear();
+//                    room_view_apdapter = new RoomViewAdapter(getActivity(), list_room);
+//                    list_view_room.setAdapter(room_view_apdapter);
+                   final FragmentTransaction ft = frg.getFragmentManager().beginTransaction();
+                   ft.detach(frg);
+                   ft.attach(frg);
+                   ft.commit();
+                }
+
+
+
             }
+
         }
     }
     @Override
@@ -129,6 +146,7 @@ public class ListRoomFragment extends Fragment {
         list_view_room.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                room_index =list_view_room.getSelectedItemPosition();
                 MainActivity m=new MainActivity();
                 String room_id = list_room.get(i).getId();
                 Intent intent = new Intent(view.getRootView().getContext(), DetailActivity.class);

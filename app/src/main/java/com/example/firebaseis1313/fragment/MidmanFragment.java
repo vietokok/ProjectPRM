@@ -85,12 +85,13 @@ public class MidmanFragment extends Fragment {
         SavedFragment savedFragment=new SavedFragment();
 
         if(onFragmentInteractionListener.isLogin()){
-            getChildFragmentManager().beginTransaction()
-                    .add(R.id.mid_man_frag, savedFragment)
+            System.out.println("Midmanrunning");
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.mid_man_frag, savedFragment)
                     .commit();
         }else{
-            getChildFragmentManager().beginTransaction()
-                    .add(R.id.mid_man_frag, loginFragment)
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.mid_man_frag, loginFragment)
                     .commit();
         }
 
