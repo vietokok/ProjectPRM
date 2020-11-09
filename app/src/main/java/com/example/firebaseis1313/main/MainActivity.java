@@ -2,24 +2,14 @@ package com.example.firebaseis1313.main;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.SystemClock;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.firebaseis1313.R;
-import com.example.firebaseis1313.entity.Room;
 import com.example.firebaseis1313.fragment.LoginFragment;
 import com.example.firebaseis1313.fragment.HomeFragment;
 import com.example.firebaseis1313.fragment.ListRoomFragment;
@@ -27,7 +17,6 @@ import com.example.firebaseis1313.fragment.MidmanFragment;
 import com.example.firebaseis1313.fragment.Profilefragment;
 import com.example.firebaseis1313.fragment.SavedFragment;
 import com.example.firebaseis1313.fragment.SearchFragment;
-import com.example.firebaseis1313.helper.AsynLogin;
 import com.example.firebaseis1313.helper.OnFragmentInteractionListener;
 import com.example.firebaseis1313.helper.ViewPageAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,12 +26,12 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener {
+    public static int REQUEST_CODE = 300;
+    public static int RESULT_CODE = 400;
     private ViewPager viewPager;
     private TabLayout tabLayout;
     //Fragement
@@ -58,26 +47,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
     //dv
     private FirebaseFirestore db;
-    SharedPreferences onBoardingScreen;
-    private  Handler handler = new Handler();
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // Dung tam
-        Intent intent = getIntent();
-        int index=intent.getIntExtra("selectedTab",0);
-        String mess=intent.getStringExtra("detailMess");
-        if(mess !=null && mess.equals("DetailBack")){
-            initMain();
-        }
 
-        // Sau khi update detail
-        boolean isSavedFromDeatil=intent.getBooleanExtra("isSaved",false);
-        if(isSavedFromDeatil==true){
-            initMain();
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -97,12 +68,41 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         midmanFragment=new MidmanFragment();
 
         //---------------------
-
-
         ///----
         db=FirebaseFirestore.getInstance();
         initMain();
     }
+
+    public void initMain(){
+        SharedPreferences sharedPreferences = getSharedPreferences("isLogin", MODE_PRIVATE);
+        final String user_id = sharedPreferences.getString("userId", null);
+        String userName=sharedPreferences.getString("userName",null);
+        String password=sharedPreferences.getString("userPassword",null);
+        db.collection("User").whereEqualTo("username", userName).whereEqualTo("password", password).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    if (task.getResult().size() == 1) {
+                        setTabLayout(1,user_id);
+                    } else{
+                        SharedPreferences.Editor editor = getSharedPreferences("isLogin", Context.MODE_PRIVATE).edit();
+                        editor.putBoolean("isLogin", false);
+                        editor.putString("userId", "");
+                        editor.putString("userAvatar","");
+                        editor.putString("userDisplayName","");
+                        editor.putString("userName","");
+                        editor.putString("userPassword","");
+                        editor.commit();
+                        setTabLayout(2,user_id);
+                    }
+                } else {
+                    setTabLayout(2,user_id);
+                }
+            }
+
+        });
+    }
+
 
     void  setTabLayout(int type,String user_id){
         ViewPageAdapter viewPageApdater =new ViewPageAdapter(getSupportFragmentManager(),0);
@@ -137,7 +137,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     }
 
     public void setSavedRoom(String userId) {
-        System.out.println(MainActivity.this.tabLayout);
         db.collection("User").document(userId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -159,35 +158,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         return result;
     }
 
-    public void initMain(){
-        SharedPreferences sharedPreferences = getSharedPreferences("isLogin", MODE_PRIVATE);
-        final String user_id = sharedPreferences.getString("userId", null);
-        String userName=sharedPreferences.getString("userName",null);
-        String password=sharedPreferences.getString("userPassword",null);
-        db.collection("User").whereEqualTo("username", userName).whereEqualTo("password", password).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    if (task.getResult().size() == 1) {
-                        setTabLayout(1,user_id);
-                    } else{
-                        SharedPreferences.Editor editor = getSharedPreferences("isLogin", Context.MODE_PRIVATE).edit();
-                        editor.putBoolean("isLogin", false);
-                        editor.putString("userId", "");
-                        editor.putString("userAvatar","");
-                        editor.putString("userDisplayName","");
-                        editor.putString("userName","");
-                        editor.putString("userPassword","");
-                        editor.commit();
-                        setTabLayout(2,user_id);
-                    }
-                } else {
-                    setTabLayout(2,user_id);
-                }
-            }
-
-        });
-    }
 }
 
 

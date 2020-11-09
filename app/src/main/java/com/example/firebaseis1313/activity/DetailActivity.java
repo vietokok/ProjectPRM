@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.example.firebaseis1313.R;
 import com.example.firebaseis1313.entity.More;
-import com.example.firebaseis1313.helper.AsynLogin;
 import com.example.firebaseis1313.helper.MoreAdapter;
 import com.example.firebaseis1313.main.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -63,7 +62,6 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        System.out.println("123123123123123");
     }
 
     @Override
@@ -151,6 +149,7 @@ public class DetailActivity extends AppCompatActivity {
                     if (btnSave.getCompoundDrawables()[0] == save) {
                         Toast.makeText(DetailActivity.this, "Phòng trọ này đã được lưu", Toast.LENGTH_SHORT).show();
                     } else {
+                        isSaved=true;
                         listSaveRoom.add(room_id);
                         db.collection("User").document(user_id).update("listSaveRoom", listSaveRoom);
                         btnSave.setCompoundDrawablesWithIntrinsicBounds(save, null, null, null);
@@ -287,17 +286,15 @@ public class DetailActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        SharedPreferences sharedPreferences = getSharedPreferences("isLogin", MODE_PRIVATE);
+        String user_id = sharedPreferences.getString("userId", "");
+        Intent myIntent = new Intent();
+        MainActivity m=new MainActivity();
+        myIntent.putExtra("isSaved",isSaved);
+        myIntent.putExtra("userId",user_id);
+        setResult(m.RESULT_CODE, myIntent);
         finish();
-        Intent getData=getIntent();
-        int currentTab=getData.getIntExtra("indexOfCurrentTab",0);
-        Intent intent = new Intent(DetailActivity.this, MainActivity.class);
-        intent.putExtra("selectedTab", currentTab);
-        // Dung tam
-        intent.putExtra("detailMess","DetailBack");
-        // Sau khi update detail
-        intent.putExtra("isSaved",isSaved);
-        // Cho Khac Viet de toi uu
-        startActivity(intent);
+        super.onBackPressed();
+
     }
 }

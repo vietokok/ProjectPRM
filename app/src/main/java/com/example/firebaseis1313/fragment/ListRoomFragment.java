@@ -20,9 +20,17 @@ import com.example.firebaseis1313.activity.LoginActivity;
 import com.example.firebaseis1313.entity.Room;
 import com.example.firebaseis1313.helper.RoomViewAdapter;
 import com.example.firebaseis1313.main.MainActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+
+import static com.example.firebaseis1313.main.MainActivity.REQUEST_CODE;
+import static com.example.firebaseis1313.main.MainActivity.RESULT_CODE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,10 +47,12 @@ public class ListRoomFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    TabLayout tabLayout;
     private RoomViewAdapter room_view_apdapter;
     private ListView list_view_room;
     private ArrayList<Room> list_room;
+
+    private FirebaseFirestore db;
 
     int Querytype = -1;
 
@@ -70,6 +80,35 @@ public class ListRoomFragment extends Fragment {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        System.out.println(requestCode);
+        System.out.println(REQUEST_CODE);
+        System.out.println(resultCode);
+        System.out.println(RESULT_CODE);
+        //String userId=data.getStringExtra("userId");
+       // System.out.println(userId);
+        if(requestCode == REQUEST_CODE && resultCode == RESULT_CODE){
+            System.out.println("Save run da");
+            boolean isSaved =data.getBooleanExtra("isSaved",false);
+            String userId=data.getStringExtra("userId");
+            if(isSaved==true){
+                db.collection("User").document(userId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            ArrayList<String> list_room_Id=(ArrayList<String>)  task.getResult().get("listSaveRoom");
+                            BadgeDrawable badgeDrawable = tabLayout.getTabAt(3).getOrCreateBadge();
+                            badgeDrawable.setVisible(true);
+                            badgeDrawable.setNumber(list_room_Id.size());
+                        }
+                    }
+                });
+            }
+        }
+    }
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
@@ -84,10 +123,10 @@ public class ListRoomFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_list_room, container, false);
     }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        db= FirebaseFirestore.getInstance();
         list_room = new ArrayList<>();
         list_view_room = view.findViewById(R.id.list_room);
         room_view_apdapter = new RoomViewAdapter(getActivity(), list_room);
@@ -95,12 +134,13 @@ public class ListRoomFragment extends Fragment {
         list_view_room.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                MainActivity m=new MainActivity();
                 String room_id = list_room.get(i).getId();
-                Intent intent = new Intent(getContext(), DetailActivity.class);
+                Intent intent = new Intent(view.getRootView().getContext(), DetailActivity.class);
                 intent.putExtra("room_id",room_id);
-                TabLayout tabLayout =view.getRootView().findViewById(R.id.tab_layout);
+                tabLayout =view.getRootView().findViewById(R.id.tab_layout);
                 intent.putExtra("indexOfCurrentTab",tabLayout.getSelectedTabPosition());
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE);
             }
         });
     }
