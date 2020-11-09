@@ -148,19 +148,7 @@ public class SearchFragment extends Fragment {
                 startActivityForResult(intent, REQUEST_CODE);
             }
         });
-        System.out.println(btnArea.getText());
-        if(isResume) {
-            if(text_price != null) {
-                btnPrice.setText(text_price);
-            }
-            if(text_area != null){
-                btnArea.setText(text_area);
-            }
-            if(text_distance != null) {
-                btnDistance.setText(text_distance);
-            }
-            setListRoom(minPrice, maxPrice, area, distance);
-        }
+        resume(isResume);
 
     }
     @Override
@@ -216,7 +204,6 @@ public class SearchFragment extends Fragment {
                         progressBar.setIndeterminate(false);
                         progressBar.setMax(1);
                         progressBar.setProgress(1);
-
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
@@ -230,6 +217,23 @@ public class SearchFragment extends Fragment {
         }
     }
 
+    public void resume(boolean resume){
+        if(resume) {
+            if(text_price != null) {
+                btnPrice.setText(text_price);
+                isResume=false;
+            }
+            if(text_area != null){
+                btnArea.setText(text_area);
+                isResume=false;
+            }
+            if(text_distance != null) {
+                btnDistance.setText(text_distance);
+                isResume=false;
+            }
+            setListRoom(minPrice, maxPrice, area, distance);
+        }
+    }
     /*
     set list room by search for price , area, distance
     * */
@@ -311,12 +315,8 @@ public class SearchFragment extends Fragment {
                                     });
                                 }
                             } else {
-
                             }
                         }
                     });
-
-    }
-
-
+    } 
 }

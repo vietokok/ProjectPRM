@@ -83,13 +83,17 @@ public class FindByPriceActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent myIntent = new Intent();
                 SearchFragment searchFragment = new SearchFragment();
-                myIntent.putExtra("check", check);
-                myIntent.putExtra("type", type);
-                myIntent.putExtra("textValue", textValue);
-                myIntent.putExtra("min", min);
-                myIntent.putExtra("max", max);
-                setResult(searchFragment.RESULT_CODE, myIntent);
-                finish();
+                if(check == false){
+                    finish();
+                }else {
+                    myIntent.putExtra("check", check);
+                    myIntent.putExtra("type", type);
+                    myIntent.putExtra("textValue", textValue);
+                    myIntent.putExtra("min", min);
+                    myIntent.putExtra("max", max);
+                    setResult(searchFragment.RESULT_CODE, myIntent);
+                    finish();
+                }
             }
         });
     }

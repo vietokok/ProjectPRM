@@ -113,13 +113,17 @@ public class FindActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent myIntent = new Intent();
                 SearchFragment searchFragment = new SearchFragment();
-                myIntent.putExtra("check", check);
-                myIntent.putExtra("type", type);
-                myIntent.putExtra("area", area);
-                myIntent.putExtra("distance", distance);
-                myIntent.putExtra("textValue", textValue);
-                setResult(searchFragment.RESULT_CODE, myIntent);
-                finish();
+                if(check == false){
+                    finish();
+                }else {
+                    myIntent.putExtra("check", check);
+                    myIntent.putExtra("type", type);
+                    myIntent.putExtra("area", area);
+                    myIntent.putExtra("distance", distance);
+                    myIntent.putExtra("textValue", textValue);
+                    setResult(searchFragment.RESULT_CODE, myIntent);
+                    finish();
+                }
             }
         });
     }
