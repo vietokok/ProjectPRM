@@ -123,7 +123,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         viewPageApdater.addFragment(homeFragment,"Home");
         viewPageApdater.addFragment(searchFragment,getString(R.string.search));
         Intent intent = getIntent();
-
         if(type==1){
             viewPageApdater.addFragment(profilefragment,getString(R.string.account));
             setSavedRoom(user_id);
@@ -141,7 +140,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         tabLayout.getTabAt(2).setIcon(R.drawable.user);
         tabLayout.getTabAt(3).setIcon(R.drawable.apartment);
 
-        int index=intent.getIntExtra("selectedTab",0);
+        // set current page befor login
+        int index=intent.getIntExtra("currentTab",0);
+        System.out.println("-------------------");
+        System.out.println(index);
         setSelectedTab(index);
     }
 
@@ -151,8 +153,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
     // set total of saved rooom
     public void setSavedRoom(String userId) {
-        System.out.println(userId);
-        System.out.println("-------------------------");
         db.collection("User").document(userId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {

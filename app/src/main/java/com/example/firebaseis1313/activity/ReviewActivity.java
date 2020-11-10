@@ -69,7 +69,7 @@ public class ReviewActivity extends AppCompatActivity {
     private String room_id;
     private String userId;
     float starOfRoom;
-//    float totalStar=0;
+
     //add adapter
     private ReviewAdapter reviewAdapter;
 
@@ -278,7 +278,11 @@ public class ReviewActivity extends AppCompatActivity {
 
                                     });
                             }
-                            ratingBar_room.setRating(totalStar/totalReview);
+                            if(totalReview==0){
+                                ratingBar_room.setVisibility(View.GONE);
+                            }else{
+                                ratingBar_room.setRating(totalStar/totalReview);
+                            }
                         } else {
                         }
                     }

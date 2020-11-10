@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.firebaseis1313.R;
+import com.example.firebaseis1313.entity.Home;
 import com.example.firebaseis1313.main.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -61,7 +62,14 @@ public class LoginActivity extends AppCompatActivity {
                                     editor.putString("userName",task.getResult().getDocuments().get(0).get("username").toString());
                                     editor.putString("userPassword",task.getResult().getDocuments().get(0).get("password").toString());
                                     editor.commit();
-                                   
+
+                                    // Lay cai nay dung bo
+                                    Intent getData=getIntent();
+                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                    intent.putExtra("currentTab",getData.getIntExtra("page_position",0));
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    startActivity(intent);
+
                                 } else {
 
                                     Toast.makeText(LoginActivity.this, "Username or Password is incorrect", Toast.LENGTH_SHORT).show();
