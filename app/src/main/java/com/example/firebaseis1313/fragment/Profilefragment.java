@@ -105,14 +105,6 @@ public class Profilefragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         btnLogout = view.findViewById(R.id.btnLogout);
-        btnTest = view.findViewById(R.id.test);
-        btnTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(view.getContext(), DetailActivity.class);
-                startActivity(intent);
-            }
-        });
         db=FirebaseFirestore.getInstance();
 
         displayName=view.findViewById(R.id.etDisplayName);

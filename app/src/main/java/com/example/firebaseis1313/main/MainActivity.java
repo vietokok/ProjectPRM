@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.example.firebaseis1313.R;
 import com.example.firebaseis1313.fragment.LoginFragment;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     public static int RESULT_CODE = 400;
     private ViewPager viewPager;
     private TabLayout tabLayout;
+    private TextView textView;
     //Fragement
     private ListRoomFragment listRoomFragment;
     private SearchFragment searchFragment;
@@ -50,11 +52,22 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
 
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        SharedPreferences sharedPreferences = getSharedPreferences("isLogin", MODE_PRIVATE);
+//        String result = sharedPreferences.getString("destroy", null);
+//        if(result !=null){
+//            this.finish();
+//        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        db=FirebaseFirestore.getInstance();
         viewPager=findViewById(R.id.view_page);
         tabLayout=findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
@@ -103,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         });
     }
 
-
+// 1la dang nhap roi 2 la chua
     void  setTabLayout(int type,String user_id){
         ViewPageAdapter viewPageApdater =new ViewPageAdapter(getSupportFragmentManager(),0);
         // add to apdater
@@ -136,7 +149,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
             tabLayout.getTabAt(index).select();
     }
 
+    // set total of saved rooom
     public void setSavedRoom(String userId) {
+        System.out.println(userId);
+        System.out.println("-------------------------");
         db.collection("User").document(userId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
