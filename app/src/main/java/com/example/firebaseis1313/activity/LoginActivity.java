@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        btnLogin = findViewById(R.id.btnLogin);
+        btnLogin = findViewById(R.id.btnUpdate);
         etUserName = findViewById(R.id.etAccount);
         etPassword = findViewById(R.id.etPassword);
         tvRegister = findViewById(R.id.tvRegister);
@@ -47,10 +47,12 @@ public class LoginActivity extends AppCompatActivity {
                     db.collection("User").whereEqualTo("username", userName).whereEqualTo("password", password).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            etPassword.setText("");
-                            etUserName.setText("");
+                           
                             if (task.isSuccessful()) {
                                 if (task.getResult().size() == 1) {
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    intent.putExtra("loginStatus","current");
+                                    startActivity(intent);
                                     SharedPreferences.Editor editor =getSharedPreferences("isLogin", Context.MODE_PRIVATE).edit();
                                     editor.putBoolean("isLogin", true);
                                     editor.putString("userId",task.getResult().getDocuments().get(0).getId());
@@ -59,9 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                                     editor.putString("userName",task.getResult().getDocuments().get(0).get("username").toString());
                                     editor.putString("userPassword",task.getResult().getDocuments().get(0).get("password").toString());
                                     editor.commit();
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    intent.putExtra("loginStatus","current");
-                                    startActivity(intent);
+                                   
                                 } else {
 
                                     Toast.makeText(LoginActivity.this, "Username or Password is incorrect", Toast.LENGTH_SHORT).show();

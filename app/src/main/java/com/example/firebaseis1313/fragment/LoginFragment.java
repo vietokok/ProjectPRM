@@ -6,8 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,9 +13,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.firebaseis1313.R;
 import com.example.firebaseis1313.activity.LoginActivity;
-import com.example.firebaseis1313.main.MainActivity;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -78,7 +73,7 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         System.out.println("accoutn run");
-        btnLogin=view.findViewById(R.id.btnLogin);
+        btnLogin=view.findViewById(R.id.btnUpdate);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

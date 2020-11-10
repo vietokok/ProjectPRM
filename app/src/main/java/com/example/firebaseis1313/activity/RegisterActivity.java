@@ -29,12 +29,12 @@ public class  RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        btnRegister = findViewById(R.id.btnLogin);
-        etAccountR = findViewById(R.id.etAccountR);
+        btnRegister = findViewById(R.id.btnUpdate);
+        etAccountR = findViewById(R.id.etAccountP);
         etPasswordR = findViewById(R.id.etPasswordR);
-        etPhoneR = findViewById(R.id.etPhoneR);
+        etPhoneR = findViewById(R.id.etPhoneP);
         etDisplayName = findViewById(R.id.etDisplayNameR);
-        etEmailR = findViewById(R.id.etEmailR);
+        etEmailR = findViewById(R.id.etEmailP);
         firebaseFirestore = FirebaseFirestore.getInstance();
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +67,7 @@ public class  RegisterActivity extends AppCompatActivity {
         }
     }
 
-    private boolean validateUsername(EditText username){
+    public boolean validateUsername(EditText username){
         String regex ="\\A\\w{4,20}\\z";
         if(username.getText().toString().isEmpty()){
             username.setError("Field can't empty!");
@@ -85,7 +85,7 @@ public class  RegisterActivity extends AppCompatActivity {
         }
     }
 
-    private boolean validatePassword(EditText password){
+    public boolean validatePassword(EditText password){
         if(password.getText().toString().isEmpty()){
             password.setError("Field can't empty");
             return false;
@@ -99,7 +99,7 @@ public class  RegisterActivity extends AppCompatActivity {
         }
     }
 
-    private boolean validatePhone(EditText phone){
+    public boolean validatePhone(EditText phone){
         if(phone.getText().toString().isEmpty()){
             phone.setError("Field can't empty");
             return false;
@@ -113,7 +113,7 @@ public class  RegisterActivity extends AppCompatActivity {
         }
     }
 
-    private boolean validateEmail(EditText email){
+    public boolean validateEmail(EditText email){
         String regex = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         if(email.getText().toString().isEmpty()){
             email.setError("Field can't empty!");
