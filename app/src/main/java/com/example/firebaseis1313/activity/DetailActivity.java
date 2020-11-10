@@ -91,8 +91,8 @@ public class DetailActivity extends AppCompatActivity {
         });
 
 
-
         Intent rootIntent = getIntent();
+        final int test = rootIntent.getIntExtra("indexOfCurrentTab", 0);
         final String room_id = rootIntent.getStringExtra("room_id");
 
         db = FirebaseFirestore.getInstance();
@@ -117,6 +117,9 @@ public class DetailActivity extends AppCompatActivity {
                     intent.putExtra("room_id", room_id);
                 } else {
                     intent = new Intent(DetailActivity.this, LoginActivity.class);
+                    intent.putExtra("room_id", room_id);
+                    intent.putExtra("page_position", test);
+                    intent.putExtra("referer", "review");
                 }
                 startActivity(intent);
             }
@@ -135,13 +138,13 @@ public class DetailActivity extends AppCompatActivity {
                     if (task.isComplete()) {
                         listSaveRoom = (ArrayList<String>) task.getResult().get("listSaveRoom");
                         btnSave.setCompoundDrawablesWithIntrinsicBounds(notSave, null, null, null);
-                        isFirstTime=false;
-                        isSecondTime=isFirstTime;
+                        isFirstTime = false;
+                        isSecondTime = isFirstTime;
                         if (listSaveRoom.size() >= 1) {
                             for (String room : listSaveRoom) {
                                 if (room.equals(room_id)) {
-                                    isFirstTime=true;
-                                    isSecondTime=isFirstTime;
+                                    isFirstTime = true;
+                                    isSecondTime = isFirstTime;
                                     btnSave.setCompoundDrawablesWithIntrinsicBounds(save, null, null, null);
                                     break;
                                 }
@@ -320,9 +323,9 @@ public class DetailActivity extends AppCompatActivity {
         String user_id = sharedPreferences.getString("userId", "");
         Intent myIntent = new Intent();
         MainActivity m = new MainActivity();
-        if(isFirstTime != isSecondTime){
+        if (isFirstTime != isSecondTime) {
             myIntent.putExtra("isChange", true);
-        }else{
+        } else {
             myIntent.putExtra("isChange", false);
         }
         myIntent.putExtra("userId", user_id);

@@ -173,7 +173,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         boolean result = sharedPreferences.getBoolean("isLogin", false);
         return result;
     }
-
 }
 
 

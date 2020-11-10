@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.firebaseis1313.R;
+import com.example.firebaseis1313.activity.DetailActivity;
 import com.example.firebaseis1313.entity.Home;
 import com.example.firebaseis1313.entity.Image;
 import com.example.firebaseis1313.entity.Room;
@@ -201,6 +202,11 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         System.out.println("Home runnnnn");
         setListRoom(view);
+
+        Intent intent = new Intent(getContext(), DetailActivity.class);
+        intent.putExtra("room_id", "5x9wBS8LGwNc31BhOqwJ");
+        startActivity(intent);
         super.onViewCreated(view, savedInstanceState);
+
     }
 }

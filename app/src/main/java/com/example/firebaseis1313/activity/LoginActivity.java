@@ -51,9 +51,6 @@ public class LoginActivity extends AppCompatActivity {
                            
                             if (task.isSuccessful()) {
                                 if (task.getResult().size() == 1) {
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    intent.putExtra("loginStatus","current");
-                                    startActivity(intent);
                                     SharedPreferences.Editor editor =getSharedPreferences("isLogin", Context.MODE_PRIVATE).edit();
                                     editor.putBoolean("isLogin", true);
                                     editor.putString("userId",task.getResult().getDocuments().get(0).getId());
@@ -70,8 +67,19 @@ public class LoginActivity extends AppCompatActivity {
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(intent);
 
-                                } else {
 
+//                                    Intent myIntent = getIntent();
+//                                    String referer = myIntent.getStringExtra("referer");
+//                                    if(referer != null){
+//                                        String room_id = myIntent.getStringExtra("room_id");
+//                                        finish();
+//                                        Intent intent = new Intent(LoginActivity.this, ReviewActivity.class);
+//                                        intent.putExtra("room_id", room_id);
+//                                        startActivity(intent);
+//                                    }else {
+
+//                                    }
+                                } else {
                                     Toast.makeText(LoginActivity.this, "Username or Password is incorrect", Toast.LENGTH_SHORT).show();
                                 }
                             } else {
@@ -100,6 +108,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
 
 
 }
