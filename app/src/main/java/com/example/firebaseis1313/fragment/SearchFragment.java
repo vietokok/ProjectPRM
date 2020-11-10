@@ -66,6 +66,7 @@ public class SearchFragment extends Fragment {
     boolean haveDistance=false;
     boolean haveArea=false;
 
+
     String text_price;
     String text_area;
     String text_distance;
@@ -231,7 +232,9 @@ public class SearchFragment extends Fragment {
                 btnDistance.setText(text_distance);
                 isResume=false;
             }
-            setListRoom(minPrice, maxPrice, area, distance);
+            if(text_distance != null ||text_area != null ||text_price != null) {
+                setListRoom(minPrice, maxPrice, area, distance);
+            }
         }
     }
     /*
