@@ -146,7 +146,7 @@ public class HomeFragment extends Fragment {
                                 e.setDescription(list.get("description").toString());
                                 e.setPrice(Float.parseFloat(list.get("price").toString()));
                                 String image_id=list.get("image_id").toString();
-                                System.out.println(e.getPrice());
+//                                System.out.println(e.getPrice());
 
                                 db.collection("Image").document(image_id)
                                         .get()
@@ -171,7 +171,7 @@ public class HomeFragment extends Fragment {
                                                                 e.setHome(home);
                                                                 ListRoomFragment listRoomFragment = (ListRoomFragment) getChildFragmentManager().findFragmentById(R.id.list_room_frag);
                                                                 listRoomFragment.receiveData(e);
-                                                                System.out.println(e.getPrice());
+//                                                                System.out.println(e.getPrice());
                                                                 listRoom.add(e);
                                                             }
                                                         }
@@ -201,11 +201,19 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         System.out.println("Home runnnnn");
+        Intent mainIntent=getActivity().getIntent();
+        String room_id=mainIntent.getStringExtra("room_id");
+        int current_tab=mainIntent.getIntExtra("currentTab",0);
+        String messFromLogin=mainIntent.getStringExtra("mess_from_login");
         setListRoom(view);
 
-        Intent intent = new Intent(getContext(), DetailActivity.class);
-        intent.putExtra("room_id", "5x9wBS8LGwNc31BhOqwJ");
-        startActivity(intent);
+        if(messFromLogin !=null && messFromLogin.equals("review") && current_tab==0){
+            Intent new_intent = new Intent(getContext(), DetailActivity.class);
+            new_intent.putExtra("room_id", room_id);
+            new_intent.putExtra("mess_from_list","review");
+            mainIntent.removeExtra("mess_from_login");
+            startActivity(new_intent);
+        }
         super.onViewCreated(view, savedInstanceState);
 
     }

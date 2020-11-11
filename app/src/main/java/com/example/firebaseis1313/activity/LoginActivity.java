@@ -60,10 +60,20 @@ public class LoginActivity extends AppCompatActivity {
                                     editor.putString("userPassword",task.getResult().getDocuments().get(0).get("password").toString());
                                     editor.commit();
 
+
                                     // Lay cai nay dung bo
                                     Intent getData=getIntent();
+                                    String messFromDetail=getData.getStringExtra("mess_from_detail");
+                                    String currentRoomId=getData.getStringExtra("room_id");
                                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                     intent.putExtra("currentTab",getData.getIntExtra("page_position",0));
+                                    // get mess from login to know what page is login
+                                    if(messFromDetail !=null){
+                                        intent.putExtra("mess_from_login", messFromDetail);
+                                    }
+                                       intent.putExtra("room_id",currentRoomId);
+
+
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(intent);
 

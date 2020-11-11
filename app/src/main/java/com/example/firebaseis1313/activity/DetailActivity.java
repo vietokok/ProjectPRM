@@ -94,6 +94,16 @@ public class DetailActivity extends AppCompatActivity {
         Intent rootIntent = getIntent();
         final int test = rootIntent.getIntExtra("indexOfCurrentTab", 0);
         final String room_id = rootIntent.getStringExtra("room_id");
+        String mess_from_list=rootIntent.getStringExtra("mess_from_list");
+
+        if(mess_from_list !=null){
+            Intent intent = new Intent(DetailActivity.this, ReviewActivity.class);
+            intent.putExtra("room_id", room_id);
+            rootIntent.removeExtra("mess_from_list");
+            startActivity(intent);
+        }
+
+
 
         db = FirebaseFirestore.getInstance();
 
@@ -115,13 +125,16 @@ public class DetailActivity extends AppCompatActivity {
                 if (user_id != "") {
                     intent = new Intent(DetailActivity.this, ReviewActivity.class);
                     intent.putExtra("room_id", room_id);
+                    startActivity(intent);
                 } else {
-                    intent = new Intent(DetailActivity.this, LoginActivity.class);
+                    intent = new Intent(getApplicationContext(), LoginActivity.class);
                     intent.putExtra("room_id", room_id);
                     intent.putExtra("page_position", test);
-                    intent.putExtra("referer", "review");
+                    intent.putExtra("mess_from_detail", "review");
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
                 }
-                startActivity(intent);
+
             }
         });
 

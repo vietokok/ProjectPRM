@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.firebaseis1313.R;
+import com.example.firebaseis1313.activity.DetailActivity;
 import com.example.firebaseis1313.activity.FindActivity;
 import com.example.firebaseis1313.activity.FindByPriceActivity;
 import com.example.firebaseis1313.entity.Home;
@@ -149,6 +150,18 @@ public class SearchFragment extends Fragment {
                 startActivityForResult(intent, REQUEST_CODE);
             }
         });
+
+        Intent mainIntent=getActivity().getIntent();
+        String room_id=mainIntent.getStringExtra("room_id");
+        int current_tab=mainIntent.getIntExtra("currentTab",0);
+        String messFromLogin=mainIntent.getStringExtra("mess_from_login");
+        if(messFromLogin !=null && messFromLogin.equals("review") && current_tab==1){
+            Intent new_intent = new Intent(getContext(), DetailActivity.class);
+            new_intent.putExtra("room_id", room_id);
+            new_intent.putExtra("mess_from_list","review");
+            mainIntent.removeExtra("mess_from_login");
+            startActivity(new_intent);
+        }
         resume(isResume);
 
     }
