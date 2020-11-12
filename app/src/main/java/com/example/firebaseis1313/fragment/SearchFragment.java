@@ -230,9 +230,10 @@ public class SearchFragment extends Fragment {
             }
         }
     }
-
+    
     public void resume(boolean resume){
         if(resume) {
+
             if(text_price != null) {
                 btnPrice.setText(text_price);
                 isResume=false;
@@ -334,5 +335,5 @@ public class SearchFragment extends Fragment {
                             }
                         }
                     });
-    } 
+    }
 }

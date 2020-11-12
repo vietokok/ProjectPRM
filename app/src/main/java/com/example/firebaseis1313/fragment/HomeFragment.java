@@ -83,52 +83,6 @@ public class HomeFragment extends Fragment {
         }
     }
     public void setListRoom(final View view) {
-//        db.collection("Motel").orderBy("price", Query.Direction.ASCENDING)
-//                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//            @Override
-//            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-//
-//                        if (!queryDocumentSnapshots.isEmpty()) {
-//                            for (final DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-//                                final Map<String, Object> list = document.getData();
-//                                final Room e = new Room();
-//                                e.setId(document.getId());
-//                                db.collection("Image").document(list.get("image_id").toString()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                                    @Override
-//                                    public void onComplete(@NonNull final Task<DocumentSnapshot> task) {
-//                                        if(task.isSuccessful()){
-//                                            ArrayList<String> listImageUrl=(ArrayList<String>)task.getResult().get("url");
-//                                            Image image =new Image();
-//                                            image.setId(list.get("image_id").toString());
-//                                            image.setListImageUrl(listImageUrl);
-//                                            e.setImage(image);
-//                                            e.setArea(Float.parseFloat(list.get("area").toString()));
-//                                            e.setDescription(list.get("description").toString());
-//                                            e.setPrice(Float.parseFloat(list.get("price").toString()));
-//                                            final Home home =new Home();
-//                                            home.setId(list.get("home_id").toString());
-//                                            db.collection("Home").document(list.get("home_id").toString())
-//                                                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                                                @Override
-//                                                public void onComplete(@NonNull Task<DocumentSnapshot> task1) {
-//                                                    if (task1.isSuccessful()) {
-//                                                        home.setAddress(task1.getResult().getData().get("address").toString());
-//                                                        e.setHome(home);
-//                                                        ListRoomFragment listRoomFragment = (ListRoomFragment) getChildFragmentManager().findFragmentById(R.id.list_room_frag);
-//                                                        listRoomFragment.receiveData(e);
-//                                                    } else {
-//                                                    }
-//                                                }
-//                                            });
-//                                        }
-//                                    }
-//                                });
-//                            }
-//                        } else {
-//
-//                        }
-//            }
-//        });
         final ArrayList<Room> listRoom =new ArrayList<>();
         db.collection("Motel")
                 .orderBy("price", Query.Direction.DESCENDING)
@@ -200,7 +154,6 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        System.out.println("Home runnnnn");
         Intent mainIntent=getActivity().getIntent();
         String room_id=mainIntent.getStringExtra("room_id");
         int current_tab=mainIntent.getIntExtra("currentTab",0);
@@ -208,9 +161,17 @@ public class HomeFragment extends Fragment {
         setListRoom(view);
 
         if(messFromLogin !=null && messFromLogin.equals("review") && current_tab==0){
+            System.out.println("-----------------review");
             Intent new_intent = new Intent(getContext(), DetailActivity.class);
             new_intent.putExtra("room_id", room_id);
             new_intent.putExtra("mess_from_list","review");
+            mainIntent.removeExtra("mess_from_login");
+            startActivity(new_intent);
+        }else if(messFromLogin !=null && messFromLogin.equals("saveWithoutLogin") && current_tab==0){
+            System.out.println("------------------------------");
+            Intent new_intent = new Intent(getContext(), DetailActivity.class);
+            new_intent.putExtra("room_id", room_id);
+            new_intent.putExtra("mess_from_list","saveWithoutLogin");
             mainIntent.removeExtra("mess_from_login");
             startActivity(new_intent);
         }

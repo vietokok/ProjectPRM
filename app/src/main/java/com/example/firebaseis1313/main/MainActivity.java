@@ -144,18 +144,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         // set current page befor login
         int index=intent.getIntExtra("currentTab",0);
         setSelectedTab(index);
-
-        // set go to the page (the last click to login):
-        String messFromLogin=intent.getStringExtra("mess_from_login");
-//        if(messFromLogin !=null && messFromLogin.equals("review")){
-////            System.out.println("-----------------------");
-////
-//            HomeFragment homeFragment= (HomeFragment) getSupportFragmentManager().findFragmentByTag(tabLayout.getTabAt(index).getTag().toString());
-//            Intent new_intent = new Intent( homeFragment.getContext(), DetailActivity.class);
-//            intent.putExtra("room_id", "5x9wBS8LGwNc31BhOqwJ");
-//            startActivity(new_intent);
-//        }
-
     }
 
     public void setSelectedTab(int index){

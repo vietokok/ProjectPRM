@@ -18,11 +18,14 @@ import android.widget.Toast;
 
 import com.example.firebaseis1313.R;
 import com.example.firebaseis1313.entity.More;
+import com.example.firebaseis1313.fragment.SearchFragment;
 import com.example.firebaseis1313.helper.MoreAdapter;
 import com.example.firebaseis1313.main.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
@@ -90,23 +93,27 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
+        db = FirebaseFirestore.getInstance();
+//        MainActivity m=new MainActivity();
+//
+//        SearchFragment searchFragment= (SearchFragment) m.getSupportFragmentManager().findFragmentById(R.id.search_frag);
+//
+//        System.out.println("----------------------------");
+//        System.out.println(searchFragment);
 
         Intent rootIntent = getIntent();
         final int test = rootIntent.getIntExtra("indexOfCurrentTab", 0);
         final String room_id = rootIntent.getStringExtra("room_id");
         String mess_from_list=rootIntent.getStringExtra("mess_from_list");
-
-        if(mess_from_list !=null){
+        // get user from share
+        SharedPreferences sharedPreferences = getSharedPreferences("isLogin", MODE_PRIVATE);
+        final String user_id = sharedPreferences.getString("userId", "");
+        if(mess_from_list !=null && mess_from_list.equals("review")){
             Intent intent = new Intent(DetailActivity.this, ReviewActivity.class);
             intent.putExtra("room_id", room_id);
-            rootIntent.removeExtra("mess_from_list");
             startActivity(intent);
         }
-
-
-
-        db = FirebaseFirestore.getInstance();
-
+        rootIntent.removeExtra("mess_from_list");
         db.collection("Review").whereEqualTo("room_id", room_id).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -119,8 +126,7 @@ public class DetailActivity extends AppCompatActivity {
         txtComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences sharedPreferences = getSharedPreferences("isLogin", MODE_PRIVATE);
-                String user_id = sharedPreferences.getString("userId", "");
+
                 Intent intent;
                 if (user_id != "") {
                     intent = new Intent(DetailActivity.this, ReviewActivity.class);
@@ -131,7 +137,6 @@ public class DetailActivity extends AppCompatActivity {
                     intent.putExtra("room_id", room_id);
                     intent.putExtra("page_position", test);
                     intent.putExtra("mess_from_detail", "review");
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }
 
@@ -142,9 +147,8 @@ public class DetailActivity extends AppCompatActivity {
         save = btnSave.getContext().getResources().getDrawable(R.drawable.ic_baseline_bookmark_24, null);
         notSave = btnSave.getContext().getResources().getDrawable(R.drawable.ic_outline_bookmark_border_24, null);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("isLogin", MODE_PRIVATE);
-        String user_id = sharedPreferences.getString("userId", "");
         if (user_id != "") {
+//            db.collection("User").document(user_id).get().
             db.collection("User").document(user_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -192,6 +196,15 @@ public class DetailActivity extends AppCompatActivity {
 
                 } else {
                     Intent intent = new Intent(DetailActivity.this, LoginActivity.class);
+
+                    intent.putExtra("room_id", room_id);
+                    intent.putExtra("page_position", test);
+                    intent.putExtra("mess_from_detail", "saveWithoutLogin");
+//                    intent = new Intent(getApplicationContext(), LoginActivity.class);
+//                    intent.putExtra("room_id", room_id);
+//                    intent.putExtra("page_position", test);
+//                    intent.putExtra("mess_from_detail", "review");
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }
             }

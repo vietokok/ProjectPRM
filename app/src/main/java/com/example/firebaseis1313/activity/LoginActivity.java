@@ -19,6 +19,8 @@ import com.example.firebaseis1313.main.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -68,12 +70,13 @@ public class LoginActivity extends AppCompatActivity {
                                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                     intent.putExtra("currentTab",getData.getIntExtra("page_position",0));
                                     // get mess from login to know what page is login
-                                    if(messFromDetail !=null){
-                                        intent.putExtra("mess_from_login", messFromDetail);
+                                    intent.putExtra("mess_from_login", messFromDetail);
+                                   if(messFromDetail !=null && messFromDetail.equals("saveWithoutLogin")){
+
+                                        DocumentReference washingtonRef = db.collection("User").document(task.getResult().getDocuments().get(0).getId());
+                                        washingtonRef.update("listSaveRoom", FieldValue.arrayUnion(currentRoomId));
                                     }
                                        intent.putExtra("room_id",currentRoomId);
-
-
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(intent);
 

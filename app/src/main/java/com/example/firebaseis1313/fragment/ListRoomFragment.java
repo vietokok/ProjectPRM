@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -152,6 +153,14 @@ public class ListRoomFragment extends Fragment {
                 Intent intent = new Intent(view.getRootView().getContext(), DetailActivity.class);
                 intent.putExtra("room_id",room_id);
                 tabLayout =view.getRootView().findViewById(R.id.tab_layout);
+                // serach
+//                if(tabLayout.getSelectedTabPosition()==1){
+//                    System.out.println("----------------------------------------");
+//                    Button price=view.getRootView().findViewById(R.id.btnPrice);
+//
+//                    System.out.println(price.getText().toString());
+//
+//                }
                 intent.putExtra("indexOfCurrentTab",tabLayout.getSelectedTabPosition());
                 startActivityForResult(intent, REQUEST_CODE);
             }

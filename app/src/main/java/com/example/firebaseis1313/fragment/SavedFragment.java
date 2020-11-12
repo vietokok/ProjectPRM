@@ -177,7 +177,6 @@ public class SavedFragment extends Fragment  {
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
             if(onFragmentInteractionListener.isLogin()){
-                System.out.println("Running");
                 SharedPreferences sharedPreferences = getContext().getSharedPreferences("isLogin", MODE_PRIVATE);
                 String result = sharedPreferences.getString("userId", null);
                 setListRoom(result);
