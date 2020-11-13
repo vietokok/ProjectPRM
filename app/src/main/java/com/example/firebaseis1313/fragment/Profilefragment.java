@@ -140,7 +140,7 @@ public class Profilefragment extends Fragment {
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("isLogin", MODE_PRIVATE);
         final String result = sharedPreferences.getString("userId", null);
 
-
+       
 
         if(onFragmentInteractionListener.isLogin()){
             setProfile(result);
