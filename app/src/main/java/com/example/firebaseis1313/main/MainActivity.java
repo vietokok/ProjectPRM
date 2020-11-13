@@ -4,10 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.example.firebaseis1313.R;
@@ -57,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     @Override
     protected void onResume() {
         super.onResume();
+
 //        SharedPreferences sharedPreferences = getSharedPreferences("isLogin", MODE_PRIVATE);
 //        String result = sharedPreferences.getString("destroy", null);
 //        if(result !=null){
@@ -142,6 +147,31 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         tabLayout.getTabAt(1).setIcon(R.drawable.search);
         tabLayout.getTabAt(2).setIcon(R.drawable.user);
         tabLayout.getTabAt(3).setIcon(R.drawable.apartment);
+
+
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                InputMethodManager inputMethodManager =
+                        (InputMethodManager) getSystemService(
+                                Activity.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(
+                        tabLayout.getWindowToken(), 0);
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+               
+            }
+        });
 
         // set current page befor login
         int index=intent.getIntExtra("currentTab",0);

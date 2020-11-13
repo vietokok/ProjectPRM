@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import com.example.firebaseis1313.R;
 import com.example.firebaseis1313.activity.DetailActivity;
@@ -154,6 +155,7 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+       
         Intent mainIntent=getActivity().getIntent();
         String room_id=mainIntent.getStringExtra("room_id");
         int current_tab=mainIntent.getIntExtra("currentTab",0);

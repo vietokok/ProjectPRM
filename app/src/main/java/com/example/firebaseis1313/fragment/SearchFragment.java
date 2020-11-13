@@ -13,6 +13,7 @@ import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -115,10 +116,12 @@ public class SearchFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_search_activity, container, false);
     }
 
+
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // add depen
+
         db = FirebaseFirestore.getInstance();
         listRoomFragment =(ListRoomFragment)getChildFragmentManager().findFragmentById(R.id.list_room_frag_k);
         btnPrice = view.findViewById(R.id.btnPrice);
@@ -220,8 +223,8 @@ public class SearchFragment extends Fragment {
 
     @Override
     public void onResume() {
-        super.onResume();
         isResume = true;
+        super.onResume();
     }
 
     @Override
