@@ -50,7 +50,6 @@ public class LoginActivity extends AppCompatActivity {
                     db.collection("User").whereEqualTo("username", userName).whereEqualTo("password", password).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                           
                             if (task.isSuccessful()) {
                                 if (task.getResult().size() == 1) {
                                     SharedPreferences.Editor editor =getSharedPreferences("isLogin", Context.MODE_PRIVATE).edit();

@@ -10,6 +10,7 @@
     android:theme="@style/Theme.MaterialComponents.Light"
     >
 
+
     <androidx.viewpager.widget.ViewPager
 
         android:id="@+id/view_page"
