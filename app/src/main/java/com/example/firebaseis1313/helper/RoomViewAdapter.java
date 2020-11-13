@@ -70,7 +70,7 @@ public class RoomViewAdapter extends BaseAdapter {
         price=constraintLayout.findViewById(R.id.tvPrice);
         addrress=constraintLayout.findViewById(R.id.tvAddress);
         Room room =listRoom.get(position);
-        descresption.setText("\t*"+room.getDescription());
+        descresption.setText("\t"+room.getDescription());
         Locale localeVN = new Locale("vi", "VN");
         NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
         String formatMoneyMin = currencyVN.format(room.getPrice());

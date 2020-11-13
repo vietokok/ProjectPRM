@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.example.firebaseis1313.entity.Image;
 import com.example.firebaseis1313.entity.Room;
 import com.example.firebaseis1313.helper.OnFragmentInteractionListener;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -83,7 +85,7 @@ public class SavedFragment extends Fragment  {
                                     final Map<String, Object> list = task.getResult().getData();
                                     final Room e = new Room();
                                     e.setArea(Float.parseFloat(list.get("area").toString()));
-                                    e.setDescription(list.get("description").toString());
+                                    e.setDescription(list.get("title").toString());
                                     e.setPrice(Float.parseFloat(list.get("price").toString()));
                                     e.setId(room_id);
                                     final Home home=new Home();
@@ -92,7 +94,7 @@ public class SavedFragment extends Fragment  {
                                     // from room_id get room and get image_id from room to get image_url From table Image
                                     db.collection("Image").document(list.get("image_id").toString()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                         @Override
-                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        public void onComplete(@NonNull final Task<DocumentSnapshot> task) {
                                             if(task.isSuccessful()){
                                                 ArrayList<String> listImageUrl=(ArrayList<String>)task.getResult().get("url");
                                                 Image image=new Image();
@@ -100,16 +102,14 @@ public class SavedFragment extends Fragment  {
                                                 e.setImage(image);
 
                                                 //From home_id from room get address from Home Table
-                                                db.collection("Home").document(home.getId())
-                                                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                db.collection("Home").document(home.getId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                                     @Override
-                                                    public void onComplete(@NonNull Task<DocumentSnapshot> task1) {
-                                                        if (task1.isSuccessful()) {
-                                                            home.setAddress(task1.getResult().getData().get("address").toString());
+                                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                                        if(documentSnapshot.getData().size() !=0){
+                                                            home.setAddress(documentSnapshot.getData().get("address").toString());
                                                             e.setHome(home);
-                                                            ListRoomFragment listRoomFragment = (ListRoomFragment) getChildFragmentManager().findFragmentById(R.id.list_room_saved);
-                                                            listRoomFragment.receiveData(e);
-                                                        } else {
+                                                                    ListRoomFragment listRoomFragment = (ListRoomFragment) getChildFragmentManager().findFragmentById(R.id.list_room_saved);
+                                                                    listRoomFragment.receiveData(e);
                                                         }
                                                     }
                                                 });
@@ -165,17 +165,18 @@ public class SavedFragment extends Fragment  {
         return inflater.inflate(R.layout.fragment_saved_activity, container, false);
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        onFragmentInteractionListener=(OnFragmentInteractionListener)getActivity();
-//        mListtener=(OnFragmentInteractionListener) getActivity();
-
-    }
+//    @Override
+//    public void onAttach(@NonNull Context context) {
+//        super.onAttach(context);
+//
+////        mListtener=(OnFragmentInteractionListener) getActivity();
+//
+//    }
 
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        onFragmentInteractionListener=(OnFragmentInteractionListener)getActivity();
             if(onFragmentInteractionListener.isLogin()){
                 SharedPreferences sharedPreferences = getContext().getSharedPreferences("isLogin", MODE_PRIVATE);
                 String result = sharedPreferences.getString("userId", null);
