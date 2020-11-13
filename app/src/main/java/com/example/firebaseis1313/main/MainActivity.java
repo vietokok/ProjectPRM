@@ -126,12 +126,14 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         Intent intent = getIntent();
         if(type==1){
             viewPageApdater.addFragment(profilefragment,getString(R.string.account));
+            viewPageApdater.addFragment(savedFragment,getString(R.string.saved));
             setSavedRoom(user_id);
         }else if(type==2){
             viewPageApdater.addFragment(loginFragment, getString(R.string.account));
+            viewPageApdater.addFragment(midmanFragment,getString(R.string.saved));
         }
 
-        viewPageApdater.addFragment(midmanFragment,getString(R.string.saved));
+
 
         // add to tab_layout
         // Đối vs

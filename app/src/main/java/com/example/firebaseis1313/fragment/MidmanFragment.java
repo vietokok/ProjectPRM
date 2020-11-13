@@ -1,11 +1,13 @@
 package com.example.firebaseis1313.fragment;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,8 @@ import android.view.ViewGroup;
 
 import com.example.firebaseis1313.R;
 import com.example.firebaseis1313.helper.OnFragmentInteractionListener;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -80,16 +84,22 @@ public class MidmanFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        System.out.println("Midman runnnnn");
         LoginFragment loginFragment=new LoginFragment();
         SavedFragment savedFragment=new SavedFragment();
 
-        if(onFragmentInteractionListener.isLogin()){
-            System.out.println("Midmanrunning");
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.mid_man_frag, savedFragment)
-                    .commit();
-        }else{
+
+//        SharedPreferences sharedPreferences = getContext().getSharedPreferences("isLogin", MODE_PRIVATE);
+//        String result = sharedPreferences.getString("OkIamIn",null);
+//
+//        if(onFragmentInteractionListener.isLogin() && result.equals("Join")){
+//            SharedPreferences.Editor editor =getContext().getSharedPreferences("isLogin", Context.MODE_PRIVATE).edit();
+//            editor.putString("OkIamIn", "Joined");
+//            editor.commit();
+//            getActivity().getSupportFragmentManager().beginTransaction()
+//                    .replace(R.id.mid_man_frag, savedFragment)
+//                    .commit();
+//        }else
+            if(onFragmentInteractionListener.isLogin()==false){
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.mid_man_frag, loginFragment)
                     .commit();

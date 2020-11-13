@@ -59,6 +59,7 @@ public class LoginActivity extends AppCompatActivity {
                                     editor.putString("userDisplayName",task.getResult().getDocuments().get(0).get("displayName").toString());
                                     editor.putString("userName",task.getResult().getDocuments().get(0).get("username").toString());
                                     editor.putString("userPassword",task.getResult().getDocuments().get(0).get("password").toString());
+                                    editor.putString("OkIamIn","Join");
                                     editor.commit();
 
 
