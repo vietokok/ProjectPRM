@@ -55,6 +55,10 @@ public class FindActivity extends AppCompatActivity {
         switch (type){
             case "2":
                 //search for area
+                area = intent.getIntExtra("area", 0);
+                String text_area = intent.getStringExtra("textArea");
+                seekBar.setProgress(area);
+                txtOnclick.setText(text_area);
                 int max = 50;
                 txtHeader.setText("Diện tích");
                 txtMin.setText("0 m2");
@@ -82,6 +86,10 @@ public class FindActivity extends AppCompatActivity {
                 break;
             case "3":
                 //search for Distance
+                distance = intent.getIntExtra("distance", 0);
+                String textDistance = intent.getStringExtra("textDistance");
+                seekBar.setProgress(distance);
+                txtOnclick.setText(textDistance);
                 int max1 = 30;
                 txtHeader.setText("Khoảng cách");
                 txtMin.setText("0 km");

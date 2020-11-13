@@ -60,8 +60,8 @@ public class SearchFragment extends Fragment {
     public ListRoomFragment listRoomFragment;
     int minPrice = 0;
     int maxPrice= 6000000;
-    int distance  = 30;
-    int area = 50;
+    int distance  = 0;
+    int area = 0;
 
     boolean havePrice=false;
     boolean haveDistance=false;
@@ -131,6 +131,9 @@ public class SearchFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(view.getRootView().getContext(), FindByPriceActivity.class);
                 intent.putExtra("type", "1");
+                intent.putExtra("min", minPrice);
+                intent.putExtra("max",maxPrice);
+                intent.putExtra("textPrice", text_price);
                 startActivityForResult(intent, REQUEST_CODE);
             }
         });
@@ -139,6 +142,8 @@ public class SearchFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(view.getRootView().getContext(), FindActivity.class);
                 intent.putExtra("type", "2");
+                intent.putExtra("area",area);
+                intent.putExtra("textArea", text_area);
                 startActivityForResult(intent, REQUEST_CODE);
             }
         });
@@ -147,6 +152,8 @@ public class SearchFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(view.getRootView().getContext(), FindActivity.class);
                 intent.putExtra("type", "3");
+                intent.putExtra("distance",distance);
+                intent.putExtra("textDistance", text_distance);
                 startActivityForResult(intent, REQUEST_CODE);
             }
         });
