@@ -155,16 +155,62 @@ public class SearchFragment extends Fragment {
         String room_id=mainIntent.getStringExtra("room_id");
         int current_tab=mainIntent.getIntExtra("currentTab",0);
         String messFromLogin=mainIntent.getStringExtra("mess_from_login");
+        if(messFromLogin !=null && current_tab==1){
+            int minPrice=mainIntent.getIntExtra("minPrice",-1);
+            int maxPrice=mainIntent.getIntExtra("maxPrice",-1);
+            int area=mainIntent.getIntExtra("area",-1);
+            int distance=mainIntent.getIntExtra("distance",-1);
+
+            String text_price =mainIntent.getStringExtra("textPrice");
+            String text_area =mainIntent.getStringExtra("textArea");
+            String text_distance =mainIntent.getStringExtra("textDistance");
+            setChuanghiara(minPrice,maxPrice,area,distance,text_area,text_distance,text_price);
+        }
+        // auto go to prev page
         if(messFromLogin !=null && messFromLogin.equals("review") && current_tab==1){
             Intent new_intent = new Intent(getContext(), DetailActivity.class);
             new_intent.putExtra("room_id", room_id);
             new_intent.putExtra("mess_from_list","review");
             mainIntent.removeExtra("mess_from_login");
             startActivity(new_intent);
+        }else if(messFromLogin !=null && messFromLogin.equals("saveWithoutLogin") && current_tab==1){
+            System.out.println("------------------------------");
+            Intent new_intent = new Intent(getContext(), DetailActivity.class);
+            new_intent.putExtra("room_id", room_id);
+            new_intent.putExtra("mess_from_list","saveWithoutLogin");
+            mainIntent.removeExtra("mess_from_login");
+            startActivity(new_intent);
         }
+
+
         resume(isResume);
 
     }
+    void setChuanghiara(int minPrice,int maxPrice,int area,int distance,String text_area,String text_distance,String text_price){
+        if(text_price != null) {
+            btnPrice.setText(text_price);
+            havePrice=true;
+        }else{
+            havePrice=false;
+        }
+        if(text_area != null){
+            btnArea.setText(text_area);
+            haveArea=true;
+        }else{
+            haveArea=false;
+        }
+        if(text_distance != null) {
+            btnDistance.setText(text_distance);
+            haveDistance=true;
+        }else{
+            haveDistance=false;
+        }
+        if(text_distance != null ||text_area != null ||text_price != null) {
+            setListRoom(minPrice, maxPrice, area, distance);
+        }
+
+    }
+
     @Override
     public void onResume() {
         super.onResume();

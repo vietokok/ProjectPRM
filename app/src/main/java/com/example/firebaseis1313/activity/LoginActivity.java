@@ -72,11 +72,21 @@ public class LoginActivity extends AppCompatActivity {
                                     // get mess from login to know what page is login
                                     intent.putExtra("mess_from_login", messFromDetail);
                                    if(messFromDetail !=null && messFromDetail.equals("saveWithoutLogin")){
-
                                         DocumentReference washingtonRef = db.collection("User").document(task.getResult().getDocuments().get(0).getId());
                                         washingtonRef.update("listSaveRoom", FieldValue.arrayUnion(currentRoomId));
                                     }
-                                       intent.putExtra("room_id",currentRoomId);
+                                   // setPage when search without login then login
+                                   if(messFromDetail !=null){
+                                       intent.putExtra("minPice",getData.getIntExtra("minPrice",-1));
+                                       intent.putExtra("maxPrice",getData.getIntExtra("maxPrice",-1));
+                                       intent.putExtra("area",getData.getIntExtra("area",-1));
+                                       intent.putExtra("distance",getData.getIntExtra("distance",-1));
+                                       intent.putExtra("textPrice",getData.getStringExtra("textPrice"));
+                                       intent.putExtra("textArea",getData.getStringExtra("textArea"));
+                                       intent.putExtra("textDistance",getData.getStringExtra("textDistance"));
+                                   }
+
+                                    intent.putExtra("room_id",currentRoomId);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(intent);
 

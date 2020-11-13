@@ -94,15 +94,9 @@ public class DetailActivity extends AppCompatActivity {
         });
 
         db = FirebaseFirestore.getInstance();
-//        MainActivity m=new MainActivity();
-//
-//        SearchFragment searchFragment= (SearchFragment) m.getSupportFragmentManager().findFragmentById(R.id.search_frag);
-//
-//        System.out.println("----------------------------");
-//        System.out.println(searchFragment);
 
-        Intent rootIntent = getIntent();
-        final int test = rootIntent.getIntExtra("indexOfCurrentTab", 0);
+        final Intent rootIntent = getIntent();
+        final int currentTab = rootIntent.getIntExtra("indexOfCurrentTab", 0);
         final String room_id = rootIntent.getStringExtra("room_id");
         String mess_from_list=rootIntent.getStringExtra("mess_from_list");
         // get user from share
@@ -134,8 +128,13 @@ public class DetailActivity extends AppCompatActivity {
                     startActivity(intent);
                 } else {
                     intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    // chua toi uu
+                    if(currentTab ==1){
+                        putSearch(intent,rootIntent);
+                    }
+
                     intent.putExtra("room_id", room_id);
-                    intent.putExtra("page_position", test);
+                    intent.putExtra("page_position", currentTab);
                     intent.putExtra("mess_from_detail", "review");
                     startActivity(intent);
                 }
@@ -196,15 +195,12 @@ public class DetailActivity extends AppCompatActivity {
 
                 } else {
                     Intent intent = new Intent(DetailActivity.this, LoginActivity.class);
-
+                    if(currentTab ==1){
+                        putSearch(intent,rootIntent);
+                    }
                     intent.putExtra("room_id", room_id);
-                    intent.putExtra("page_position", test);
+                    intent.putExtra("page_position", currentTab);
                     intent.putExtra("mess_from_detail", "saveWithoutLogin");
-//                    intent = new Intent(getApplicationContext(), LoginActivity.class);
-//                    intent.putExtra("room_id", room_id);
-//                    intent.putExtra("page_position", test);
-//                    intent.putExtra("mess_from_detail", "review");
-//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }
             }
@@ -342,7 +338,15 @@ public class DetailActivity extends AppCompatActivity {
         });
     }
 
-
+public void putSearch(Intent intent,Intent rootIntent){
+    intent.putExtra("minPice",rootIntent.getIntExtra("minPrice",-1));
+    intent.putExtra("maxPrice",rootIntent.getIntExtra("maxPrice",-1));
+    intent.putExtra("area",rootIntent.getIntExtra("area",-1));
+    intent.putExtra("distance",rootIntent.getIntExtra("distance",-1));
+    intent.putExtra("textPrice",rootIntent.getStringExtra("textPrice"));
+    intent.putExtra("textArea",rootIntent.getStringExtra("textArea"));
+    intent.putExtra("textDistance",rootIntent.getStringExtra("textDistance"));
+}
     @Override
     public void onBackPressed() {
         SharedPreferences sharedPreferences = getSharedPreferences("isLogin", MODE_PRIVATE);

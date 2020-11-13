@@ -1,5 +1,6 @@
 package com.example.firebaseis1313.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -20,6 +21,7 @@ import com.example.firebaseis1313.R;
 import com.example.firebaseis1313.activity.DetailActivity;
 import com.example.firebaseis1313.activity.LoginActivity;
 import com.example.firebaseis1313.entity.Room;
+import com.example.firebaseis1313.helper.OnFragmentInteractionListener;
 import com.example.firebaseis1313.helper.RoomViewAdapter;
 import com.example.firebaseis1313.main.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -58,6 +60,9 @@ public class ListRoomFragment extends Fragment {
 
     private int room_index;
 
+    private OnFragmentInteractionListener onFragmentInteractionListener;
+
+
     int Querytype = -1;
 
     // quy dinh 0 : home 1 search 2 dien tich 3 khoang cach 4 saved
@@ -84,6 +89,12 @@ public class ListRoomFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        onFragmentInteractionListener=(OnFragmentInteractionListener)getActivity();
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         System.out.println(list_view_room.getSelectedItem());
@@ -106,17 +117,11 @@ public class ListRoomFragment extends Fragment {
                 frg = getParentFragment();
 
                 if(frg.getView().getRootView().findViewById(R.id.saveFragment) != null){
-//                    list_room.clear();
-//                    room_view_apdapter = new RoomViewAdapter(getActivity(), list_room);
-//                    list_view_room.setAdapter(room_view_apdapter);
                    final FragmentTransaction ft = frg.getFragmentManager().beginTransaction();
                    ft.detach(frg);
                    ft.attach(frg);
                    ft.commit();
                 }
-
-
-
             }
 
         }
@@ -154,13 +159,21 @@ public class ListRoomFragment extends Fragment {
                 intent.putExtra("room_id",room_id);
                 tabLayout =view.getRootView().findViewById(R.id.tab_layout);
                 // serach
-//                if(tabLayout.getSelectedTabPosition()==1){
-//                    System.out.println("----------------------------------------");
-//                    Button price=view.getRootView().findViewById(R.id.btnPrice);
-//
-//                    System.out.println(price.getText().toString());
-//
-//                }
+                if(tabLayout.getSelectedTabPosition()==1 && onFragmentInteractionListener.isLogin()==false){
+                    Button price=view.getRootView().findViewById(R.id.btnPrice);
+                    Button area =view.getRootView().findViewById(R.id.btnArea);
+                    Button distance=view.getRootView().findViewById(R.id.btnDistance);
+                    SearchFragment searchFragment=(SearchFragment) getParentFragment();
+                    intent.putExtra("minPrice",searchFragment.minPrice);
+                    intent.putExtra("maxPrice",searchFragment.maxPrice);
+                    intent.putExtra("area",searchFragment.area);
+                    intent.putExtra("distance",searchFragment.distance);
+
+                    intent.putExtra("textPrice",searchFragment.text_price);
+                    intent.putExtra("textArea",searchFragment.text_area);
+                    intent.putExtra("textDistance",searchFragment.text_distance);
+
+                }
                 intent.putExtra("indexOfCurrentTab",tabLayout.getSelectedTabPosition());
                 startActivityForResult(intent, REQUEST_CODE);
             }
