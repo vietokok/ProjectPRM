@@ -79,6 +79,8 @@ public class LoginFragment extends Fragment {
         System.out.println("accoutn run");
         btnLogin=view.findViewById(R.id.btnUpdate);
         final TabLayout tabLayout= view.getRootView().findViewById(R.id.tab_layout);
+        final TabLayout tabLayout= view.getRootView().findViewById(R.id.tab_layout);
+        System.out.println(tabLayout.getSelectedTabPosition());
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
