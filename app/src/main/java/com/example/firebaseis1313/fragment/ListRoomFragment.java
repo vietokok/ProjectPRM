@@ -199,7 +199,32 @@ public class ListRoomFragment extends Fragment {
         list_room.add(room);
         if(position==0){
             orderByDate(list_room);
+            room_view_apdapter.notifyDataSetChanged();
+        }else if(position==3){
+            orderByDate(list_room);
+            room_view_apdapter.notifyDataSetChanged();
+        }else if(position==1){
+            room_view_apdapter.notifyDataSetChanged();
         }
-        room_view_apdapter.notifyDataSetChanged();
+//        else if(position==4){
+//            //Thay cai orderByDate
+//            // Muon order cai gi thi ben search phai lay ve
+//            orderByDate(list_room);
+//            room_view_apdapter.notifyDataSetChanged();
+//            // viet ham sort ngoai o day
+//        }else if(position==5){
+//            orderByDate(list_room);
+//            room_view_apdapter.notifyDataSetChanged();
+//            // viet ham sort ngoai o day
+//        }else if(position==6){
+//            orderByDate(list_room);
+//            room_view_apdapter.notifyDataSetChanged();
+//            // viet ham sort ngoai o day
+//        }else if(position==7){
+//            orderByDate(list_room);
+//            room_view_apdapter.notifyDataSetChanged();
+//            // viet ham sort ngoai o day
+//        }
+
     }
 }

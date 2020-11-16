@@ -90,7 +90,8 @@ public class HomeFragment extends Fragment {
         }
     }
     public void setListRoom(final View view) {
-        final ArrayList<Room> listRoom =new ArrayList<>();
+//        final ArrayList<Room> listRoom =new ArrayList<>();
+        final int[] position = {0};
         db.collection("Motel")
                 .orderBy("price", Query.Direction.DESCENDING)
                 .get()
@@ -98,6 +99,7 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onSuccess(final QuerySnapshot documentSnapshots) {
                         if (!documentSnapshots.isEmpty()){
+                            final int sizeOfMotel=documentSnapshots.size();
                             for (final DocumentSnapshot document : documentSnapshots.getDocuments()) {
                                 final Map<String, Object> list = document.getData();
                                 final Room e = new Room();
@@ -106,19 +108,6 @@ public class HomeFragment extends Fragment {
                                 e.setArea(Float.parseFloat(list.get("area").toString()));
                                 e.setDescription(list.get("title").toString());
                                 e.setPrice(Float.parseFloat(list.get("price").toString()));
-
-                                // get created date:
-//                                Calendar cal = Calendar.getInstance(Locale.ENGLISH);
-//                                cal.setTimeInMillis(String.valueOf(list.get("createdTime")) * 1000);
-//                                String date = DateFormat.format("dd-MM-yyyy", cal).toString();
-//                                return date;
-//                                e.setCreatedTime();
-
-//                                Date date = new Date(list.get("createdTime").toString());
-//                                SimpleDateFormat sfd = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss",
-//                                        Locale.getDefault());
-//                                String text = sfd.format(date);
-//                                System.out.println(text);
                                 Timestamp timestamp= (Timestamp) list.get("createdTime");
                                 e.setCreatedTime(timestamp.getSeconds());
 
@@ -128,7 +117,6 @@ public class HomeFragment extends Fragment {
                                         .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                             @Override
                                             public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                                                System.out.println(e.getPrice());
                                                 if(!documentSnapshots.isEmpty()){
                                                     ArrayList<String> listImageUrl=(ArrayList<String>)documentSnapshot.getData().get("url");
                                                     Image image =new Image();
@@ -144,10 +132,16 @@ public class HomeFragment extends Fragment {
                                                             if(!documentSnapshots.isEmpty()){
                                                                 home.setAddress(documentSnapshot.getData().get("address").toString());
                                                                 e.setHome(home);
+                                                                position[0] = position[0] +1;
                                                                 ListRoomFragment listRoomFragment = (ListRoomFragment) getChildFragmentManager().findFragmentById(R.id.list_room_frag);
-                                                                listRoomFragment.receiveData(e,0);
+                                                                if(position[0]==sizeOfMotel){
+                                                                    listRoomFragment.receiveData(e,0);
+                                                                }else{
+                                                                    listRoomFragment.receiveData(e,-1);
+
+                                                                }
 //                                                                System.out.println(e.getPrice());
-                                                                listRoom.add(e);
+//                                                                listRoom.add(e);
                                                             }
                                                         }
                                                     });

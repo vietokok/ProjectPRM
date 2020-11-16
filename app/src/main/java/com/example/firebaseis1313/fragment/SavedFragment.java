@@ -73,11 +73,14 @@ public class SavedFragment extends Fragment  {
 
     public void setListRoom(String userId) {
     // From user get ListSave
+        final int[] position = {0};
         db.collection("User").document(userId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()){
                     ArrayList<String> list_room_id = (ArrayList<String>) task.getResult().get("listSaveRoom");
+                    final int sizeOfMotel=list_room_id.size();
+
                     for (final String room_id: list_room_id) {
                         // From List Saved Get room_id
                         db.collection("Motel").document(room_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -104,7 +107,6 @@ public class SavedFragment extends Fragment  {
                                                 Image image=new Image();
                                                 image.setListImageUrl(listImageUrl);
                                                 e.setImage(image);
-
                                                 //From home_id from room get address from Home Table
                                                 db.collection("Home").document(home.getId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                                     @Override
@@ -112,8 +114,13 @@ public class SavedFragment extends Fragment  {
                                                         if(documentSnapshot.getData().size() !=0){
                                                             home.setAddress(documentSnapshot.getData().get("address").toString());
                                                             e.setHome(home);
-                                                                    ListRoomFragment listRoomFragment = (ListRoomFragment) getChildFragmentManager().findFragmentById(R.id.list_room_saved);
-                                                                    listRoomFragment.receiveData(e,3);
+                                                            position[0] = position[0] +1;
+                                                            ListRoomFragment listRoomFragment = (ListRoomFragment) getChildFragmentManager().findFragmentById(R.id.list_room_saved);
+                                                            if(position[0]==sizeOfMotel){
+                                                                listRoomFragment.receiveData(e,3);
+                                                            }else{
+                                                                listRoomFragment.receiveData(e,-1);
+                                                            }
                                                         }
                                                     }
                                                 });
