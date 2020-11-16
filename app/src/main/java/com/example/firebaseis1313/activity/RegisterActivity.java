@@ -110,8 +110,10 @@ public class  RegisterActivity extends AppCompatActivity {
         }else if(phone.getText().toString().length() > 10){
             phone.setError("Phone too long!");
             return false;
-        }
-        else {
+        }else if(phone.getText().toString().matches("[0-9]+")==false){
+            phone.setError("Phone can't equal text");
+            return false;
+        } else {
             phone.setError(null);
             return true;
         }

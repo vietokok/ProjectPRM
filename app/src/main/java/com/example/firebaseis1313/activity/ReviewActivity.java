@@ -11,6 +11,8 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.icu.util.Calendar;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +65,7 @@ public class ReviewActivity extends AppCompatActivity {
     private RatingBar ratingBar_room;
     private EditText etComment;
     private CircleImageView userAvatar;
+    private TextView star_text;
 
     private Button add;
 
@@ -110,20 +113,30 @@ public class ReviewActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Review review=(Review) listViewComment.getItemAtPosition(position);
-
                     if(review.getUser().getId().equals(userId)){
                         clickToDelete(review.getId());
                     }
                 }
             });
+            add.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if(hasFocus){
+                        etComment.setError(null);
+                    }
 
+                }
+            });
             // set onclick for button comment to add comment
             add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    addOnclick();
-                    finish();
-                    startActivity(getIntent());
+                    boolean result=addOnclick();
+                    if(result==true){
+                        finish();
+                        startActivity(getIntent());
+                    }
+
                 }
             });
 
@@ -132,20 +145,24 @@ public class ReviewActivity extends AppCompatActivity {
 
     }
 
-    void addOnclick(){
+    boolean addOnclick(){
         String content =etComment.getText().toString().trim();
         Float rate=ratingBar_user.getRating();
-        String current_room_id=room_id;
-        String current_user_id=userId;
-        Date currentTime = Calendar.getInstance().getTime();
-        CollectionReference reviewDAO = db.collection("Review");
-        Map<String, Object> data = new HashMap<>();
-        data.put("content",content);
-        data.put("rate",rate);
-        data.put("room_id",room_id);
-        data.put("user_id",userId);
-        data.put("createdTime",currentTime);
-        reviewDAO.add(data);
+            if((content ==null || content.trim().length() <=0) && (rate <=0)){
+                    etComment.setError("Please enter some comment or rating star");
+                    return  false;
+            }else{
+                Date currentTime = Calendar.getInstance().getTime();
+                CollectionReference reviewDAO = db.collection("Review");
+                Map<String, Object> data = new HashMap<>();
+                data.put("content",content);
+                data.put("rate",rate);
+                data.put("room_id",room_id);
+                data.put("user_id",userId);
+                data.put("createdTime",currentTime);
+                reviewDAO.add(data);
+                return  true;
+            }
     }
 
     void setRoomTitle(String room_id){
@@ -256,7 +273,9 @@ public class ReviewActivity extends AppCompatActivity {
                                 final Map<String, Object> list = document.getData();
                                 final String user_id=list.get("user_id").toString();
                                     totalStar+=Float.parseFloat(list.get("rate").toString());
-                                    totalReview+=1;
+                                    if(Float.parseFloat(list.get("rate").toString()) !=0){
+                                        totalReview+=1;
+                                    }
                                     review.setContent(list.get("content").toString());
                                     review.setRate(Float.parseFloat(list.get("rate").toString()));
                                     review.setId(document.getId());
@@ -264,7 +283,6 @@ public class ReviewActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull final Task<DocumentSnapshot> task) {
                                             if (task.isSuccessful()) {
-
                                                 User user = new User();
                                                 user.setDisplayName(task.getResult().get("displayName").toString());
                                                 user.setPhotoUrl(task.getResult().get("photoUrl").toString());
@@ -280,6 +298,8 @@ public class ReviewActivity extends AppCompatActivity {
                             }
                             if(totalReview==0){
                                 ratingBar_room.setVisibility(View.GONE);
+                                star_text=findViewById(R.id.star_text);
+                                star_text.setText("Chưa có sao");
                             }else{
                                 ratingBar_room.setRating(totalStar/totalReview);
                             }
