@@ -1,5 +1,6 @@
     package com.example.firebaseis1313.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -8,14 +9,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.example.firebaseis1313.R;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
-public class  RegisterActivity extends AppCompatActivity {
+    public class  RegisterActivity extends AppCompatActivity {
 
     private Button btnRegister;
     private EditText etAccountR;
@@ -36,23 +43,38 @@ public class  RegisterActivity extends AppCompatActivity {
         etDisplayName = findViewById(R.id.etDisplayNameR);
         etEmailR = findViewById(R.id.etEmailP);
         firebaseFirestore = FirebaseFirestore.getInstance();
+
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Map<String, Object> user = new HashMap<>();
-                if (validateDisplayName(etDisplayName) && validateUsername(etAccountR) && validatePassword(etPasswordR) && validatePhone(etPhoneR) && validateEmail(etEmailR)) {
-                    user.put("displayName", etDisplayName.getText().toString());
-                    user.put("username",  etAccountR.getText().toString());
-                    user.put("password", etPasswordR.getText().toString());
-                    user.put("phone", etPhoneR.getText().toString());
-                    user.put("email", etEmailR.getText().toString());
-                    user.put("photoUrl", "https://firebasestorage.googleapis.com/v0/b/is1313mk.appspot.com/o/user%20image%2Fmale.jpg?alt=media&token=a20ef42d-6747-433f-a819-fcd31e2da093");
-                    firebaseFirestore.collection("User").add(user);
-                    Toast.makeText(getApplicationContext(), "Register Succesfull !", Toast.LENGTH_SHORT).show();
-                    finish();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Fill Full Information", Toast.LENGTH_SHORT).show();
-                }
+                System.out.println("AAAAAAA");
+                String username = etAccountR.getText().toString();
+              firebaseFirestore.collection("User").whereEqualTo("username",username).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                  @Override
+                  public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            if(task.getResult().size() == 1){
+                                Toast.makeText(getApplicationContext(), "Username is already", Toast.LENGTH_SHORT).show();
+                            }else{
+                                Map<String, Object> user = new HashMap<>();
+                                if (validateDisplayName(etDisplayName) && validateUsername(etAccountR) && validatePassword(etPasswordR) && validatePhone(etPhoneR) && validateEmail(etEmailR)) {
+                                    user.put("displayName", etDisplayName.getText().toString());
+                                    user.put("username",  etAccountR.getText().toString());
+                                    user.put("password", etPasswordR.getText().toString());
+                                    user.put("phone", etPhoneR.getText().toString());
+                                    user.put("email", etEmailR.getText().toString());
+                                    user.put("listSaveRoom", new ArrayList<>());
+                                    user.put("photoUrl", "https://firebasestorage.googleapis.com/v0/b/is1313mk.appspot.com/o/user%20image%2Fmale.jpg?alt=media&token=a20ef42d-6747-433f-a819-fcd31e2da093");
+                                    firebaseFirestore.collection("User").add(user);
+                                    Toast.makeText(getApplicationContext(), "Register Succesfull !", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Fill Full Information", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+                  }
+              });
             }
         });
     }
@@ -107,11 +129,12 @@ public class  RegisterActivity extends AppCompatActivity {
         if(phone.getText().toString().isEmpty()){
             phone.setError("Field can't empty");
             return false;
-        }else if(phone.getText().toString().length() > 10){
-            phone.setError("Phone too long!");
-            return false;
-        }else if(phone.getText().toString().matches("[0-9]+")==false){
+        }else if(!phone.getText().toString().matches("[0-9]+")){
             phone.setError("Phone can't equal text");
+            return false;
+        }
+        else if(phone.getText().toString().length() > 10 || phone.getText().toString().length() <8){
+            phone.setError("Phone have 8-10 number");
             return false;
         } else {
             phone.setError(null);

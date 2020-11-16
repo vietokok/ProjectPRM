@@ -30,7 +30,6 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private TextView tvRegister;
     private FirebaseFirestore db;
-    private TextView tvForgot;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +38,6 @@ public class LoginActivity extends AppCompatActivity {
         etUserName = findViewById(R.id.etAccount);
         etPassword = findViewById(R.id.etPassword);
         tvRegister = findViewById(R.id.tvRegister);
-        tvForgot = findViewById(R.id.tvForgot);
         db = FirebaseFirestore.getInstance();
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,8 +59,6 @@ public class LoginActivity extends AppCompatActivity {
                                     editor.putString("userPassword",task.getResult().getDocuments().get(0).get("password").toString());
                                     editor.putString("OkIamIn","Join");
                                     editor.commit();
-
-
                                     // Lay cai nay dung bo
                                     Intent getData=getIntent();
                                     String messFromDetail=getData.getStringExtra("mess_from_detail");
@@ -120,13 +116,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 System.out.println("123");
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(intent);
-            }
-        });
-        tvForgot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, DetailActivity.class);
                 startActivity(intent);
             }
         });

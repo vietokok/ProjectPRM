@@ -58,7 +58,7 @@ public class Profilefragment extends Fragment {
     private EditText username;
     private Button btnUpdate;
     private TextView tvDisplayName;
-    private String _DisplayName, _Phone, _Email, _Username;
+    private String _DisplayName, _Phone, _Email;
     private CircleImageView avatar;
     private FirebaseFirestore db;
     private DatabaseReference reference;
@@ -139,7 +139,7 @@ public class Profilefragment extends Fragment {
         avatar=view.findViewById(R.id.imgHostAvatar);
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("isLogin", MODE_PRIVATE);
         final String result = sharedPreferences.getString("userId", null);
-
+        username.setFocusable(false);
        
 
         if(onFragmentInteractionListener.isLogin()){
@@ -188,7 +188,6 @@ public class Profilefragment extends Fragment {
                     email.setText(list.get("email").toString());
                     _Email = list.get("email").toString();
                     username.setText(list.get("username").toString());
-                    _Username = list.get("username").toString();
                     tvDisplayName.setText(list.get("displayName").toString().replaceAll(" ", "_"));
                     Picasso.get().load(list.get("photoUrl").toString()).into(avatar);
                 }else{
@@ -204,10 +203,6 @@ public class Profilefragment extends Fragment {
         boolean flag = false;
 
         Map<String, Object> map = new HashMap<>();
-        if(isChangeUsername()){
-            map.put("username", username.getText().toString());
-            flag = true;
-        }
         if(isChangeDisplayName()){
             map.put("displayName", displayName.getText().toString());
             flag = true;
@@ -237,15 +232,6 @@ public class Profilefragment extends Fragment {
                     Toast.makeText(getContext(), "Nothing", Toast.LENGTH_SHORT).show();
                 }
             });
-        }
-    }
-
-    private boolean isChangeUsername(){
-        if(!_Username.equals(username.getText().toString()) && registerActivity.validateUsername(username)){
-            _Username = username.getText().toString();
-            return true;
-        }else{
-            return false;
         }
     }
 
