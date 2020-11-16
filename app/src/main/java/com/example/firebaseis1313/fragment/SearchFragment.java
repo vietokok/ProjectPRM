@@ -27,6 +27,7 @@ import com.example.firebaseis1313.entity.Image;
 import com.example.firebaseis1313.entity.Room;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -324,6 +325,8 @@ public class SearchFragment extends Fragment {
                                     final Map<String, Object> list = document.getData();
                                     final Room e = new Room();
                                     e.setId(document.getId());
+                                    Timestamp timestamp= (Timestamp) list.get("createdTime");
+                                    e.setCreatedTime(timestamp.getSeconds());
                                     db.collection("Image").document(list.get("image_id").toString()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                         @Override
                                         public void onComplete(@NonNull final Task<DocumentSnapshot> task) {
@@ -351,7 +354,7 @@ public class SearchFragment extends Fragment {
                                                                     if(e.getArea() <= areaa ){
                                                                         e.setHome(home);
                                                                         ListRoomFragment listRoomFragment = (ListRoomFragment) getChildFragmentManager().findFragmentById(R.id.list_room_frag_k);
-                                                                        listRoomFragment.receiveData(e);
+                                                                        listRoomFragment.receiveData(e,1);
                                                                     }
                                                                 }
                                                             //end search by area  + price
@@ -360,7 +363,7 @@ public class SearchFragment extends Fragment {
                                                                     if(home.getDistance() <= distancee){
                                                                         e.setHome(home);
                                                                         ListRoomFragment listRoomFragment = (ListRoomFragment) getChildFragmentManager().findFragmentById(R.id.list_room_frag_k);
-                                                                        listRoomFragment.receiveData(e);
+                                                                        listRoomFragment.receiveData(e,1);
                                                                     }
                                                                 }
                                                             //end search by distance  + price
@@ -369,7 +372,7 @@ public class SearchFragment extends Fragment {
                                                                 if (home.getDistance() <= distancee && e.getArea() <= areaa) {
                                                                     e.setHome(home);
                                                                     ListRoomFragment listRoomFragment = (ListRoomFragment) getChildFragmentManager().findFragmentById(R.id.list_room_frag_k);
-                                                                    listRoomFragment.receiveData(e);
+                                                                    listRoomFragment.receiveData(e,1);
                                                                 }
                                                             }
 //                                                            //end search by distance  + price + area
@@ -377,7 +380,7 @@ public class SearchFragment extends Fragment {
                                                             if(haveArea != true && haveDistance != true) {
                                                                 e.setHome(home);
                                                                 ListRoomFragment listRoomFragment = (ListRoomFragment) getChildFragmentManager().findFragmentById(R.id.list_room_frag_k);
-                                                                listRoomFragment.receiveData(e);
+                                                                listRoomFragment.receiveData(e,1);
                                                             }
                                                         } else {
                                                         }

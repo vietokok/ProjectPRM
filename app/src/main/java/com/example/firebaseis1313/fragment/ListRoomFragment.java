@@ -32,6 +32,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import static com.example.firebaseis1313.main.MainActivity.REQUEST_CODE;
 import static com.example.firebaseis1313.main.MainActivity.RESULT_CODE;
@@ -185,8 +187,19 @@ public class ListRoomFragment extends Fragment {
         room_view_apdapter.notifyDataSetChanged();
     }
 
-    public void receiveData(Room room) {
+    public void orderByDate(ArrayList<Room> list_room){
+        Collections.sort(list_room, new Comparator<Room>() {
+            @Override
+            public int compare(Room o1, Room o2) {
+                return (int) (o2.getCreatedTime()-o1.getCreatedTime());
+            }
+        });
+    }
+    public void receiveData(Room room,int position) {
         list_room.add(room);
+        if(position==0){
+            orderByDate(list_room);
+        }
         room_view_apdapter.notifyDataSetChanged();
     }
 }

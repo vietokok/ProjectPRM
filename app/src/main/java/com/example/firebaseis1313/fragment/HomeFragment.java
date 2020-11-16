@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,13 +21,18 @@ import com.example.firebaseis1313.entity.Room;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -100,9 +106,23 @@ public class HomeFragment extends Fragment {
                                 e.setArea(Float.parseFloat(list.get("area").toString()));
                                 e.setDescription(list.get("title").toString());
                                 e.setPrice(Float.parseFloat(list.get("price").toString()));
-                                String image_id=list.get("image_id").toString();
-//                                System.out.println(e.getPrice());
 
+                                // get created date:
+//                                Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+//                                cal.setTimeInMillis(String.valueOf(list.get("createdTime")) * 1000);
+//                                String date = DateFormat.format("dd-MM-yyyy", cal).toString();
+//                                return date;
+//                                e.setCreatedTime();
+
+//                                Date date = new Date(list.get("createdTime").toString());
+//                                SimpleDateFormat sfd = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss",
+//                                        Locale.getDefault());
+//                                String text = sfd.format(date);
+//                                System.out.println(text);
+                                Timestamp timestamp= (Timestamp) list.get("createdTime");
+                                e.setCreatedTime(timestamp.getSeconds());
+
+                                String image_id=list.get("image_id").toString();
                                 db.collection("Image").document(image_id)
                                         .get()
                                         .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -125,7 +145,7 @@ public class HomeFragment extends Fragment {
                                                                 home.setAddress(documentSnapshot.getData().get("address").toString());
                                                                 e.setHome(home);
                                                                 ListRoomFragment listRoomFragment = (ListRoomFragment) getChildFragmentManager().findFragmentById(R.id.list_room_frag);
-                                                                listRoomFragment.receiveData(e);
+                                                                listRoomFragment.receiveData(e,0);
 //                                                                System.out.println(e.getPrice());
                                                                 listRoom.add(e);
                                                             }
@@ -136,7 +156,6 @@ public class HomeFragment extends Fragment {
                                             }
                                         });
                             }
-                            System.out.println(listRoom.size());
                         }
                     }
                 });
@@ -163,14 +182,12 @@ public class HomeFragment extends Fragment {
         setListRoom(view);
 
         if(messFromLogin !=null && messFromLogin.equals("review") && current_tab==0){
-            System.out.println("-----------------review");
             Intent new_intent = new Intent(getContext(), DetailActivity.class);
             new_intent.putExtra("room_id", room_id);
             new_intent.putExtra("mess_from_list","review");
             mainIntent.removeExtra("mess_from_login");
             startActivity(new_intent);
         }else if(messFromLogin !=null && messFromLogin.equals("saveWithoutLogin") && current_tab==0){
-            System.out.println("------------------------------");
             Intent new_intent = new Intent(getContext(), DetailActivity.class);
             new_intent.putExtra("room_id", room_id);
             new_intent.putExtra("mess_from_list","saveWithoutLogin");

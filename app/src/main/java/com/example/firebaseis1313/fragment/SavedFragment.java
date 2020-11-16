@@ -29,6 +29,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.badge.BadgeDrawable;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -89,6 +90,8 @@ public class SavedFragment extends Fragment  {
                                     e.setDescription(list.get("title").toString());
                                     e.setPrice(Float.parseFloat(list.get("price").toString()));
                                     e.setId(room_id);
+                                    Timestamp timestamp= (Timestamp) list.get("createdTime");
+                                    e.setCreatedTime(timestamp.getSeconds());
                                     final Home home=new Home();
                                     home.setId(list.get("home_id").toString());
 
@@ -110,7 +113,7 @@ public class SavedFragment extends Fragment  {
                                                             home.setAddress(documentSnapshot.getData().get("address").toString());
                                                             e.setHome(home);
                                                                     ListRoomFragment listRoomFragment = (ListRoomFragment) getChildFragmentManager().findFragmentById(R.id.list_room_saved);
-                                                                    listRoomFragment.receiveData(e);
+                                                                    listRoomFragment.receiveData(e,3);
                                                         }
                                                     }
                                                 });

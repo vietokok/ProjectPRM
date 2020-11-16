@@ -2,6 +2,7 @@ package com.example.firebaseis1313.helper;
 
 
 import android.app.Activity;
+import android.text.format.DateFormat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -12,10 +13,12 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.firebaseis1313.R;
 import com.example.firebaseis1313.entity.Room;
+import com.google.firebase.Timestamp;
 import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Locale;
 
 public class RoomViewAdapter extends BaseAdapter {
@@ -51,6 +54,7 @@ public class RoomViewAdapter extends BaseAdapter {
         TextView descresption;
         TextView price;
         TextView addrress;
+        TextView tv_createTime;
         ConstraintLayout constraintLayout;
         if(convertView == null){
             convertView = activity.getLayoutInflater().inflate(R.layout.room_view, null);
@@ -69,6 +73,7 @@ public class RoomViewAdapter extends BaseAdapter {
         descresption=constraintLayout.findViewById(R.id.tvDes);
         price=constraintLayout.findViewById(R.id.tvPrice);
         addrress=constraintLayout.findViewById(R.id.tvAddress);
+        tv_createTime=constraintLayout.findViewById(R.id.tv_createTime);
         Room room =listRoom.get(position);
         descresption.setText("\t"+room.getDescription());
         Locale localeVN = new Locale("vi", "VN");
@@ -76,6 +81,14 @@ public class RoomViewAdapter extends BaseAdapter {
         String formatMoneyMin = currencyVN.format(room.getPrice());
         price.setText(formatMoneyMin);
         addrress.setText(room.getHome().getAddress());
+
+        // set create Date
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(room.getCreatedTime() * 1000L);
+        String date = DateFormat.format("dd-MM-yyyy", calendar).toString();
+        tv_createTime.setText(date);
+
+
         Picasso.get().load(room.getImage().getListImageUrl().get(0)).into(imageView);
         return convertView;
     }

@@ -8,7 +8,8 @@ public class Room {
     float area;
     int available_room;
     String description;
-    String createdTime;
+//    String createdTime;
+    Long createdTime;
     Home home;
     Image image;
     float price;
@@ -50,13 +51,21 @@ public class Room {
         this.description = description;
     }
 
-    public String getCreatedTime() {
+    public Long getCreatedTime() {
         return createdTime;
     }
 
-    public void setCreatedTime(String createdTime) {
+    public void setCreatedTime(Long createdTime) {
         this.createdTime = createdTime;
     }
+
+    //    public String getCreatedTime() {
+//        return createdTime;
+//    }
+//
+//    public void setCreatedTime(String createdTime) {
+//        this.createdTime = createdTime;
+//    }
 
     public Home getHome() {
         return home;

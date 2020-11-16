@@ -30,4 +30,5 @@
     <string name="add_comment">Đánh giá</string>
     <string name="btn_delete">Xóa</string>
     <string name="btn_update">Cập Nhật</string>
+    <string name="create_date">Ngày đăng</string>
 </resources>
