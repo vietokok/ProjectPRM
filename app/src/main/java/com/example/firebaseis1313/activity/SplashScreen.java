@@ -26,8 +26,7 @@ public class SplashScreen extends AppCompatActivity {
         topAnima = AnimationUtils.loadAnimation(this, R.anim.top_anima);
         imageView = findViewById(R.id.imgSplash);
         tvLogo = findViewById(R.id.tvLogo);
-        tvLogo.animate().alpha(0).setDuration(1400).setStartDelay(500);
-        imageView.animate().alpha(0).setDuration(1400).setStartDelay(500);
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

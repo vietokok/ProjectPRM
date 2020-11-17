@@ -53,7 +53,7 @@ import com.google.firebase.firestore.QuerySnapshot;
                   public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
                             if(task.getResult().size() == 1){
-                                Toast.makeText(getApplicationContext(), "Username is already", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Tài khoản đã tồn tại", Toast.LENGTH_SHORT).show();
                             }else{
                                 Map<String, Object> user = new HashMap<>();
                                 if (validateDisplayName(etDisplayName) && validateUsername(etAccountR) && validatePassword(etPasswordR) && validatePhone(etPhoneR) && validateEmail(etEmailR)) {
