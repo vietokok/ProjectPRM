@@ -252,9 +252,9 @@ public class DetailActivity extends AppCompatActivity {
                                                 public void onClick(View v) {
 //                                                  show option for btnMore
                                                     moreList = new ArrayList<>();
-                                                    moreList.add(new More(1, "Gọi điện"));
-                                                    moreList.add(new More(2, "Nhắn tin"));
-                                                    moreList.add(new More(3, "Chỉ đường"));
+                                                    moreList.add(new More(1, "  Gọi điện"));
+                                                    moreList.add(new More(2, "  Nhắn tin"));
+                                                    moreList.add(new More(3, "  Chỉ đường"));
                                                     moreAdapter = new MoreAdapter(DetailActivity.this, moreList);
                                                     AlertDialog.Builder builderSingle = new AlertDialog.Builder(DetailActivity.this);
                                                     builderSingle.setAdapter(moreAdapter, new DialogInterface.OnClickListener() {

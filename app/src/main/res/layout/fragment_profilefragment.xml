@@ -5,9 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.Profilefragment">
@@ -62,7 +60,7 @@
             android:drawableStart="@drawable/ic_phone"
             android:drawablePadding="16dp"
             android:ems="10"
-            android:hint="Phone"
+            android:hint="Số điện thoại"
             android:inputType="textPersonName"
             android:padding="16dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -84,7 +82,7 @@
             app:layout_constraintTop_toBottomOf="@+id/etPhoneP" />
 
         <EditText
-           
+
             android:id="@+id/etAccountP"
             android:layout_width="340dp"
             android:layout_height="50dp"
@@ -95,7 +93,7 @@
             android:drawableStart="@drawable/ic_username"
             android:drawablePadding="16dp"
             android:ems="10"
-            android:hint="Username"
+            android:hint="Tài khoản"
             android:inputType="none"
             android:padding="16dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -129,7 +127,7 @@
             android:background="#00000000"
             android:backgroundTint="@color/colorPrimary"
             android:drawableEnd="@drawable/ic_logout"
-            android:text="LogOut"
+            android:text="Đăng xuất"
             android:textColor="#FFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.978"
