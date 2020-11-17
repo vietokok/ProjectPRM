@@ -50,8 +50,8 @@
 
     <TextView
         android:id="@+id/tvRoomTitle"
-        android:layout_width="272dp"
-        android:layout_height="30dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
 
         android:text="6455465465465465465465454564"
