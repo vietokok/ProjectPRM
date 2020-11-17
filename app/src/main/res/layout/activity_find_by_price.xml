@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.FindActivity">
+
     <View
         android:id="@+id/topView"
         android:layout_width="0dp"
@@ -26,11 +27,11 @@
 
     <org.florescu.android.rangeseekbar.RangeSeekBar
         android:id="@+id/rangeSeekBar"
-        android:layout_width="300dp"
-        android:layout_height="130dp"
-        android:layout_marginTop="148dp"
+        android:layout_width="305dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="132dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.441"
+        app:layout_constraintHorizontal_bias="0.547"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topView" />
 
@@ -43,7 +44,7 @@
         android:backgroundTint="@color/colorPrimary"
         android:text="@string/btn_cancel"
         app:layout_constraintEnd_toStartOf="@+id/btnApply"
-        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintHorizontal_bias="0.543"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rangeSeekBar" />
 
@@ -51,8 +52,8 @@
         android:id="@+id/txtOnclick"
         android:layout_width="207dp"
         android:layout_height="32dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="60dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="64dp"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rangeSeekBar" />
@@ -62,7 +63,7 @@
         android:layout_width="66dp"
         android:layout_height="33dp"
         android:layout_marginStart="72dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="36dp"
         android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rangeSeekBar" />
@@ -98,7 +99,7 @@
         android:backgroundTint="@color/colorPrimary"
         android:text="@string/btn_apply"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.715"
+        app:layout_constraintHorizontal_bias="0.777"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rangeSeekBar" />
 
@@ -117,10 +118,10 @@
         android:id="@+id/view2"
         android:layout_width="wrap_content"
         android:layout_height="100dp"
+        android:background="@drawable/ic_wavebottom"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/ic_wavebottom"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

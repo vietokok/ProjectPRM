@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.firebaseis1313.R;
@@ -51,7 +52,7 @@ public class SearchFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private TextView txtEr;
     private Button btnPrice;
     private Button btnArea;
     private Button btnDistance;
@@ -125,6 +126,8 @@ public class SearchFragment extends Fragment {
 
         db = FirebaseFirestore.getInstance();
         listRoomFragment =(ListRoomFragment)getChildFragmentManager().findFragmentById(R.id.list_room_frag_k);
+        txtEr = view.findViewById(R.id.txtEr);
+        txtEr.setVisibility(View.INVISIBLE);
         btnPrice = view.findViewById(R.id.btnPrice);
         btnArea = view.findViewById(R.id.btnArea);
         btnDistance = view.findViewById(R.id.btnDistance);
@@ -232,6 +235,7 @@ public class SearchFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_CODE && resultCode == RESULT_CODE){
+            txtEr.setVisibility(View.INVISIBLE);
             listRoomFragment.clearData();
             boolean isChoose = data.getBooleanExtra("check",false);
             //type = search for price
@@ -279,6 +283,15 @@ public class SearchFragment extends Fragment {
                             @Override
                             public void run() {
                                 progressBar.setVisibility(View.INVISIBLE);
+                            }
+                        });
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(listRoomFragment.isEmpty()){
+                                    txtEr.setText("Không tìm thấy kết quả !!");
+                                    txtEr.setVisibility(View.VISIBLE);
+                                }
                             }
                         });
                     }

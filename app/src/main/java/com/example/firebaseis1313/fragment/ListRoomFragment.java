@@ -227,4 +227,10 @@ public class ListRoomFragment extends Fragment {
 //        }
 
     }
+    public boolean isEmpty(){
+        if(list_room.isEmpty()) {
+            return true;
+        }
+        return false;
+    }
 }

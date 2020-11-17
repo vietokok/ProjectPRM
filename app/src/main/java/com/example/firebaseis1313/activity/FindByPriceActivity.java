@@ -76,6 +76,10 @@ public class FindByPriceActivity extends AppCompatActivity {
                         Number max_value = rangeSeekBar.getSelectedMaxValue();
                          min =(int) min_value;
                          max =(int) max_value;
+                        min = min / 100000;
+                        min = min * 100000;
+                        max = max / 100000;
+                        max = max * 100000;
                         String formatMoneyMin = currencyVN.format(min);
                         String formatMoneyMax = currencyVN.format(max);
                         textValue = formatMoneyMin+" - "+formatMoneyMax;
