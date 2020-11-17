@@ -39,7 +39,7 @@
     <string name="hint_username">Tài khoản</string>
     <string name="hint_password">Mật khẩu</string>
     <string name="tv_have_account">Bạn đã có tài khoản ?</string>
-    <string name="tv_new_user">Đăng ký ngay</string>
+    <string name="tv_new_user">Đăng ký ngay?</string>
     <string name="btn_navigation">Chỉ đường</string>
 
 
@@ -48,5 +48,6 @@
     <string name="btn_cancel_dialog">Huỷ bỏ</string>
     <string name="btn_login_dialog">Đăng nhập</string>
     <string name="none_rate">Chưa có xếp hạng</string>
+    <string name="logo_name">PEMO HOME</string>
 
 </resources>

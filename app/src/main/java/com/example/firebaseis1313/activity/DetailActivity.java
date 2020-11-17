@@ -146,11 +146,7 @@ public class DetailActivity extends AppCompatActivity {
                                     startActivity(intent);
                                 }})
                             .setNegativeButton(getString(R.string.btn_cancel_dialog), null).show();
-
                 }
-
-
-
             }
         });
 
@@ -241,7 +237,7 @@ public class DetailActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     float price = Float.parseFloat(task.getResult().get("price").toString());
                     txtPrice.setText(currencyVN.format(price) + " / " + "tháng");
-                    txtArea.setText("   " + "Diện tích " + task.getResult().get("area").toString() + "m2");
+                    txtArea.setText("   " + "Diện tích " + task.getResult().get("area").toString() + "m²");
                     txtTitle.setText(task.getResult().get("title").toString());
 
                     String detail = String.valueOf(task.getResult().get("description"));

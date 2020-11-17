@@ -61,15 +61,15 @@ public class FindActivity extends AppCompatActivity {
                 txtOnclick.setText(text_area);
                 int max = 50;
                 txtHeader.setText("Diện tích");
-                txtMin.setText("0 m2");
-                txtMax.setText(max + " m2");
+                txtMin.setText("0 m²");
+                txtMax.setText(max + " m²");
                 seekBar.setMax(max);
                 txtBottom.setText("Diện tích nhỏ hơn:");
                 seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                         area = seekBar.getProgress();
-                        textValue = String.valueOf(area)+ " m2";
+                        textValue = String.valueOf(area)+ " m²";
                         txtOnclick.setText(textValue);
                         check= true;
                     }

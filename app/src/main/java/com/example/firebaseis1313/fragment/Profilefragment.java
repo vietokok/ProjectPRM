@@ -191,7 +191,7 @@ public class Profilefragment extends Fragment {
                     tvDisplayName.setText(list.get("displayName").toString().replaceAll(" ", "_"));
                     Picasso.get().load(list.get("photoUrl").toString()).into(avatar);
                 }else{
-                    Toast.makeText(getContext(), "Some Thing Wrong", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Something Wrong", Toast.LENGTH_SHORT).show();
                 }
             }
         });

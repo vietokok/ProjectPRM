@@ -76,7 +76,6 @@ public class LoginFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
-        System.out.println("accoutn run");
         btnLogin=view.findViewById(R.id.btnUpdate);
         final TabLayout tabLayout= view.getRootView().findViewById(R.id.tab_layout);
 

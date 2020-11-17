@@ -99,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
 
 //                                    }
                                 } else {
-                                    Toast.makeText(LoginActivity.this, "Username or Password is incorrect", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, "Tài khoản hoặc mật khẩu không đúng!", Toast.LENGTH_SHORT).show();
                                 }
                             } else {
                                 Toast.makeText(LoginActivity.this, "Wrong Input", Toast.LENGTH_SHORT).show();
@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    Toast.makeText(LoginActivity.this, "Username and Password is required!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Dữ liệu không đầy đủ", Toast.LENGTH_SHORT).show();
                 }
             }
         });
