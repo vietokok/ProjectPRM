@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     void  setTabLayout(int type,String user_id){
         ViewPageAdapter viewPageApdater =new ViewPageAdapter(getSupportFragmentManager(),0);
         // add to apdater
-        viewPageApdater.addFragment(homeFragment,"Home");
+        viewPageApdater.addFragment(homeFragment,getString(R.string.home));
         viewPageApdater.addFragment(searchFragment,getString(R.string.search));
         Intent intent = getIntent();
         if(type==1){
