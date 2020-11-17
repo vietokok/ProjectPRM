@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                     ArrayList<String> list_room_Id=(ArrayList<String>)  task.getResult().get("listSaveRoom");
                     BadgeDrawable badgeDrawable = tabLayout.getTabAt(3).getOrCreateBadge();
                     badgeDrawable.setVisible(true);
-                    badgeDrawable.setNumber(list_room_Id.size());
+//                    badgeDrawable.setNumber(list_room_Id.size());
                 }
             }
         });

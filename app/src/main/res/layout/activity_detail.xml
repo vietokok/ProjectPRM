@@ -16,7 +16,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             tools:context=".activity.DetailActivity">
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/back"
                 android:layout_width="match_parent"

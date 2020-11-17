@@ -142,6 +142,7 @@ public class Profilefragment extends Fragment {
         username.setFocusable(false);
        
 
+
         if(onFragmentInteractionListener.isLogin()){
             setProfile(result);
         }
@@ -170,7 +171,6 @@ public class Profilefragment extends Fragment {
                 startActivity(intent);
             }
         });
-
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -201,7 +201,6 @@ public class Profilefragment extends Fragment {
         final DocumentReference docRef = FirebaseFirestore.getInstance()
                 .collection("User").document(userId);
         boolean flag = false;
-
         Map<String, Object> map = new HashMap<>();
         if(isChangeDisplayName()){
             map.put("displayName", displayName.getText().toString());
@@ -234,7 +233,6 @@ public class Profilefragment extends Fragment {
             });
         }
     }
-
 
 
     private boolean isChangeDisplayName(){
