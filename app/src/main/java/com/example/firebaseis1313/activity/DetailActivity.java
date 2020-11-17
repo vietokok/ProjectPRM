@@ -117,30 +117,45 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
+        final String room_image=rootIntent.getStringExtra("room_image");
         txtComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent;
+
                 if (user_id != "") {
-                    intent = new Intent(DetailActivity.this, ReviewActivity.class);
+                    Intent intent = new Intent(DetailActivity.this, ReviewActivity.class);
                     intent.putExtra("room_id", room_id);
+                    intent.putExtra("room_image",room_image);
                     startActivity(intent);
                 } else {
-                    intent = new Intent(getApplicationContext(), LoginActivity.class);
-                    // chua toi uu
-                    if(currentTab ==1){
-                        putSearch(intent,rootIntent);
-                    }
+                    new AlertDialog.Builder(v.getContext())
+                            .setTitle("Yêu cầu đăng nhập")
+                            .setMessage("Bạn phải đăng nhập để sử dụng chức năng này")
+                            .setPositiveButton(getString(R.string.btn_login_dialog), new DialogInterface.OnClickListener() {
 
-                    intent.putExtra("room_id", room_id);
-                    intent.putExtra("page_position", currentTab);
-                    intent.putExtra("mess_from_detail", "review");
-                    startActivity(intent);
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                    // chua toi uu
+                                    if(currentTab ==1){
+                                        putSearch(intent,rootIntent);
+                                    }
+                                    intent.putExtra("room_id", room_id);
+                                    intent.putExtra("page_position", currentTab);
+                                    intent.putExtra("mess_from_detail", "review");
+                                    startActivity(intent);
+                                }})
+                            .setNegativeButton(getString(R.string.btn_cancel_dialog), null).show();
+
                 }
+
+
 
             }
         });
+
+
+
 
 
         save = btnSave.getContext().getResources().getDrawable(R.drawable.ic_baseline_bookmark_24, null);
@@ -176,6 +191,8 @@ public class DetailActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 SharedPreferences sharedPreferences = getSharedPreferences("isLogin", MODE_PRIVATE);
                 String user_id = sharedPreferences.getString("userId", "");
                 if (user_id != "") {
@@ -194,14 +211,22 @@ public class DetailActivity extends AppCompatActivity {
                     }
 
                 } else {
-                    Intent intent = new Intent(DetailActivity.this, LoginActivity.class);
-                    if(currentTab ==1){
-                        putSearch(intent,rootIntent);
-                    }
-                    intent.putExtra("room_id", room_id);
-                    intent.putExtra("page_position", currentTab);
-                    intent.putExtra("mess_from_detail", "saveWithoutLogin");
-                    startActivity(intent);
+                    new AlertDialog.Builder(v.getContext())
+                            .setTitle(getString(R.string.confirm_mess))
+                            .setMessage(getString(R.string.mess_in_confirm))
+                            .setPositiveButton(getString(R.string.btn_login_dialog), new DialogInterface.OnClickListener() {
+
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    Intent intent = new Intent(DetailActivity.this, LoginActivity.class);
+                                    if(currentTab ==1){
+                                        putSearch(intent,rootIntent);
+                                    }
+                                    intent.putExtra("room_id", room_id);
+                                    intent.putExtra("page_position", currentTab);
+                                    intent.putExtra("mess_from_detail", "saveWithoutLogin");
+                                    startActivity(intent);
+                                }})
+                            .setNegativeButton(getString(R.string.btn_cancel_dialog), null).show();
                 }
             }
         });
@@ -218,6 +243,7 @@ public class DetailActivity extends AppCompatActivity {
                     txtPrice.setText(currencyVN.format(price) + " / " + "tháng");
                     txtArea.setText("   " + "Diện tích " + task.getResult().get("area").toString() + "m2");
                     txtTitle.setText(task.getResult().get("title").toString());
+
                     String detail = String.valueOf(task.getResult().get("description"));
                     String[] split = detail.split("@");
                     if (split.length < 2) {

@@ -149,7 +149,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         tabLayout.getTabAt(3).setIcon(R.drawable.apartment);
 
 
-
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
             @Override
@@ -190,8 +189,14 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                 if(task.isSuccessful()){
                     ArrayList<String> list_room_Id=(ArrayList<String>)  task.getResult().get("listSaveRoom");
                     BadgeDrawable badgeDrawable = tabLayout.getTabAt(3).getOrCreateBadge();
-                    badgeDrawable.setVisible(true);
-//                    badgeDrawable.setNumber(list_room_Id.size());
+                    if(list_room_Id.size()>0){
+
+
+                        badgeDrawable.setVisible(true);
+                        badgeDrawable.setNumber(list_room_Id.size());
+                    }else{
+                        badgeDrawable.setVisible(false);
+                    }
                 }
             }
         });

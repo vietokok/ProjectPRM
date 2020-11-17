@@ -43,4 +43,10 @@
     <string name="btn_navigation">Chỉ đường</string>
 
 
+    <string name="confirm_mess">Yêu cầu đăng nhập</string>
+    <string name="mess_in_confirm">Bạn phải đăng nhập để sử dụng tính năng này</string>
+    <string name="btn_cancel_dialog">Huỷ bỏ</string>
+    <string name="btn_login_dialog">Đăng nhập</string>
+    <string name="none_rate">Chưa có xếp hạng</string>
+
 </resources>

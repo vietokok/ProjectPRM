@@ -111,7 +111,9 @@ public class HomeFragment extends Fragment {
                                 Timestamp timestamp= (Timestamp) list.get("createdTime");
                                 e.setCreatedTime(timestamp.getSeconds());
 
+
                                 String image_id=list.get("image_id").toString();
+
                                 db.collection("Image").document(image_id)
                                         .get()
                                         .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {

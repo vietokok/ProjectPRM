@@ -71,6 +71,7 @@ public class ReviewActivity extends AppCompatActivity {
 
     private String room_id;
     private String userId;
+    private String room_image;
     float starOfRoom;
 
     //add adapter
@@ -100,6 +101,10 @@ public class ReviewActivity extends AppCompatActivity {
             userId = sharedPreferences.getString("userId", null);
             Intent intent=getIntent();
             room_id=intent.getStringExtra("room_id");
+            room_image=intent.getStringExtra("room_image");
+
+            Picasso.get().load(room_image).into(hostAvatar);
+
             setRoomTitle(room_id);
             // add list to ListView and adapter
             listReview =new ArrayList<>();
@@ -279,6 +284,7 @@ public class ReviewActivity extends AppCompatActivity {
                                     review.setContent(list.get("content").toString());
                                     review.setRate(Float.parseFloat(list.get("rate").toString()));
                                     review.setId(document.getId());
+
                                     db.collection("User").document(list.get("user_id").toString()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                         @Override
                                         public void onComplete(@NonNull final Task<DocumentSnapshot> task) {
@@ -299,7 +305,8 @@ public class ReviewActivity extends AppCompatActivity {
                             if(totalReview==0){
                                 ratingBar_room.setVisibility(View.GONE);
                                 star_text=findViewById(R.id.star_text);
-                                star_text.setText("Chưa có sao");
+                                star_text.setText(getString(R.string.none_rate));
+
                             }else{
                                 ratingBar_room.setRating(totalStar/totalReview);
                             }

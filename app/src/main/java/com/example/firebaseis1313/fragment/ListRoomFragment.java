@@ -110,8 +110,14 @@ public class ListRoomFragment extends Fragment {
                         if(task.isSuccessful()){
                             ArrayList<String> list_room_Id=(ArrayList<String>)  task.getResult().get("listSaveRoom");
                             BadgeDrawable badgeDrawable = tabLayout.getTabAt(3).getOrCreateBadge();
-                            badgeDrawable.setVisible(true);
-                            badgeDrawable.setNumber(list_room_Id.size());
+                            if(list_room_Id.size()>0){
+
+                                badgeDrawable.setVisible(true);
+                                badgeDrawable.setNumber(list_room_Id.size());
+                            }else{
+                                badgeDrawable.setVisible(false);
+                            }
+
                         }
                     }
                 });
@@ -159,6 +165,7 @@ public class ListRoomFragment extends Fragment {
                 String room_id = list_room.get(i).getId();
                 Intent intent = new Intent(view.getRootView().getContext(), DetailActivity.class);
                 intent.putExtra("room_id",room_id);
+                intent.putExtra("room_image",list_room.get(i).getImage().getListImageUrl().get(0));
                 tabLayout =view.getRootView().findViewById(R.id.tab_layout);
                 // serach
                 if(tabLayout.getSelectedTabPosition()==1 && onFragmentInteractionListener.isLogin()==false){
