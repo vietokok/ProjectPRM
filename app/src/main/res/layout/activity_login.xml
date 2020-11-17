@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="40dp"
-        android:text="Already Have An Account?"
+        android:text="@string/tv_have_account"
         android:textColor="@android:color/white"
         android:textSize="30sp"
         android:textStyle="bold"
@@ -60,7 +60,7 @@
         android:drawableStart="@drawable/ic_username"
         android:drawablePadding="16dp"
         android:ems="10"
-        android:hint="Username"
+        android:hint="@string/hint_username"
         android:inputType="textPersonName"
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -76,7 +76,7 @@
         android:drawableStart="@drawable/ic_lock"
         android:drawablePadding="16dp"
         android:ems="10"
-        android:hint="Password"
+        android:hint="@string/hint_password"
         android:inputType="textPassword"
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -85,7 +85,7 @@
         app:layout_constraintTop_toBottomOf="@+id/etAccount" />
 
     <Button
-        android:id="@+id/btnLogin"
+        android:id="@+id/btnUpdate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -93,6 +93,7 @@
         android:layout_marginEnd="32dp"
         android:background="@drawable/round_bg"
         android:text="@string/login"
+        android:textColor="@color/colorAccent"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -106,20 +107,20 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        android:text="FORGOT PASSWORD?"
+        android:text="@string/tv_forgot_password"
         android:textColor="@color/colorPrimary"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/btnUpdate" />
 
     <TextView
         android:id="@+id/tvHostNameV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="OR"
+        android:text="hoặc"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvForgot" />
@@ -158,7 +159,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
-        android:text="New User? Register Now?"
+        android:text="@string/tv_new_user"
         android:textColor="@color/colorPrimary"
         android:textSize="18sp"
         android:textStyle="bold"

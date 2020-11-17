@@ -1,27 +1,38 @@
 package com.example.firebaseis1313.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import com.example.firebaseis1313.R;
+import com.example.firebaseis1313.activity.DetailActivity;
 import com.example.firebaseis1313.entity.Home;
 import com.example.firebaseis1313.entity.Image;
 import com.example.firebaseis1313.entity.Room;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -64,6 +75,12 @@ public class HomeFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,52 +90,74 @@ public class HomeFragment extends Fragment {
         }
     }
     public void setListRoom(final View view) {
+//        final ArrayList<Room> listRoom =new ArrayList<>();
+        final int[] position = {0};
         db.collection("Motel")
+                .orderBy("price", Query.Direction.DESCENDING)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (final QueryDocumentSnapshot document : task.getResult()) {
+                    public void onSuccess(final QuerySnapshot documentSnapshots) {
+                        if (!documentSnapshots.isEmpty()){
+                            final int sizeOfMotel=documentSnapshots.size();
+                            for (final DocumentSnapshot document : documentSnapshots.getDocuments()) {
                                 final Map<String, Object> list = document.getData();
                                 final Room e = new Room();
                                 e.setId(document.getId());
-                                db.collection("Image").document(list.get("image_id").toString()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull final Task<DocumentSnapshot> task) {
-                                        if(task.isSuccessful()){
-                                            ArrayList<String> listImageUrl=(ArrayList<String>)task.getResult().get("url");
-                                            Image image =new Image();
-                                            image.setId(list.get("image_id").toString());
-                                            image.setListImageUrl(listImageUrl);
-                                            e.setImage(image);
-                                            e.setArea(Float.parseFloat(list.get("area").toString()));
-                                            e.setDescription(list.get("description").toString());
-                                            e.setPrice(Float.parseFloat(list.get("price").toString()));
-                                            final Home home =new Home();
-                                            home.setId(list.get("home_id").toString());
-                                            db.collection("Home").document(list.get("home_id").toString())
-                                                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<DocumentSnapshot> task1) {
-                                                    if (task1.isSuccessful()) {
-                                                        home.setAddress(task1.getResult().getData().get("address").toString());
-                                                        e.setHome(home);
-                                                        ListRoomFragment listRoomFragment = (ListRoomFragment) getChildFragmentManager().findFragmentById(R.id.list_room_frag);
-                                                        listRoomFragment.receiveData(e);
-                                                    } else {
-                                                    }
-                                                }
-                                            });
-                                        }
-                                    }
-                                });
-                            }
-                        } else {
+                                e.setPrice(Float.parseFloat(list.get("price").toString()));
+                                e.setArea(Float.parseFloat(list.get("area").toString()));
+                                e.setDescription(list.get("title").toString());
+                                e.setPrice(Float.parseFloat(list.get("price").toString()));
+                                Timestamp timestamp= (Timestamp) list.get("createdTime");
+                                e.setCreatedTime(timestamp.getSeconds());
 
+
+                                String image_id=list.get("image_id").toString();
+
+                                db.collection("Image").document(image_id)
+                                        .get()
+                                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                                if(!documentSnapshots.isEmpty()){
+                                                    ArrayList<String> listImageUrl=(ArrayList<String>)documentSnapshot.getData().get("url");
+                                                    Image image =new Image();
+                                                    image.setId(list.get("image_id").toString());
+                                                    image.setListImageUrl(listImageUrl);
+                                                    e.setImage(image);
+                                                    final Home home =new Home();
+                                                    home.setId(list.get("home_id").toString());
+                                                    db.collection("Home").document(list.get("home_id").toString())
+                                                    .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                                            if(!documentSnapshots.isEmpty()){
+                                                                home.setAddress(documentSnapshot.getData().get("address").toString());
+                                                                e.setHome(home);
+                                                                position[0] = position[0] +1;
+                                                                ListRoomFragment listRoomFragment = (ListRoomFragment) getChildFragmentManager().findFragmentById(R.id.list_room_frag);
+                                                                if(position[0]==sizeOfMotel){
+                                                                    listRoomFragment.receiveData(e,0);
+                                                                }else{
+                                                                    listRoomFragment.receiveData(e,-1);
+
+                                                                }
+//                                                                System.out.println(e.getPrice());
+//                                                                listRoom.add(e);
+                                                            }
+                                                        }
+                                                    });
+
+                                                }
+                                            }
+                                        });
+                            }
                         }
                     }
                 });
+
+
+
     }
 
     @Override
@@ -131,8 +170,27 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        System.out.println("Home runnnnn");
+       
+        Intent mainIntent=getActivity().getIntent();
+        String room_id=mainIntent.getStringExtra("room_id");
+        int current_tab=mainIntent.getIntExtra("currentTab",0);
+        String messFromLogin=mainIntent.getStringExtra("mess_from_login");
         setListRoom(view);
+
+        if(messFromLogin !=null && messFromLogin.equals("review") && current_tab==0){
+            Intent new_intent = new Intent(getContext(), DetailActivity.class);
+            new_intent.putExtra("room_id", room_id);
+            new_intent.putExtra("mess_from_list","review");
+            mainIntent.removeExtra("mess_from_login");
+            startActivity(new_intent);
+        }else if(messFromLogin !=null && messFromLogin.equals("saveWithoutLogin") && current_tab==0){
+            Intent new_intent = new Intent(getContext(), DetailActivity.class);
+            new_intent.putExtra("room_id", room_id);
+            new_intent.putExtra("mess_from_list","saveWithoutLogin");
+            mainIntent.removeExtra("mess_from_login");
+            startActivity(new_intent);
+        }
         super.onViewCreated(view, savedInstanceState);
+
     }
 }

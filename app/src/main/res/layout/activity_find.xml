@@ -29,11 +29,14 @@
         android:id="@+id/btnCancel"
         android:layout_width="96dp"
         android:layout_height="46dp"
+        android:layout_marginStart="60dp"
         android:layout_marginTop="172dp"
         android:background="@drawable/round_bg"
         android:backgroundTint="@color/colorPrimary"
-        android:text="Hủy"
+        android:text="@string/btn_cancel"
+        android:textColor="@color/colorAccent"
         app:layout_constraintEnd_toStartOf="@+id/btnApply"
+        app:layout_constraintHorizontal_bias="0.196"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/seekBar2" />
 
@@ -76,6 +79,7 @@
         android:layout_marginTop="100dp"
         android:textAlignment="center"
         android:textSize="30dp"
+        android:textColor="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
@@ -86,10 +90,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="172dp"
-        android:layout_marginEnd="100dp"
+        android:layout_marginEnd="76dp"
         android:background="@drawable/round_bg"
         android:backgroundTint="@color/colorPrimary"
-        android:text="Apply"
+        android:text="@string/btn_apply"
+        android:textColor="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/seekBar2" />
 
@@ -98,6 +103,7 @@
         android:layout_width="303dp"
         android:layout_height="54dp"
         android:layout_marginTop="112dp"
+        android:indeterminate="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtHeader" />

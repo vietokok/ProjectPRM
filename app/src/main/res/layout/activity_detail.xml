@@ -16,27 +16,15 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             tools:context=".activity.DetailActivity">
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/back"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <Button
-                    android:id="@+id/btnComment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="344dp"
-                    android:text="Button"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.498"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
                 <TextView
                     android:id="@+id/txtDetail"
                     android:layout_width="372dp"
-                    android:layout_height="133dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="5dp"
                     android:gravity="start"
@@ -52,7 +40,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="28dp"
                     android:gravity="center_vertical"
-                    android:text="Mô tả chi tiết"
+                    android:text="@string/tv_detail"
                     android:textColor="#1D7ECC"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -151,12 +139,29 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="340dp"
                     android:gravity="center_vertical"
-                    android:text="Bản Đồ"
+                    android:text="@string/tv_map"
                     android:textColor="#1D7ECC"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtArea" />
+
+                <TextView
+                    android:id="@+id/txtComment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="205dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="Xem đánh giá và nhận xét"
+                    android:textColor="#1D7ECC"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtDetail" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
