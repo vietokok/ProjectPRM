@@ -6,8 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.example.firebaseis1313.R;
 import com.example.firebaseis1313.activity.LoginActivity;
 import com.example.firebaseis1313.main.MainActivity;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -77,12 +76,17 @@ public class LoginFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
-        System.out.println("accoutn run");
-        btnLogin=view.findViewById(R.id.btnLogin);
+        btnLogin=view.findViewById(R.id.btnUpdate);
+        final TabLayout tabLayout= view.getRootView().findViewById(R.id.tab_layout);
+
+        System.out.println(tabLayout.getSelectedTabPosition());
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(view.getContext(), LoginActivity.class);
+                if(tabLayout !=null){
+                    intent.putExtra("page_position",tabLayout.getSelectedTabPosition());
+                }
                 startActivity(intent);
             }
         });

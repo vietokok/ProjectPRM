@@ -10,6 +10,7 @@
     android:theme="@style/Theme.MaterialComponents.Light"
     >
 
+
     <androidx.viewpager.widget.ViewPager
 
         android:id="@+id/view_page"
@@ -25,7 +26,9 @@
 
 
     <com.google.android.material.tabs.TabLayout
-
+        app:tabIconTint="@drawable/tab_color_selector"
+        app:tabTextColor="@drawable/tab_color_selector"
+        style="@style/MyTabLayout"
         android:id="@+id/tab_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

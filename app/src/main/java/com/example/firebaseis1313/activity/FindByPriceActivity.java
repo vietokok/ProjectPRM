@@ -23,8 +23,8 @@ public class FindByPriceActivity extends AppCompatActivity {
     private TextView txtBottom;
     private Button btnApply;
     private Button btnCancel;
-    int maxValue = 6000000;
-    int minValue = 0;
+    int maxValue ;
+    int minValue ;
     int min;
     int max;
     String textValue="";
@@ -46,6 +46,7 @@ public class FindByPriceActivity extends AppCompatActivity {
         btnCancel = findViewById(R.id.btnCancel);
         Intent intent = getIntent();
         final String type = intent.getStringExtra("type");
+
         //set on click for button "Hủy"
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,10 +58,16 @@ public class FindByPriceActivity extends AppCompatActivity {
         switch (type) {
             case "1":
                 //search for Price
-                rangeSeekBar.setRangeValues(minValue,maxValue);
+                minValue = intent.getIntExtra("min", 0);
+                maxValue = intent.getIntExtra("max", 6000000);
+                String textPrice = intent.getStringExtra("textPrice");
+                txtOnclick.setText(textPrice);
+                rangeSeekBar.setRangeValues(0,6000000);
+                rangeSeekBar.setSelectedMinValue(minValue);
+                rangeSeekBar.setSelectedMaxValue(maxValue);
                 txtHeader.setText("Chọn Khoảng Giá");
-                txtMin.setText(currencyVN.format(minValue));
-                txtMax.setText(currencyVN.format(maxValue));
+                txtMin.setText(currencyVN.format(0));
+                txtMax.setText(currencyVN.format(6000000));
                 txtBottom.setText("Khoảng:");
                 rangeSeekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
                     @Override
@@ -69,6 +76,10 @@ public class FindByPriceActivity extends AppCompatActivity {
                         Number max_value = rangeSeekBar.getSelectedMaxValue();
                          min =(int) min_value;
                          max =(int) max_value;
+                        min = min / 100000;
+                        min = min * 100000;
+                        max = max / 100000;
+                        max = max * 100000;
                         String formatMoneyMin = currencyVN.format(min);
                         String formatMoneyMax = currencyVN.format(max);
                         textValue = formatMoneyMin+" - "+formatMoneyMax;
@@ -83,13 +94,17 @@ public class FindByPriceActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent myIntent = new Intent();
                 SearchFragment searchFragment = new SearchFragment();
-                myIntent.putExtra("check", check);
-                myIntent.putExtra("type", type);
-                myIntent.putExtra("textValue", textValue);
-                myIntent.putExtra("min", min);
-                myIntent.putExtra("max", max);
-                setResult(searchFragment.RESULT_CODE, myIntent);
-                finish();
+                if(check == false){
+                    finish();
+                }else {
+                    myIntent.putExtra("check", check);
+                    myIntent.putExtra("type", type);
+                    myIntent.putExtra("textValue", textValue);
+                    myIntent.putExtra("min", min);
+                    myIntent.putExtra("max", max);
+                    setResult(searchFragment.RESULT_CODE, myIntent);
+                    finish();
+                }
             }
         });
     }

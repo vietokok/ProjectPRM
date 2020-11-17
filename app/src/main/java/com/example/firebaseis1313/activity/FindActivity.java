@@ -55,17 +55,21 @@ public class FindActivity extends AppCompatActivity {
         switch (type){
             case "2":
                 //search for area
+                area = intent.getIntExtra("area", 0);
+                String text_area = intent.getStringExtra("textArea");
+                seekBar.setProgress(area);
+                txtOnclick.setText(text_area);
                 int max = 50;
                 txtHeader.setText("Diện tích");
-                txtMin.setText("0 m2");
-                txtMax.setText(max + " m2");
+                txtMin.setText("0 m²");
+                txtMax.setText(max + " m²");
                 seekBar.setMax(max);
                 txtBottom.setText("Diện tích nhỏ hơn:");
                 seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                         area = seekBar.getProgress();
-                        textValue = String.valueOf(area)+ " m2";
+                        textValue = String.valueOf(area)+ " m²";
                         txtOnclick.setText(textValue);
                         check= true;
                     }
@@ -82,6 +86,10 @@ public class FindActivity extends AppCompatActivity {
                 break;
             case "3":
                 //search for Distance
+                distance = intent.getIntExtra("distance", 0);
+                String textDistance = intent.getStringExtra("textDistance");
+                seekBar.setProgress(distance);
+                txtOnclick.setText(textDistance);
                 int max1 = 30;
                 txtHeader.setText("Khoảng cách");
                 txtMin.setText("0 km");
@@ -113,13 +121,17 @@ public class FindActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent myIntent = new Intent();
                 SearchFragment searchFragment = new SearchFragment();
-                myIntent.putExtra("check", check);
-                myIntent.putExtra("type", type);
-                myIntent.putExtra("area", area);
-                myIntent.putExtra("distance", distance);
-                myIntent.putExtra("textValue", textValue);
-                setResult(searchFragment.RESULT_CODE, myIntent);
-                finish();
+                if(check == false){
+                    finish();
+                }else {
+                    myIntent.putExtra("check", check);
+                    myIntent.putExtra("type", type);
+                    myIntent.putExtra("area", area);
+                    myIntent.putExtra("distance", distance);
+                    myIntent.putExtra("textValue", textValue);
+                    setResult(searchFragment.RESULT_CODE, myIntent);
+                    finish();
+                }
             }
         });
     }

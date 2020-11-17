@@ -13,11 +13,14 @@ import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.firebaseis1313.R;
+import com.example.firebaseis1313.activity.DetailActivity;
 import com.example.firebaseis1313.activity.FindActivity;
 import com.example.firebaseis1313.activity.FindByPriceActivity;
 import com.example.firebaseis1313.entity.Home;
@@ -25,6 +28,7 @@ import com.example.firebaseis1313.entity.Image;
 import com.example.firebaseis1313.entity.Room;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -48,7 +52,7 @@ public class SearchFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private TextView txtEr;
     private Button btnPrice;
     private Button btnArea;
     private Button btnDistance;
@@ -59,12 +63,13 @@ public class SearchFragment extends Fragment {
     public ListRoomFragment listRoomFragment;
     int minPrice = 0;
     int maxPrice= 6000000;
-    int distance  = 30;
-    int area = 50;
+    int distance  = 0;
+    int area = 0;
 
     boolean havePrice=false;
     boolean haveDistance=false;
     boolean haveArea=false;
+
 
     String text_price;
     String text_area;
@@ -113,12 +118,16 @@ public class SearchFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_search_activity, container, false);
     }
 
+
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // add depen
+
         db = FirebaseFirestore.getInstance();
         listRoomFragment =(ListRoomFragment)getChildFragmentManager().findFragmentById(R.id.list_room_frag_k);
+        txtEr = view.findViewById(R.id.txtEr);
+        txtEr.setVisibility(View.INVISIBLE);
         btnPrice = view.findViewById(R.id.btnPrice);
         btnArea = view.findViewById(R.id.btnArea);
         btnDistance = view.findViewById(R.id.btnDistance);
@@ -129,6 +138,9 @@ public class SearchFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(view.getRootView().getContext(), FindByPriceActivity.class);
                 intent.putExtra("type", "1");
+                intent.putExtra("min", minPrice);
+                intent.putExtra("max",maxPrice);
+                intent.putExtra("textPrice", text_price);
                 startActivityForResult(intent, REQUEST_CODE);
             }
         });
@@ -137,6 +149,8 @@ public class SearchFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(view.getRootView().getContext(), FindActivity.class);
                 intent.putExtra("type", "2");
+                intent.putExtra("area",area);
+                intent.putExtra("textArea", text_area);
                 startActivityForResult(intent, REQUEST_CODE);
             }
         });
@@ -145,34 +159,83 @@ public class SearchFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(view.getRootView().getContext(), FindActivity.class);
                 intent.putExtra("type", "3");
+                intent.putExtra("distance",distance);
+                intent.putExtra("textDistance", text_distance);
                 startActivityForResult(intent, REQUEST_CODE);
             }
         });
-        System.out.println(btnArea.getText());
-        if(isResume) {
-            if(text_price != null) {
-                btnPrice.setText(text_price);
-            }
-            if(text_area != null){
-                btnArea.setText(text_area);
-            }
-            if(text_distance != null) {
-                btnDistance.setText(text_distance);
-            }
+
+        Intent mainIntent=getActivity().getIntent();
+        String room_id=mainIntent.getStringExtra("room_id");
+        int current_tab=mainIntent.getIntExtra("currentTab",0);
+        String messFromLogin=mainIntent.getStringExtra("mess_from_login");
+        if(messFromLogin !=null && current_tab==1){
+            int minPrice=mainIntent.getIntExtra("minPrice",-1);
+            int maxPrice=mainIntent.getIntExtra("maxPrice",-1);
+            int area=mainIntent.getIntExtra("area",-1);
+            int distance=mainIntent.getIntExtra("distance",-1);
+
+            String text_price =mainIntent.getStringExtra("textPrice");
+            String text_area =mainIntent.getStringExtra("textArea");
+            String text_distance =mainIntent.getStringExtra("textDistance");
+            setChuanghiara(minPrice,maxPrice,area,distance,text_area,text_distance,text_price);
+        }
+        // auto go to prev page
+        if(messFromLogin !=null && messFromLogin.equals("review") && current_tab==1){
+            Intent new_intent = new Intent(getContext(), DetailActivity.class);
+            new_intent.putExtra("room_id", room_id);
+            new_intent.putExtra("mess_from_list","review");
+            mainIntent.removeExtra("mess_from_login");
+            startActivity(new_intent);
+        }else if(messFromLogin !=null && messFromLogin.equals("saveWithoutLogin") && current_tab==1){
+            System.out.println("------------------------------");
+            Intent new_intent = new Intent(getContext(), DetailActivity.class);
+            new_intent.putExtra("room_id", room_id);
+            new_intent.putExtra("mess_from_list","saveWithoutLogin");
+            mainIntent.removeExtra("mess_from_login");
+            startActivity(new_intent);
+        }
+
+
+        resume(isResume);
+
+    }
+    void setChuanghiara(int minPrice,int maxPrice,int area,int distance,String text_area,String text_distance,String text_price){
+        if(text_price != null) {
+            btnPrice.setText(text_price);
+            havePrice=true;
+        }else{
+            havePrice=false;
+        }
+        if(text_area != null){
+            btnArea.setText(text_area);
+            haveArea=true;
+        }else{
+            haveArea=false;
+        }
+        if(text_distance != null) {
+            btnDistance.setText(text_distance);
+            haveDistance=true;
+        }else{
+            haveDistance=false;
+        }
+        if(text_distance != null ||text_area != null ||text_price != null) {
             setListRoom(minPrice, maxPrice, area, distance);
         }
 
     }
+
     @Override
     public void onResume() {
-        super.onResume();
         isResume = true;
+        super.onResume();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_CODE && resultCode == RESULT_CODE){
+            txtEr.setVisibility(View.INVISIBLE);
             listRoomFragment.clearData();
             boolean isChoose = data.getBooleanExtra("check",false);
             //type = search for price
@@ -216,11 +279,19 @@ public class SearchFragment extends Fragment {
                         progressBar.setIndeterminate(false);
                         progressBar.setMax(1);
                         progressBar.setProgress(1);
-
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
                                 progressBar.setVisibility(View.INVISIBLE);
+                            }
+                        });
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(listRoomFragment.isEmpty()){
+                                    txtEr.setText("Không tìm thấy kết quả !!");
+                                    txtEr.setVisibility(View.VISIBLE);
+                                }
                             }
                         });
                     }
@@ -229,7 +300,27 @@ public class SearchFragment extends Fragment {
             }
         }
     }
+    
+    public void resume(boolean resume){
+        if(resume) {
 
+            if(text_price != null) {
+                btnPrice.setText(text_price);
+                isResume=false;
+            }
+            if(text_area != null){
+                btnArea.setText(text_area);
+                isResume=false;
+            }
+            if(text_distance != null) {
+                btnDistance.setText(text_distance);
+                isResume=false;
+            }
+            if(text_distance != null ||text_area != null ||text_price != null) {
+                setListRoom(minPrice, maxPrice, area, distance);
+            }
+        }
+    }
     /*
     set list room by search for price , area, distance
     * */
@@ -247,6 +338,8 @@ public class SearchFragment extends Fragment {
                                     final Map<String, Object> list = document.getData();
                                     final Room e = new Room();
                                     e.setId(document.getId());
+                                    Timestamp timestamp= (Timestamp) list.get("createdTime");
+                                    e.setCreatedTime(timestamp.getSeconds());
                                     db.collection("Image").document(list.get("image_id").toString()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                         @Override
                                         public void onComplete(@NonNull final Task<DocumentSnapshot> task) {
@@ -257,7 +350,7 @@ public class SearchFragment extends Fragment {
                                                 image.setListImageUrl(listImageUrl);
                                                 e.setImage(image);
                                                 e.setArea(Float.parseFloat(list.get("area").toString()));
-                                                e.setDescription(list.get("description").toString());
+                                                e.setDescription(list.get("title").toString());
                                                 e.setPrice(Float.parseFloat(list.get("price").toString()));
                                                 final Home home =new Home();
                                                 home.setId(list.get("home_id").toString());
@@ -274,7 +367,7 @@ public class SearchFragment extends Fragment {
                                                                     if(e.getArea() <= areaa ){
                                                                         e.setHome(home);
                                                                         ListRoomFragment listRoomFragment = (ListRoomFragment) getChildFragmentManager().findFragmentById(R.id.list_room_frag_k);
-                                                                        listRoomFragment.receiveData(e);
+                                                                        listRoomFragment.receiveData(e,1);
                                                                     }
                                                                 }
                                                             //end search by area  + price
@@ -283,7 +376,7 @@ public class SearchFragment extends Fragment {
                                                                     if(home.getDistance() <= distancee){
                                                                         e.setHome(home);
                                                                         ListRoomFragment listRoomFragment = (ListRoomFragment) getChildFragmentManager().findFragmentById(R.id.list_room_frag_k);
-                                                                        listRoomFragment.receiveData(e);
+                                                                        listRoomFragment.receiveData(e,1);
                                                                     }
                                                                 }
                                                             //end search by distance  + price
@@ -292,7 +385,7 @@ public class SearchFragment extends Fragment {
                                                                 if (home.getDistance() <= distancee && e.getArea() <= areaa) {
                                                                     e.setHome(home);
                                                                     ListRoomFragment listRoomFragment = (ListRoomFragment) getChildFragmentManager().findFragmentById(R.id.list_room_frag_k);
-                                                                    listRoomFragment.receiveData(e);
+                                                                    listRoomFragment.receiveData(e,1);
                                                                 }
                                                             }
 //                                                            //end search by distance  + price + area
@@ -300,7 +393,7 @@ public class SearchFragment extends Fragment {
                                                             if(haveArea != true && haveDistance != true) {
                                                                 e.setHome(home);
                                                                 ListRoomFragment listRoomFragment = (ListRoomFragment) getChildFragmentManager().findFragmentById(R.id.list_room_frag_k);
-                                                                listRoomFragment.receiveData(e);
+                                                                listRoomFragment.receiveData(e,1);
                                                             }
                                                         } else {
                                                         }
@@ -311,12 +404,8 @@ public class SearchFragment extends Fragment {
                                     });
                                 }
                             } else {
-
                             }
                         }
                     });
-
     }
-
-
 }

@@ -61,13 +61,13 @@ public class MoreAdapter extends BaseAdapter {
 
         switch (more.getId()) {
             case 1:
-                imageView.setImageResource(R.drawable.ic_baseline_call_24);
+                imageView.setImageResource(R.drawable.ic_baseline_call);
                 break;
             case 2:
-                imageView.setImageResource(R.drawable.ic_baseline_message_24);
+                imageView.setImageResource(R.drawable.ic_baseline_message);
                 break;
             case 3:
-                imageView.setImageResource(R.drawable.ic_baseline_location_on_24);
+                imageView.setImageResource(R.drawable.ic_baseline_location_on);
                 break;
         }
 
