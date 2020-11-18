@@ -1,5 +1,5 @@
 # Pemo Home Application
-Project môn **PRM321** - **Đại học FPT Hà Nội**
+Project môn **PRM391** - **Đại học FPT Hà Nội**
 ## Đề tài
 Một ứng dụng giúp sinh viên **Đại học FPT** dễ dàng tìm cho mình một nhà trọ ưng ý nhất.
 
