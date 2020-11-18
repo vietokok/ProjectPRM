@@ -12,7 +12,7 @@
     </style>
 
     <style name="MyTabTextAppearance" parent="TextAppearance.AppCompat.Button">
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">13sp</item>
         <item name="android:textColor">@android:color/black</item>
         <item name="textAllCaps">true</item>
     </style>

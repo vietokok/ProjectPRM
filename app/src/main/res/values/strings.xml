@@ -50,4 +50,7 @@
     <string name="none_rate">Chưa có xếp hạng</string>
     <string name="logo_name">PEMO HOME</string>
 
+    <string name="update_mess_faiil">Không có gì thay đổi</string>
+    <string name="update_mess_sucess">Cập nhật thành công</string>
+
 </resources>

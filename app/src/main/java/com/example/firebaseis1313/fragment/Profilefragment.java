@@ -216,13 +216,13 @@ public class Profilefragment extends Fragment {
         }
 
         if(!flag){
-            Toast.makeText(getContext(), "Update success and nothing be changed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.update_mess_faiil), Toast.LENGTH_SHORT).show();
         }else {
 
             docRef.update(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    Toast.makeText(getContext(), "Update Success", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.update_mess_sucess), Toast.LENGTH_SHORT).show();
 
                 }
             }).addOnFailureListener(new OnFailureListener() {
