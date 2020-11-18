@@ -14,6 +14,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +26,20 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
     public class  RegisterActivity extends AppCompatActivity {
+
+        public static String md5(String str){
+            String result = "";
+            MessageDigest digest;
+            try {
+                digest = MessageDigest.getInstance("MD5");
+                digest.update(str.getBytes());
+                BigInteger bigInteger = new BigInteger(1,digest.digest());
+                result = bigInteger.toString(16);
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+            return result;
+        }
 
     private Button btnRegister;
     private EditText etAccountR;
@@ -59,7 +76,7 @@ import com.google.firebase.firestore.QuerySnapshot;
                                 if (validateDisplayName(etDisplayName) && validateUsername(etAccountR) && validatePassword(etPasswordR) && validatePhone(etPhoneR) && validateEmail(etEmailR)) {
                                     user.put("displayName", etDisplayName.getText().toString());
                                     user.put("username",  etAccountR.getText().toString());
-                                    user.put("password", etPasswordR.getText().toString());
+                                    user.put("password", md5(etPasswordR.getText().toString()));
                                     user.put("phone", etPhoneR.getText().toString());
                                     user.put("email", etEmailR.getText().toString());
                                     user.put("listSaveRoom", new ArrayList<>());
